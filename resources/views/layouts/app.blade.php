@@ -29,7 +29,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-blue sidebar-mini">
+<body class="skin-red sidebar-mini">
 <div class="wrapper">
 
     @include('layouts.partials.mainheader')
@@ -38,8 +38,6 @@ desired effect
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
-        @include('layouts.partials.contentheader')
 
         <!-- Main content -->
         <section class="content">
