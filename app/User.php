@@ -26,6 +26,6 @@ class User extends Authenticatable
 
     public function getVideos()
     {
-        return $this->hasMany(\App\Videos::class);
+        return $this->hasMany(\App\Video::class);
     }
 }
