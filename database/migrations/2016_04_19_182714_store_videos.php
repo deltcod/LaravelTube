@@ -17,7 +17,6 @@ class StoreVideos extends Migration
             $table->string('name');
             $table->string('category');
             $table->string('path')->unique();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
