@@ -13,7 +13,7 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function ($table) {
             $table->string('password')->nullable()->change();
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default('/img/user2-160x160.jpg');
             $table->string('name')->nullable()->change();
             $table->string('nickname')->nullable();
         });
