@@ -22,9 +22,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleAuthenticationServiceProviderCallback');
 
     //Api Videos
-    Route::get('videos', 'VideoController@index');
-    Route::post('videos', 'VideoController@store');
-    Route::get('videos/{id}', 'VideoController@show');
-    Route::put('videos', 'VideoController@update');
-    Route::delete('videos', 'VideoController@destroy');
+    Route::get('/api/videos', 'VideoController@index');
+    Route::post('api/videos', 'VideoController@store');
+    Route::get('api/videos/{id}', 'VideoController@show');
+    Route::put('api/videos/{id}', 'VideoController@update');
+    Route::delete('api/videos/{id}', 'VideoController@destroy');
 });
