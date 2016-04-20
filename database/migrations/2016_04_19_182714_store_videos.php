@@ -16,7 +16,7 @@ class StoreVideos extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('category');
-            $table->string('path')->unique();
+            $table->string('path');
             $table->integer('likes');
             $table->integer('dislikes');
             $table->timestamps();
