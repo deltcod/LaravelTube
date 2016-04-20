@@ -33,7 +33,7 @@ class ApiController extends Controller
      * @param string $message
      * @return mixed
      */
-    public function respondNotFound($message = 'Not Found!')
+    public function respondNotFound($message)
     {
         return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
     }
