@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model
 {
-    protected $fillable = ['name', 'category', 'path'];
+    protected $fillable = ['name', 'category', 'path', 'likes', 'dislikes'];
 
     public function getUser()
     {
