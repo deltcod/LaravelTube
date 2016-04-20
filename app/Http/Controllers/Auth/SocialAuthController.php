@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\OAuthIdentity;
 use App\Http\Controllers\Controller;
+use Chrisbjr\ApiGuard\Models\ApiKey;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,8 @@ class SocialAuthController extends Controller
             }
             $user->save();
         }
+        $user->apiKey = $this->createUserApiKey($user);
+        
         $oAuthIdentity = new OAuthIdentity();
         $oAuthIdentity->provider_user_id = $providerUser->getId();
         $oAuthIdentity->provider = $provider;
@@ -70,6 +73,7 @@ class SocialAuthController extends Controller
         $oAuthIdentity->name = $providerUser->getName();
         $oAuthIdentity->nickname = $providerUser->getNickname();
         $oAuthIdentity->save();
+
         return $user;
     }
 
@@ -94,5 +98,16 @@ class SocialAuthController extends Controller
             return $user;
         }
         return false;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    private function createUserApiKey(User $user)
+    {
+        $apiKey = ApiKey::make($user->id);
+        $apiKey->save();
+        return $apiKey->key;
     }
 }

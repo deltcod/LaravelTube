@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Chrisbjr\ApiGuard\Models\ApiKey;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -63,10 +64,25 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+
+        $user->apiKey = $this->createUserApiKey($user);
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    private function createUserApiKey(User $user)
+    {
+        $apiKey = ApiKey::make($user->id);
+        $apiKey->save();
+        return $apiKey->key;
     }
 }

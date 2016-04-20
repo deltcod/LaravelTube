@@ -47,7 +47,7 @@ class VideoController extends ApiController
     {
         $user = User::find(1); //TODO
 
-        if (!Input::get('name') or !Input::get('category') or !Input::get('path') or $user==null)
+        if (!Input::get('name') or !Input::get('category') or !Input::get('path'))
         {
             return $this->setStatusCode(IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY)
                 ->respondWithError('Parameters failed validation for a video.');
