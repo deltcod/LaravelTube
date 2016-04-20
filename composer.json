@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "acacha/admin-lte-template-laravel": "2.*",
         "laravel/socialite": "^2.0",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "chrisbjr/api-guard": "3.1.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
