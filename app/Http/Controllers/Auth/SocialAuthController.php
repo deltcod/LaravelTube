@@ -60,10 +60,10 @@ class SocialAuthController extends Controller
             foreach (['name','email','avatar'] as $item) {
                 $user->$item = $providerUser->$item;
             }
+
             $user->save();
         }
-        $user->apiKey = $this->createUserApiKey($user);
-        
+
         $oAuthIdentity = new OAuthIdentity();
         $oAuthIdentity->provider_user_id = $providerUser->getId();
         $oAuthIdentity->provider = $provider;
@@ -72,6 +72,7 @@ class SocialAuthController extends Controller
         $oAuthIdentity->avatar = $providerUser->getAvatar();
         $oAuthIdentity->name = $providerUser->getName();
         $oAuthIdentity->nickname = $providerUser->getNickname();
+        $this->createUserApiKey($user);
         $oAuthIdentity->save();
 
         return $user;
