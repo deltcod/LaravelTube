@@ -5,26 +5,48 @@ namespace App\Http\Controllers;
 use App\Transformers\VideoTransformer;
 use App\User;
 use App\Video;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Response as IlluminateResponse;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
+use Response;
 
 /**
  * Class VideoController
  * @package App\Http\Controllers
  */
-class VideoController extends ApiController
+class VideoController extends ApiGuardController
 {
 
     protected $videoTransformer;
+
+    protected $apiMethods = [
+        'index' => [
+            'keyAuthentication' => false
+        ],
+        'show' => [
+            'keyAuthentication' => false
+        ],
+        'store' => [
+            'limits' => [
+                'key' => [
+                    'increment' => '1 hour',
+                    'limit' => 10
+                ]
+            ]
+        ],
+    ];
+
 
     /**
      * VideoController constructor.
      */
     public function __construct(VideoTransformer $videoTransformer)
     {
+        parent::__construct();
+
         $this->videoTransformer = $videoTransformer;
     }
 
@@ -34,23 +56,23 @@ class VideoController extends ApiController
     public function index()
     {
         $video = Video::all();
-        if (!$video){
-            return $this->respondNotFound('No video');
-        }
-        return $this->respond($this->videoTransformer->transformCollection($video->all()));
+        return $this->response->withCollection($video, $this->videoTransformer);
     }
 
     /**
      * Store a newly created video in storage.
      */
-    public function store()
+    public function store(Request $request)
     {
-        $user = User::find(1); //TODO
+        $user = User::find($request->user_id);
 
-        if (!Input::get('name') or !Input::get('category') or !Input::get('path'))
+        if (!Input::get('name') or !Input::get('category') or !Input::get('path') or $user == null)
         {
-            return $this->setStatusCode(IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY)
-                ->respondWithError('Parameters failed validation for a video.');
+            return Response::json([
+                'error' => [
+                    'message' => 'Parameters failed validation for a video.'
+                ]
+            ], IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $video = new Video();
@@ -61,55 +83,67 @@ class VideoController extends ApiController
         $video->dislikes = 0;
 
         $user->getVideos()->save($video);
-        return $this->respondCreated('Video successfully store.');
+        return $this->response->withItem($video, $this->videoTransformer);
     }
 
     /**
      * @param $id
+     * @return mixed
      */
     public function show($id)
     {
-        $video = Video::find($id);
-        if (!$video) {
-            return $this->respondNotFound('Video does not exsist');
+        try {
+
+            $video = Video::findOrFail($id);
+
+            return $this->response->withItem($video, $this->videoTransformer);
+
+        } catch (ModelNotFoundException $e) {
+
+            return $this->response->errorNotFound();
+
         }
-        return $this->respond([
-            'data' => $this->videoTransformer->transform($video)
-        ]);
+
     }
 
     /**
      * Update the specified video in storage.
      * @param Request $request
      * @param $id
+     * @return mixed
      */
     public function update(Request $request, $id)
     {
         $video = Video::find($id);
+
         if (!$video)
         {
-            return $this->respondNotFound('Video does not exist');
+            return $this->response->errorNotFound();
         }
+
         $video->name = $request->name;
         $video->category = $request->category;
         $video->path = $request->path;
         $video->likes = $request->likes;
         $video->dislikes = $request->dislikes;
         $video->save();
+
     }
 
     /**
      * Remove the specified video from storage.
      * @param $id
+     * @return mixed
      */
     public function destroy($id)
     {
         $video = Video::find($id);
+
         if (!$video)
         {
-            return $this->respondNotFound('Video does not exist');
+            return $this->response->errorNotFound();
         }
-
         Video::destroy($id);
+
     }
 }
