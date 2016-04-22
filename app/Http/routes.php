@@ -26,6 +26,8 @@ Route::group(['middleware' => ['web']], function () {
 Route::group(['prefix' => 'api/'], function () {
     //Api Videos
     Route::get('videos', 'VideoController@index');
+    Route::get('videos/best', 'VideoController@getBestVideos');
+    Route::get('videos/user{id}', 'VideoController@getVideosUser');
     Route::post('videos', 'VideoController@store');
     Route::get('videos/{id}', 'VideoController@show');
     Route::put('videos/{id}', 'VideoController@update');

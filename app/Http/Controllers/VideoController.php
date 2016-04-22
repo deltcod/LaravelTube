@@ -8,6 +8,7 @@ use App\Video;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Response as IlluminateResponse;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
@@ -27,6 +28,12 @@ class VideoController extends ApiGuardController
             'keyAuthentication' => false
         ],
         'show' => [
+            'keyAuthentication' => false
+        ],
+        'getBestVideos' => [
+            'keyAuthentication' => false
+        ],
+        'getVideosUser' => [
             'keyAuthentication' => false
         ],
         'store' => [
@@ -56,6 +63,30 @@ class VideoController extends ApiGuardController
     public function index()
     {
         $video = Video::all();
+        return $this->response->withCollection($video, $this->videoTransformer);
+    }
+
+    /**
+     * Return the best Videos
+     */
+    public function getBestVideos()
+    {
+        $video = Video::limit(50)->orderBy('likes','desc')->get();
+
+        return $this->response->withCollection($video, $this->videoTransformer);
+    }
+
+    /**
+     * Return Videos only user
+     */
+    public function getVideosUser($id)
+    {
+        $user = User::find($id);
+        if($user == null){
+            return $this->response->errorNotFound();
+        }
+        $video = Video::where('user_id', $user->id)->get();
+
         return $this->response->withCollection($video, $this->videoTransformer);
     }
 
