@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\OAuthIdentity;
 use App\Http\Controllers\Controller;
+use App\OAuthIdentity;
+use App\User;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Exception;
 use Illuminate\Http\Response;
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
-use App\User;
 
 class SocialAuthController extends Controller
 {
@@ -24,6 +24,7 @@ class SocialAuthController extends Controller
     {
         return Socialite::driver($provider)->redirect();
     }
+
     /**
      * Obtain the user information from authentication service provider.
      *
@@ -34,30 +35,36 @@ class SocialAuthController extends Controller
         try {
             $user = Socialite::driver($provider)->user();
         } catch (Exception $e) {
-            return Redirect::to('auth/' . $provider);
+            return Redirect::to('auth/'.$provider);
         }
 //       dd($user);
-        $authUser = $this->findOrCreateUser($user , $provider);
+        $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
+
         return Redirect::to('home');
     }
+
     /**
-     * Return user if exists; create and return if doesn't
+     * Return user if exists; create and return if doesn't.
      *
      * @param $githubUser
+     *
      * @return User
      */
     private function findOrCreateUser($providerUser, $provider)
     {
-        if ($authUser = $this->userExistsByProviderUserId($providerUser))
+        if ($authUser = $this->userExistsByProviderUserId($providerUser)) {
             return $authUser;
+        }
+
         return $this->createUser($providerUser, $provider);
     }
 
-    private function createUser($providerUser, $provider){
-        if (! $user = $this->userExistsByEmail($providerUser)) {
+    private function createUser($providerUser, $provider)
+    {
+        if (!$user = $this->userExistsByEmail($providerUser)) {
             $user = $this->newUser();
-            foreach (['name','email','avatar'] as $item) {
+            foreach (['name', 'email', 'avatar'] as $item) {
                 $user->$item = $providerUser->$item;
             }
 
@@ -81,34 +88,39 @@ class SocialAuthController extends Controller
     private function newUser()
     {
         $user_model = Config::get('laraveltube-socialite.model');
-        return new $user_model;
+
+        return new $user_model();
     }
 
     private function userExistsByProviderUserId($providerUser)
     {
         /** @var OAuthIdentity $provUser */
-        if ( $provUser = OAuthIdentity::where('provider_user_id', $providerUser->id)->first()) {
+        if ($provUser = OAuthIdentity::where('provider_user_id', $providerUser->id)->first()) {
             return $provUser->user;
         }
+
         return false;
     }
 
     private function userExistsByEmail($providerUser)
     {
-        if ( $user = User::where('email', $providerUser->email)->first()) {
+        if ($user = User::where('email', $providerUser->email)->first()) {
             return $user;
         }
+
         return false;
     }
 
     /**
      * @param User $user
+     *
      * @return mixed
      */
     private function createUserApiKey(User $user)
     {
         $apiKey = ApiKey::make($user->id);
         $apiKey->save();
+
         return $apiKey->key;
     }
 }

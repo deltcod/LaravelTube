@@ -5,7 +5,7 @@ namespace App;
 trait OAuthIdentities
 {
     /**
-     * Get OAuth identities
+     * Get OAuth identities.
      */
     public function oauthIdentities()
     {
