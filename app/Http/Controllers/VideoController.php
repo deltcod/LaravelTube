@@ -94,7 +94,7 @@ class VideoController extends ApiGuardController
     {
         $user = Auth::user();
 
-        if (!Input::get('name') or !Input::get('category') or !Input::get('path') or $user == null)
+        if (!Input::get('name') || !Input::get('category') || !Input::get('path') || $user == null)
         {
             return Response::json([
                 'error' => [
@@ -104,11 +104,12 @@ class VideoController extends ApiGuardController
         }
 
         $video = new Video();
-        $video->name = Input::get('name');
-        $video->category = Input::get('category');
-        $video->path = Input::get('path');
+        $video->name = $request->name;
+        $video->category = $request->category;
+        $video->path = $request->path;
         $video->likes = 0;
         $video->dislikes = 0;
+        dd($video);
 
         $user->getVideos()->save($video);
         return $this->response->withItem($video, $this->videoTransformer);
