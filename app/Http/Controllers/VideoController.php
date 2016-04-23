@@ -5,46 +5,42 @@ namespace App\Http\Controllers;
 use App\Transformers\VideoTransformer;
 use App\User;
 use App\Video;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Http\Response as IlluminateResponse;
-use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Response;
 
 /**
- * Class VideoController
- * @package App\Http\Controllers
+ * Class VideoController.
  */
 class VideoController extends ApiGuardController
 {
-
     protected $videoTransformer;
 
     protected $apiMethods = [
         'index' => [
-            'keyAuthentication' => false
+            'keyAuthentication' => false,
         ],
         'show' => [
-            'keyAuthentication' => false
+            'keyAuthentication' => false,
         ],
         'getBestVideos' => [
-            'keyAuthentication' => false
+            'keyAuthentication' => false,
         ],
         'getVideosUser' => [
-            'keyAuthentication' => false
+            'keyAuthentication' => false,
         ],
         'store' => [
             'limits' => [
                 'key' => [
                     'increment' => '1 hour',
-                    'limit' => 10
-                ]
-            ]
+                    'limit'     => 10,
+                ],
+            ],
         ],
     ];
-
 
     /**
      * VideoController constructor.
@@ -57,7 +53,7 @@ class VideoController extends ApiGuardController
     }
 
     /**
-     * Return all Videos
+     * Return all Videos.
      */
     public function index()
     {
@@ -67,17 +63,17 @@ class VideoController extends ApiGuardController
     }
 
     /**
-     * Return the best Videos
+     * Return the best Videos.
      */
     public function getBestVideos()
     {
-        $video = Video::limit(50)->orderBy('likes','desc')->get();
+        $video = Video::limit(50)->orderBy('likes', 'desc')->get();
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
 
     /**
-     * Return Videos only user
+     * Return Videos only user.
      */
     public function getVideosUser($id)
     {
@@ -89,19 +85,20 @@ class VideoController extends ApiGuardController
 
     /**
      * Store a newly created video in storage.
+     *
      * @param Request $request
+     *
      * @return mixed
      */
     public function store(Request $request)
     {
         $user = Auth::user();
 
-        if (!Input::get('name') || !Input::get('category') || !Input::get('path') || $user == null)
-        {
+        if (!Input::get('name') || !Input::get('category') || !Input::get('path') || $user == null) {
             return Response::json([
                 'error' => [
-                    'message' => 'Parameters failed validation for a video.'
-                ]
+                    'message' => 'Parameters failed validation for a video.',
+                ],
             ], IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
@@ -113,23 +110,28 @@ class VideoController extends ApiGuardController
         $video->dislikes = 0;
 
         $user->getVideos()->save($video);
+
         return $this->response->withItem($video, $this->videoTransformer);
     }
 
     /**
      * @param $id
+     *
      * @return mixed
      */
     public function show($id)
     {
         $video = Video::findOrFail($id);
+
         return $this->response->withItem($video, $this->videoTransformer);
     }
 
     /**
      * Update the specified video in storage.
+     *
      * @param Request $request
      * @param $id
+     *
      * @return mixed
      */
     public function update(Request $request, $id)
@@ -142,12 +144,13 @@ class VideoController extends ApiGuardController
         $video->likes = $request->likes;
         $video->dislikes = $request->dislikes;
         $video->save();
-
     }
 
     /**
      * Remove the specified video from storage.
+     *
      * @param $id
+     *
      * @return mixed
      */
     public function destroy($id)

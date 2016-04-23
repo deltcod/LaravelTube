@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * @property $id
- *
  */
-
 class OAuthIdentity extends Eloquent
 {
     /**
@@ -18,16 +16,19 @@ class OAuthIdentity extends Eloquent
      */
     protected $table = 'oauth_identities';
     protected static $configuredTable = 'oauth_identities';
+
     public static function configureTable($table)
     {
         static::$configuredTable = $table;
     }
+
     public function getTable()
     {
         return static::$configuredTable;
     }
+
     /**
-     * Get the user that owns the oauth identity
+     * Get the user that owns the oauth identity.
      */
     public function user()
     {

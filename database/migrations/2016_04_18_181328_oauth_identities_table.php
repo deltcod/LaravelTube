@@ -1,30 +1,31 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class OauthIdentitiesTable extends Migration
 {
     /**
-     * The authentication service providers table name
+     * The authentication service providers table name.
      *
      * @var string
      */
     protected $authenticationProvidersTable;
     /**
-     * The users table name
+     * The users table name.
      *
      * @var string
      */
     protected $usersTable;
+
     /**
      * CreateOauthIdentitiesTable constructor.
-     *
      */
-    public function __construct( )
+    public function __construct()
     {
         $this->authenticationProvidersTable = Config::get('laraveltube-socialite.table');
     }
+
     /**
      * Run the migrations.
      *
@@ -44,6 +45,7 @@ class OauthIdentitiesTable extends Migration
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      *
