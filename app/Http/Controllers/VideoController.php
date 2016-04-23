@@ -89,6 +89,8 @@ class VideoController extends ApiGuardController
 
     /**
      * Store a newly created video in storage.
+     * @param Request $request
+     * @return mixed
      */
     public function store(Request $request)
     {
@@ -109,7 +111,6 @@ class VideoController extends ApiGuardController
         $video->path = $request->path;
         $video->likes = 0;
         $video->dislikes = 0;
-        dd($video);
 
         $user->getVideos()->save($video);
         return $this->response->withItem($video, $this->videoTransformer);
