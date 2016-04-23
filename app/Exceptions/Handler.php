@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,6 +46,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($request->json()){
+            if($e instanceof ModelNotFoundException)
+            {
+                return response()->json(['error' => [
+                    'code' => 'GEN-NOT-FOUND',
+                    'http_code'=> IlluminateResponse::HTTP_NOT_FOUND,
+                    'message' => 'Resource Not Found'
+                ]],IlluminateResponse::HTTP_NOT_FOUND);
+            }
+        }
+
         return parent::render($request, $e);
     }
 }

@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Transformers\VideoTransformer;
 use App\User;
 use App\Video;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Response as IlluminateResponse;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
@@ -63,6 +62,7 @@ class VideoController extends ApiGuardController
     public function index()
     {
         $video = Video::all();
+
         return $this->response->withCollection($video, $this->videoTransformer);
     }
 
@@ -81,10 +81,7 @@ class VideoController extends ApiGuardController
      */
     public function getVideosUser($id)
     {
-        $user = User::find($id);
-        if($user == null){
-            return $this->response->errorNotFound();
-        }
+        $user = User::findOrFail($id);
         $video = Video::where('user_id', $user->id)->get();
 
         return $this->response->withCollection($video, $this->videoTransformer);
@@ -95,7 +92,7 @@ class VideoController extends ApiGuardController
      */
     public function store(Request $request)
     {
-        $user = User::find($request->user_id);
+        $user = Auth::user();
 
         if (!Input::get('name') or !Input::get('category') or !Input::get('path') or $user == null)
         {
@@ -123,18 +120,8 @@ class VideoController extends ApiGuardController
      */
     public function show($id)
     {
-        try {
-
-            $video = Video::findOrFail($id);
-
-            return $this->response->withItem($video, $this->videoTransformer);
-
-        } catch (ModelNotFoundException $e) {
-
-            return $this->response->errorNotFound();
-
-        }
-
+        $video = Video::findOrFail($id);
+        return $this->response->withItem($video, $this->videoTransformer);
     }
 
     /**
@@ -145,12 +132,7 @@ class VideoController extends ApiGuardController
      */
     public function update(Request $request, $id)
     {
-        $video = Video::find($id);
-
-        if (!$video)
-        {
-            return $this->response->errorNotFound();
-        }
+        $video = Video::findOrFail($id);
 
         $video->name = $request->name;
         $video->category = $request->category;
@@ -168,13 +150,7 @@ class VideoController extends ApiGuardController
      */
     public function destroy($id)
     {
-        $video = Video::find($id);
-
-        if (!$video)
-        {
-            return $this->response->errorNotFound();
-        }
-        Video::destroy($id);
-
+        $video = Video::findOrFail($id);
+        Video::destroy($video->id);
     }
 }
