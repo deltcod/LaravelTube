@@ -10,6 +10,17 @@ See demo here:
 
 # Installation & use
 
+```bash
+git clone https://github.com/AlvaradoAdam15/LaravelTube.git
+cd LaravelTube/
+composer install
+npm install
+mv .env.example .env
+# Now, configure your file .env with your DATABASE
+php artisan migrate:refresh --seed
+php artisan key:generate
+php artisan serve
+```
 
 #Requirements
 This packages use (no need to install):
@@ -34,6 +45,29 @@ phpunit
 ```
 
 ## Social Login
+If you want use Social login, you need configure in your file .env:
 
+FACEBOOK_ID=*----*
+
+FACEBOOK_SECRET=*----*
+
+FACEBOOK_URL=http:*----*
+
+TWITTER_ID=*----*
+
+TWITTER_SECRET=*----*
+
+TWITTER_URL=http:*----*
+
+GOOGLE_ID=*----*
+
+GOOGLE_SECRET=*----*
+
+GOOGLE_URL=http:*----*
+
+*----* Is your configuration in:
+* https://developers.facebook.com/apps/
+* https://apps.twitter.com/
+* https://console.developers.google.com
 
 ## See also
