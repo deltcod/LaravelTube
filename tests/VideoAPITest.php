@@ -136,6 +136,19 @@ class VideoAPITest extends TestCase
     }
 
     /**
+     * Test videos for category is an api then returns JSON.
+     *
+     * @return void
+     */
+    public function testVideosForCategory()
+    {
+        $user = $this->createUser();
+        $video = $this->createFakeVideo($user);
+        $this->get('/api/videos/category/'.$video->category )->seeJsonContains(['name' => $video->name, 'category' => $video->category, 'path' => $video->path, 'likes' => $video->likes, 'dislikes' => $video->dislikes])
+            ->seeStatusCode(200);
+    }
+
+    /**
      * Test video in database is shown by API.
      *
      * @return void
