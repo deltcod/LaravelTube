@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Chrisbjr\ApiGuard\Builders\ApiResponseBuilder;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,16 +50,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        $response = ApiResponseBuilder::build();
+
         if ($request->json()) {
-            if ($e instanceof ModelNotFoundException) {
-                return response()->json(['error' => [
-                    'code'      => 'GEN-NOT-FOUND',
-                    'http_code' => IlluminateResponse::HTTP_NOT_FOUND,
-                    'message'   => 'Resource Not Found',
-                ]], IlluminateResponse::HTTP_NOT_FOUND);
+            if ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
+                return $response->errorNotFound();
             }
         }
-
         return parent::render($request, $e);
+
     }
 }
