@@ -144,7 +144,7 @@ class VideoAPITest extends TestCase
     {
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
-        $this->get('/api/videos/category/'.$video->category )->seeJsonContains(['name' => $video->name, 'category' => $video->category, 'path' => $video->path, 'likes' => $video->likes, 'dislikes' => $video->dislikes])
+        $this->get('/api/videos/category/'.$video->category)->seeJsonContains(['name' => $video->name, 'category' => $video->category, 'path' => $video->path, 'likes' => $video->likes, 'dislikes' => $video->dislikes])
             ->seeStatusCode(200);
     }
 
