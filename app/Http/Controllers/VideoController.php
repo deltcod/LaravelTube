@@ -32,6 +32,9 @@ class VideoController extends ApiGuardController
         'getVideosUser' => [
             'keyAuthentication' => false,
         ],
+        'getVideosForCategory' => [
+            'keyAuthentication' => false,
+        ],
         'store' => [
             'limits' => [
                 'key' => [
@@ -79,6 +82,16 @@ class VideoController extends ApiGuardController
     {
         $user = User::findOrFail($id);
         $video = Video::where('user_id', $user->id)->get();
+
+        return $this->response->withCollection($video, $this->videoTransformer);
+    }
+
+    /**
+     * Return Videos for Category.
+     */
+    public function getVideosForCategory($name)
+    {
+        $video = Video::where('category', $name)->get();
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }

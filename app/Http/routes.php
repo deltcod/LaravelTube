@@ -28,6 +28,7 @@ Route::group(['prefix' => 'api/'], function () {
     Route::get('videos', 'VideoController@index');
     Route::get('videos/best', 'VideoController@getBestVideos');
     Route::get('videos/user{id}', 'VideoController@getVideosUser');
+    Route::get('videos/category/{name}', 'VideoController@getVideosForCategory');
     Route::post('videos', 'VideoController@store');
     Route::get('videos/{id}', 'VideoController@show');
     Route::put('videos/{id}', 'VideoController@update');
