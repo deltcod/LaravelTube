@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Transformers\VideoTransformer;
 use App\User;
 use App\Video;
+use Chrisbjr\ApiGuard\Facades\ApiGuardAuth;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Response;
 
 /**
@@ -20,7 +23,7 @@ class VideoController extends ApiGuardController
     protected $videoTransformer;
 
     protected $apiMethods = [
-        'index' => [
+        'getAllVideos' => [
             'keyAuthentication' => false,
         ],
         'show' => [
@@ -58,7 +61,7 @@ class VideoController extends ApiGuardController
     /**
      * Return all Videos.
      */
-    public function index()
+    public function getAllVideos()
     {
         $video = Video::all();
 
@@ -107,7 +110,9 @@ class VideoController extends ApiGuardController
     {
         $user = Auth::user();
 
-        if (!Input::get('name') || !Input::get('category') || !Input::get('path') || $user == null) {
+        $file = $request->file('video');
+
+        if (!Input::get('name') || !Input::get('category') || $user == null || $file ==null) {
             return Response::json([
                 'error' => [
                     'message' => 'Parameters failed validation for a video.',
@@ -115,10 +120,12 @@ class VideoController extends ApiGuardController
             ], IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY);
         }
 
+        Storage::put('videos/'.$request->name.$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
+
         $video = new Video();
         $video->name = $request->name;
         $video->category = $request->category;
-        $video->path = $request->path;
+        $video->path = storage_path('videos/'.$request->name.$user->id.'.'.$file->getClientOriginalExtension());
         $video->likes = 0;
         $video->dislikes = 0;
 

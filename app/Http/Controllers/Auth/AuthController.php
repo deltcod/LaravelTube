@@ -70,7 +70,7 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-        $user->apiKey = $this->createUserApiKey($user);
+        $this->createUserApiKey($user);
 
         return $user;
     }
@@ -83,8 +83,6 @@ class AuthController extends Controller
     private function createUserApiKey(User $user)
     {
         $apiKey = ApiKey::make($user->id);
-        $apiKey->save();
-
-        return $apiKey->key;
+        $user->apiKey()->save($apiKey);
     }
 }

@@ -119,8 +119,6 @@ class SocialAuthController extends Controller
     private function createUserApiKey(User $user)
     {
         $apiKey = ApiKey::make($user->id);
-        $apiKey->save();
-
-        return $apiKey->key;
+        $user->apiKey()->save($apiKey);
     }
 }

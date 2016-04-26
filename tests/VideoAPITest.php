@@ -3,6 +3,7 @@
 use App\User;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Created by PhpStorm.
@@ -22,7 +23,7 @@ class VideoAPITest extends TestCase
     public function createUser()
     {
         $user = factory(App\User::class)->create();
-        $user->apiKey = $this->createUserApiKey($user);
+        $this->createUserApiKey($user);
 
         return $user;
     }
@@ -35,9 +36,7 @@ class VideoAPITest extends TestCase
     private function createUserApiKey(User $user)
     {
         $apiKey = ApiKey::make($user->id);
-        $apiKey->save();
-
-        return $apiKey->key;
+        $user->apiKey()->save($apiKey);
     }
 
     /**
@@ -179,11 +178,22 @@ class VideoAPITest extends TestCase
      */
     public function testVideosCanBePostedAndSavedIntoDatabase()
     {
-        $user = $this->createUser();
-        $data = ['name' => 'Foobar', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 0, 'dislikes' => 0];
-        $this->post('/api/videos', $data, ['X-Authorization' => $user->apiKey])->seeInDatabase('videos', $data);
-        $this->get('/api/videos')->seeJsonContains(['name' => 'Foobar', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 0, 'dislikes' => 0])
-            ->seeStatusCode(200);
+        $user = factory(App\User::class)->create(['password' => Hash::make('passw0RD')]);
+        $this->createUserApiKey($user);
+        $file = storage_path('videos/demo.mp4');
+
+        $this->visit('/login')
+            ->type($user->email, 'email')
+            ->type('passw0RD', 'password')
+            ->press('Sign In')
+            ->seePageIs('/home')
+            ->see($user->name)
+            ->type('demo', 'name')
+            ->type('Movie', 'category')
+            ->attach($file, 'video')
+            ->press('Upload')
+            ->seeInDatabase('videos', ['name' => 'demo', 'category'  => 'Movie', 'path' =>storage_path('videos/demo'.$user->id.'.mp4'), 'likes' => 0, 'dislikes' => 0]);
+
     }
 
     /**
@@ -196,7 +206,7 @@ class VideoAPITest extends TestCase
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
         $data = ['name' => 'V for Vendetta', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 450, 'dislikes' => 254];
-        $this->put('/api/videos/'.$video->id, $data, ['X-Authorization' => $user->apiKey])->seeInDatabase('videos', $data);
+        $this->put('/api/videos/'.$video->id, $data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('videos', $data);
         $this->get('/api/videos')->seeJsonContains([$data = ['name' => 'V for Vendetta', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 450, 'dislikes' => 254]])->seeStatusCode(200);
     }
 
@@ -210,7 +220,7 @@ class VideoAPITest extends TestCase
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
         $data = ['name' => $video->name, 'category' => $video->category, 'path' => $video->path];
-        $this->delete('/api/videos/'.$video->id, ['X-Authorization' => $user->apiKey])->notSeeInDatabase('videos', $data);
+        $this->delete('/api/videos/'.$video->id, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('videos', $data);
         $this->get('/api/videos')->dontSeeJson($data)->seeStatusCode(200);
     }
 }

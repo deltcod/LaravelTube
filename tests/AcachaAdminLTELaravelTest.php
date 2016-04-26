@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
 
@@ -9,6 +11,17 @@ use Illuminate\Support\Facades\Hash;
 class AcachaAdminLTELaravelTest extends TestCase
 {
     use DatabaseMigrations;
+
+    /**
+     * @param User $user
+     *
+     * @return mixed
+     */
+    private function createUserApiKey(User $user)
+    {
+        $apiKey = ApiKey::make($user->id);
+        $apiKey->save();
+    }
 
     /**
      * Test Landing Page.
@@ -59,6 +72,7 @@ class AcachaAdminLTELaravelTest extends TestCase
     public function testLogin()
     {
         $user = factory(App\User::class)->create(['password' => Hash::make('passw0RD')]);
+        $this->createUserApiKey($user);
 
         $this->visit('/login')
             ->type($user->email, 'email')
@@ -122,6 +136,7 @@ class AcachaAdminLTELaravelTest extends TestCase
     public function testHomePageForAuthenticatedUsers()
     {
         $user = factory(App\User::class)->create();
+        $this->createUserApiKey($user);
 
         $this->actingAs($user)
             ->visit('/home')
@@ -161,6 +176,7 @@ class AcachaAdminLTELaravelTest extends TestCase
      */
     public function testNewUserRegistration()
     {
+
         $this->visit('/register')
             ->type('Sergi Tur Badenas', 'name')
             ->type('sergiturbadenas@gmail.com', 'email')
