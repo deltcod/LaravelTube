@@ -130,7 +130,7 @@ class VideoAPITest extends TestCase
     {
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
-        $this->get('/api/videos/user'.$user->id)->seeJsonContains(['name' => $video->name, 'category' => $video->category, 'path' => $video->path, 'likes' => $video->likes, 'dislikes' => $video->dislikes])
+        $this->get('/api/videos/user/'.$user->id)->seeJsonContains(['name' => $video->name, 'category' => $video->category, 'path' => $video->path, 'likes' => $video->likes, 'dislikes' => $video->dislikes])
             ->seeStatusCode(200);
     }
 
@@ -222,5 +222,18 @@ class VideoAPITest extends TestCase
         $data = ['name' => $video->name, 'category' => $video->category, 'path' => $video->path];
         $this->delete('/api/videos/'.$video->id, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('videos', $data);
         $this->get('/api/videos')->dontSeeJson($data)->seeStatusCode(200);
+    }
+
+    /**
+     * Test videos can be search and see result.
+     *
+     * @return void
+     */
+    public function testVideosCanBeSearchAndSeenResult()
+    {
+        $user = $this->createUser();
+        $video = $this->createFakeVideo($user);
+        $data = ['name' => $video->name, 'category' => $video->category, 'path' => $video->path];
+        $this->get('/api/videos/search/'.$video->name)->seeJson($data)->seeStatusCode(200);
     }
 }

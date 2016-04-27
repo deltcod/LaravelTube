@@ -20,8 +20,14 @@ use Response;
  */
 class VideoController extends ApiGuardController
 {
+    /**
+     * @var VideoTransformer
+     */
     protected $videoTransformer;
 
+    /**
+     * @var array
+     */
     protected $apiMethods = [
         'getAllVideos' => [
             'keyAuthentication' => false,
@@ -36,6 +42,9 @@ class VideoController extends ApiGuardController
             'keyAuthentication' => false,
         ],
         'getVideosForCategory' => [
+            'keyAuthentication' => false,
+        ],
+        'getVideosForSearch' => [
             'keyAuthentication' => false,
         ],
         'store' => [
@@ -73,7 +82,7 @@ class VideoController extends ApiGuardController
      */
     public function getBestVideos()
     {
-        $video = Video::limit(50)->orderBy('likes', 'desc')->get();
+        $video = Video::all()->sortByDesc('likes');
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -84,7 +93,7 @@ class VideoController extends ApiGuardController
     public function getVideosUser($id)
     {
         $user = User::findOrFail($id);
-        $video = Video::where('user_id', $user->id)->get();
+        $video = $user->getVideos;
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -95,6 +104,16 @@ class VideoController extends ApiGuardController
     public function getVideosForCategory($name)
     {
         $video = Video::where('category', $name)->get();
+
+        return $this->response->withCollection($video, $this->videoTransformer);
+    }
+
+    /**
+     * Return Videos for Search.
+     */
+    public function getVideosForSearch($search)
+    {
+        $video = Video::where("name", "LIKE", "%$search%")->get()->sortBy('name');
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -123,8 +142,8 @@ class VideoController extends ApiGuardController
         Storage::put('videos/'.$request->name.$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
 
         $video = new Video();
-        $video->name = $request->name;
-        $video->category = $request->category;
+        $video->name = $request->input('name');
+        $video->category = $request->input('category');
         $video->path = storage_path('videos/'.$request->name.$user->id.'.'.$file->getClientOriginalExtension());
         $video->likes = 0;
         $video->dislikes = 0;
@@ -158,11 +177,11 @@ class VideoController extends ApiGuardController
     {
         $video = Video::findOrFail($id);
 
-        $video->name = $request->name;
-        $video->category = $request->category;
-        $video->path = $request->path;
-        $video->likes = $request->likes;
-        $video->dislikes = $request->dislikes;
+        $video->name = $request->input('name');
+        $video->category = $request->input('category');
+        $video->path =$request->input('path');
+        $video->likes = $request->input('likes');
+        $video->dislikes = $request->input('dislikes');
         $video->save();
     }
 

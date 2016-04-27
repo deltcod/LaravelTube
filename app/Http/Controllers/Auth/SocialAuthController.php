@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
+/**
+ * Class SocialAuthController
+ * @package App\Http\Controllers\Auth
+ */
 class SocialAuthController extends Controller
 {
     /**
@@ -37,19 +41,18 @@ class SocialAuthController extends Controller
         } catch (Exception $e) {
             return Redirect::to('auth/'.$provider);
         }
-//       dd($user);
+
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
 
         return Redirect::to('home');
     }
 
+
     /**
-     * Return user if exists; create and return if doesn't.
-     *
-     * @param $githubUser
-     *
-     * @return User
+     * @param $providerUser
+     * @param $provider
+     * @return bool|mixed
      */
     private function findOrCreateUser($providerUser, $provider)
     {
@@ -60,6 +63,11 @@ class SocialAuthController extends Controller
         return $this->createUser($providerUser, $provider);
     }
 
+    /**
+     * @param $providerUser
+     * @param $provider
+     * @return bool
+     */
     private function createUser($providerUser, $provider)
     {
         if (!$user = $this->userExistsByEmail($providerUser)) {
@@ -85,6 +93,9 @@ class SocialAuthController extends Controller
         return $user;
     }
 
+    /**
+     * @return mixed
+     */
     private function newUser()
     {
         $user_model = Config::get('laraveltube-socialite.model');
@@ -92,6 +103,10 @@ class SocialAuthController extends Controller
         return new $user_model();
     }
 
+    /**
+     * @param $providerUser
+     * @return bool|mixed
+     */
     private function userExistsByProviderUserId($providerUser)
     {
         /** @var OAuthIdentity $provUser */
@@ -102,6 +117,10 @@ class SocialAuthController extends Controller
         return false;
     }
 
+    /**
+     * @param $providerUser
+     * @return bool
+     */
     private function userExistsByEmail($providerUser)
     {
         if ($user = User::where('email', $providerUser->email)->first()) {
