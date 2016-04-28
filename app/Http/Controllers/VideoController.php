@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use App\Transformers\VideoTransformer;
 use App\User;
 use App\Video;
-use Chrisbjr\ApiGuard\Facades\ApiGuardAuth;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
-use Response;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class VideoController.
@@ -59,6 +55,7 @@ class VideoController extends ApiGuardController
 
     /**
      * VideoController constructor.
+     * @param VideoTransformer $videoTransformer
      */
     public function __construct(VideoTransformer $videoTransformer)
     {
@@ -103,7 +100,7 @@ class VideoController extends ApiGuardController
      */
     public function getVideosForCategory($name)
     {
-        $video = Video::where('category', $name)->get();
+        $video = Video::where('category', $name)->get()->sortByDesc('likes');
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -128,23 +125,23 @@ class VideoController extends ApiGuardController
     public function store(Request $request)
     {
         $user = Auth::user();
-
         $file = $request->file('video');
 
-        if (!Input::get('name') || !Input::get('category') || $user == null || $file ==null) {
-            return Response::json([
-                'error' => [
-                    'message' => 'Parameters failed validation for a video.',
-                ],
-            ], IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'category' => 'required',
+            'video' => 'mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+        ]);
 
-        Storage::put('videos/'.$request->name.$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
+
+        if ($validator->fails() || $file == null) {return $this->response->errorWrongArgsValidator($validator);}
+
+        Storage::put('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
 
         $video = new Video();
         $video->name = $request->input('name');
         $video->category = $request->input('category');
-        $video->path = storage_path('videos/'.$request->name.$user->id.'.'.$file->getClientOriginalExtension());
+        $video->path = storage_path('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension());
         $video->likes = 0;
         $video->dislikes = 0;
 

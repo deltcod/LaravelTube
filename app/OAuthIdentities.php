@@ -9,6 +9,6 @@ trait OAuthIdentities
      */
     public function oauthIdentities()
     {
-        return $this->hasMany(\Acacha\Socialite\OAuthIdentity::class);
+        return $this->hasMany(\App\OAuthIdentity::class);
     }
 }

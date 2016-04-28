@@ -6,6 +6,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class User
+ *
+ * @property integer $id
+ *
  * @package App
  */
 class User extends Authenticatable

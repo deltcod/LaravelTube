@@ -66,7 +66,7 @@ class SocialAuthController extends Controller
     /**
      * @param $providerUser
      * @param $provider
-     * @return bool
+     * @return User
      */
     private function createUser($providerUser, $provider)
     {

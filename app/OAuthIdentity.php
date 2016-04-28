@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * @property $id
+ * @property $provider_user_id
+ * @property $provider
+ * @property $access_token
+ * @property $user_id
+ * @property $avatar
+ * @property $name
+ * @property $nickname
+ *
  */
 class OAuthIdentity extends Eloquent
 {
