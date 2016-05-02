@@ -19,6 +19,7 @@ mv .env.example .env
 # Now, configure your file .env with your DATABASE
 php artisan migrate:refresh --seed
 php artisan key:generate
+gulp
 php artisan serve
 ```
 
@@ -29,6 +30,9 @@ This packages use (no need to install):
 * [Laravel](http://laravel.com/)
 * [AdminLTE](https://github.com/almasaeed2010/AdminLTE). You can see and AdminLTE theme preview at: http://almsaeedstudio.com/preview/
 * [ApiGuard](https://github.com/chrisbjr/api-guard)
+* [LaravelCollective/html](https://github.com/LaravelCollective/html)
+* [Vue.js](https://vuejs.org/)
+* [Video.js](http://videojs.com/)
 
 ## Packagist
 
