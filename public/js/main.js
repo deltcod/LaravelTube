@@ -11908,17 +11908,41 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"./components/main-wrapper/index.vue":30,"./components/side-bar/index.vue":31,"./components/site-header/index.vue":32,"vue":27,"vue-hot-reload-api":2,"vueify-insert-css":28}],30:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n\n")
-"use strict";
+var __vueify_style__ = require("vueify-insert-css").insert("\n#bestVideosList>li:hover{\n    background-color: transparent;\n    border: 1px solid #46FF62;\n}\n#bestVideoCard{\n    background-color: #101010;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            bestVideos: []
+        };
+    },
+
+
+    ready: function ready() {
+        this.getBestVideos();
+    },
+
+    methods: {
+        getBestVideos: function getBestVideos() {
+            this.$http.get('/api/videos/best').then(function (response) {
+                this.$set('bestVideos', response.data.data);
+            });
+        }
+    }
+};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"page-content-wrapper\">\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\">\n                <h1>LaravelTube</h1>\n                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate explicabo id odit recusandae voluptatum? Alias amet delectus deserunt dolorum eos esse fugiat minima necessitatibus nostrum officiis recusandae, soluta totam voluptatem.</p>\n                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus accusantium alias animi aspernatur assumenda beatae, eius eligendi, hic impedit libero perspiciatis, quis quo recusandae vitae voluptatem. Aut impedit laborum voluptatibus.</p>\n            </div>\n        </div>\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"page-content-wrapper\">\n    <div class=\"container-fluid\">\n        <div class=\"row\">\n            <div class=\"col-lg-12\" id=\"bestVideos\">\n                <h1>Best Videos</h1>\n                <ul class=\"list-inline\" id=\"bestVideosList\">\n                    <li v-for=\"video in bestVideos\">\n                        <div class=\"card\" id=\"bestVideoCard\">\n                            <video id=\"example_video_1\" class=\"video-js vjs-default-skin\" controls=\"\" preload=\"auto\" width=\"350\" height=\"300\" data-setup=\"{&quot;example_option&quot;:true}\">\n                                <source src=\"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4\" type=\"video/mp4\">\n                                <p class=\"vjs-no-js\">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a></p>\n                            </video>\n                            <div class=\"card-block\">\n                                <h4 class=\"card-text\" id=\"bestVideoParagraph\">{{ video.name.substring(0,28) }}</h4>\n                                <p>{{ video.category }}</p>\n                            </div>\n                        </div>\n                    </li>\n                </ul>\n            </div>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/main-wrapper/index.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n\n"] = false
+    require("vueify-insert-css").cache["\n#bestVideosList>li:hover{\n    background-color: transparent;\n    border: 1px solid #46FF62;\n}\n#bestVideoCard{\n    background-color: #101010;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
