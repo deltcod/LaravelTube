@@ -35,7 +35,10 @@ class OauthIdentitiesTable extends Migration
     {
         Schema::create($this->authenticationProvidersTable, function (Blueprint $table) {
             $table->increments('id');
-            $table->string('user_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->string('provider_user_id');
             $table->string('provider');
             $table->string('access_token');
@@ -53,6 +56,9 @@ class OauthIdentitiesTable extends Migration
      */
     public function down()
     {
+        Schema::table($this->authenticationProvidersTable, function(Blueprint $table) {
+            $table->dropForeign('oauth_identities_user_id_foreign');
+        });
         Schema::drop($this->authenticationProvidersTable);
     }
 }

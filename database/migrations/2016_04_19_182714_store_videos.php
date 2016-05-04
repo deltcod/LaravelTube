@@ -17,9 +17,12 @@ class StoreVideos extends Migration
             $table->string('name');
             $table->string('category');
             $table->string('path');
-            $table->string('user_id');
             $table->integer('likes');
             $table->integer('dislikes');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -31,6 +34,9 @@ class StoreVideos extends Migration
      */
     public function down()
     {
+        Schema::table('videos', function(Blueprint $table) {
+            $table->dropForeign('videos_user_id_foreign');
+        });
         Schema::drop('videos');
     }
 }

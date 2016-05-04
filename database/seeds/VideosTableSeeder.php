@@ -1,6 +1,8 @@
 <?php
 
+use App\User;
 use App\Video;
+use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Database\Seeder;
 
 class VideosTableSeeder extends Seeder
@@ -12,12 +14,38 @@ class VideosTableSeeder extends Seeder
      */
     public function run()
     {
+        $user = $this->createUser();
         $video = new Video();
         $video->name = 'demo';
         $video->category = 'Movie';
         $video->path = storage_path('videos/demo.mp4');
         $video->likes = 450;
         $video->dislikes = 250;
-        $video->save();
+
+        $user->getVideos()->save($video);
+    }
+
+    /**
+     * Create fake user.
+     *
+     * @return mixed
+     */
+    public function createUser()
+    {
+        $user = factory(App\User::class)->create();
+        $this->createUserApiKey($user);
+
+        return $user;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return mixed
+     */
+    private function createUserApiKey(User $user)
+    {
+        $apiKey = ApiKey::make($user->id);
+        $user->apiKey()->save($apiKey);
     }
 }
