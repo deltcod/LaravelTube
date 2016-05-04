@@ -2,7 +2,15 @@
     <site-header></site-header>
     <div id="wrapper">
         <side-bar></side-bar>
-        <main-wrapper></main-wrapper>
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12" id="content">
+                        <router-view transition-mode="out-in"></router-view>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -18,8 +26,7 @@
 <script>
     import siteHeader from './components/site-header/index.vue';
     import sideBar from './components/side-bar/index.vue';
-    import mainWrapper from './components/main-wrapper/index.vue'
     export default{
-        components: { siteHeader, sideBar, mainWrapper,},
+        components: { siteHeader, sideBar,},
     }
 </script>

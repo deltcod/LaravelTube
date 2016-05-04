@@ -25,6 +25,7 @@
         border-radius: 12px;
         border: 2px solid #181818;
         font-family: 'Raleway', sans-serif;
+        color: #303030;
         font-size: 13px;
     }
 

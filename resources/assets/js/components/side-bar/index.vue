@@ -7,6 +7,9 @@
             <li><a href="#"><i class="fa fa-futbol-o" aria-hidden="true"></i> Sport</a></li>
             <li><a href="#"><i class="fa fa-gamepad" aria-hidden="true"></i> Games</a></li>
             <li><a href="#"><i class="fa fa-video-camera" aria-hidden="true"></i> Other</a></li>
+            <hr />
+            <li><a href="http://acacha.org/mediawiki/Usuari:AlvaradoAdam15"><i class="fa fa-creative-commons" aria-hidden="true"></i> Created by Adam Alvarado</a></li>
+            <li><a href="https://github.com/AlvaradoAdam15/LaravelTube"><i class="fa fa-code" aria-hidden="true"></i> See code on GitHub</a></li>
         </ul>
     </div>
 
