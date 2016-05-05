@@ -12,6 +12,7 @@ class VideoTransformer extends Transformer
     public function transform($video)
     {
         return [
+            'id'     => $video['id'],
             'name'     => $video['name'],
             'category' => $video['category'],
             'path'     => $video['path'],

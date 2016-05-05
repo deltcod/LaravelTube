@@ -95,7 +95,7 @@ class VideoAPITest extends TestCase
             ->seeJsonStructure([
                 '*' => [
                     '*' => [
-                        'category', 'dislikes', 'likes', 'name', 'path',
+                        'category', 'dislikes', 'id','likes', 'name', 'path',
                     ],
                 ],
             ])->seeStatusCode(200);
@@ -207,7 +207,7 @@ class VideoAPITest extends TestCase
         $video = $this->createFakeVideo($user);
         $data = ['name' => 'V for Vendetta', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 450, 'dislikes' => 254];
         $this->put('/api/videos/'.$video->id, $data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('videos', $data);
-        $this->get('/api/videos')->seeJsonContains([$data = ['name' => 'V for Vendetta', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 450, 'dislikes' => 254]])->seeStatusCode(200);
+        $this->get('/api/videos')->seeJsonContains([$data = ['id' => $video->id, 'name' => 'V for Vendetta', 'category' => 'Movie', 'path' => '/videos/foobar.mp4', 'likes' => 450, 'dislikes' => 254]])->seeStatusCode(200);
     }
 
     /**

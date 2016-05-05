@@ -17,11 +17,16 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
+    {{--VideoJS--}}
+    <link rel="stylesheet" href="{{asset('/plugins/videojs/video-js.min.css') }}">
+    <script src="{{ asset('/plugins/videojs/videojs-ie8.min.js') }}"></script>
+
 </head>
 <body>
     <app></app>
 
     <script src="{{ asset('/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('/plugins/videojs/video.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>

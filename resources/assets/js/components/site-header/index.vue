@@ -44,7 +44,4 @@
     #navigation {
         background: #282828;
     }
-    ul>li:hover{
-        background-color: #00BE2D;
-    }
 </style>

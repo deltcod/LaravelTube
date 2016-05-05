@@ -14576,7 +14576,7 @@ exports.insert = function (css) {
 }
 
 },{}],30:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\nbody{\n    background-color: #303030;\n}\n*{\n    color: white;\n    font-family: 'Raleway', sans-serif;\n}\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\nbody{\n    background-color: #303030;\n}\n*{\n    color: white;\n    font-family: 'Raleway', sans-serif;\n}\n\nul>li:hover{\n    background-color: #00BE2D;\n}\n\n.v-link-active{\n\n    border-left: 3px solid #46FF62;\n    color: white !important;\n}\n\n.videoListCard>li:hover{\n    background-color: transparent;\n    border: 1px solid #46FF62;\n}\n.videoList{\n    background-color: #101010;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14604,7 +14604,7 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!hotAPI.compatible) return
   var id = "/home/adam/Code/LaravelTube/resources/assets/js/app.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\nbody{\n    background-color: #303030;\n}\n*{\n    color: white;\n    font-family: 'Raleway', sans-serif;\n}\n"] = false
+    require("vueify-insert-css").cache["\nbody{\n    background-color: #303030;\n}\n*{\n    color: white;\n    font-family: 'Raleway', sans-serif;\n}\n\nul>li:hover{\n    background-color: #00BE2D;\n}\n\n.v-link-active{\n\n    border-left: 3px solid #46FF62;\n    color: white !important;\n}\n\n.videoListCard>li:hover{\n    background-color: transparent;\n    border: 1px solid #46FF62;\n}\n.videoList{\n    background-color: #101010;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -14613,8 +14613,8 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./components/side-bar/index.vue":32,"./components/site-header/index.vue":33,"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],31:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n#bestVideosList>li:hover{\n    background-color: transparent;\n    border: 1px solid #46FF62;\n}\n#bestVideoCard{\n    background-color: #101010;\n}\n\n.video-js { color: #46FF62; }\n.video-js .vjs-play-progress { background: #46FF62; }\n\n.video-js{margin: auto;}\n\n")
+},{"./components/side-bar/index.vue":33,"./components/site-header/index.vue":34,"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],31:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n#nameRoute{\n    text-transform: capitalize;\n}\n#videoLink{\n    text-decoration:  none;\n}\n\n#video{\n    width:350px;\n    height:300px;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14623,32 +14623,44 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
     data: function data() {
         return {
-            bestVideos: []
+            videos: [],
+            nameRoute: ''
         };
     },
 
 
+    route: {
+        canReuse: function canReuse() {
+            return this.getVideos();
+        }
+    },
+
     ready: function ready() {
-        this.getBestVideos();
+        this.getVideos();
     },
 
     methods: {
-        getBestVideos: function getBestVideos() {
-            this.$http.get('/api/videos/best').then(function (response) {
-                this.$set('bestVideos', response.data.data);
+        getVideos: function getVideos() {
+            this.$http.get('/api/videos' + this.$route.path).then(function (response) {
+                this.$set('videos', response.data.data);
+                if (this.$route.params.name != null) {
+                    this.$set('nameRoute', this.$route.params.name);
+                } else {
+                    this.$set('nameRoute', 'Best Videos');
+                }
             });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h1>Best Videos</h1>\n<ul class=\"list-inline\" id=\"bestVideosList\">\n    <li v-for=\"video in bestVideos\">\n        <div class=\"card\" id=\"bestVideoCard\">\n            <video id=\"my-video\" class=\"video-js\" controls=\"\" preload=\"auto\" width=\"350\" height=\"300\" data-setup=\"{&quot;playbackRates&quot;: [1, 1.5, 2] }\">\n                <source src=\"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4\" type=\"video/mp4\">\n\n                <p class=\"vjs-no-js\">\n                    To view this video please enable JavaScript, and consider upgrading to a web browser that\n                    <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>\n                </p>\n            </video>\n            <div class=\"card-block\">\n                <button type=\"button\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ video.dislikes }}</button>\n                <button type=\"button\" class=\"btn btn-success pull-right\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ video.likes }}</button>\n                <h4 class=\"card-text\" id=\"bestVideoParagraph\">{{ video.name.substring(0,17) }}</h4>\n                <p>{{ video.category }}</p>\n            </div>\n        </div>\n    </li>\n</ul>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h1 id=\"nameRoute\">{{nameRoute}}</h1>\n<ul class=\"list-inline videoListCard\">\n    <li v-for=\"video in videos\">\n        <a v-link=\"'/videos/' + video.id\" id=\"videoLink\"><div class=\"card videoList\">\n            <video id=\"video\" class=\"video-js\">\n                <source src=\"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4\" type=\"video/mp4\">\n            </video>\n            <div class=\"card-block\">\n                <button type=\"button\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ video.dislikes }}</button>\n                <button type=\"button\" class=\"btn btn-success pull-right\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ video.likes }}</button>\n                <h4 class=\"card-text\">{{ video.name.substring(0,17) }}</h4>\n                <p>{{ video.category }}</p>\n            </div>\n        </div></a>\n    </li>\n</ul>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/main-wrapper/best-videos-view.vue"
+  var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/main-wrapper/index.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n#bestVideosList>li:hover{\n    background-color: transparent;\n    border: 1px solid #46FF62;\n}\n#bestVideoCard{\n    background-color: #101010;\n}\n\n.video-js { color: #46FF62; }\n.video-js .vjs-play-progress { background: #46FF62; }\n\n.video-js{margin: auto;}\n\n"] = false
+    require("vueify-insert-css").cache["\n#nameRoute{\n    text-transform: capitalize;\n}\n#videoLink{\n    text-decoration:  none;\n}\n\n#video{\n    width:350px;\n    height:300px;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -14658,10 +14670,60 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],32:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n   #my-video{\n       width:650px;\n       height:400px;\n   }\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            video: []
+        };
+    },
+
+
+    route: {
+        canReuse: function canReuse() {
+            return this.getVideo();
+        }
+    },
+
+    ready: function ready() {
+        this.getVideo();
+    },
+
+    methods: {
+        getVideo: function getVideo() {
+            this.$http.get('/api' + this.$route.path).then(function (response) {
+                this.$set('video', response.data.data);
+            });
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-inline video-js-responsive-container vjs-hd\">\n    <video id=\"my-video\" class=\"video-js\" controls=\"\" preload=\"auto\" data-setup=\"{&quot;playbackRates&quot;: [1, 1.5, 2] }\">\n        <source src=\"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4\">\n\n        <p class=\"vjs-no-js\">\n            To view this video please enable JavaScript, and consider upgrading to a web browser that\n            <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>\n        </p>\n    </video>\n</div>\n<h1 id=\"nameRoute\">{{video.name}}</h1>\n<p>{{ video.category }}</p>\n<button type=\"button\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ video.dislikes }}</button>\n<button type=\"button\" class=\"btn btn-success\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ video.likes }}</button>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/main-wrapper/video-view.vue"
+  module.hot.dispose(function () {
+    require("vueify-insert-css").cache["\n   #my-video{\n       width:650px;\n       height:400px;\n   }\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],33:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n#wrapper {\n    padding-left: 250px;\n    padding-top: 50px;\n    -webkit-transition: all 0.4s ease 0s;\n    transition: all 0.4s ease 0s;\n}\n\n#sidebar-wrapper {\n    margin-left: -250px;\n    left: 250px;\n    width: 250px;\n    background: #212121;\n    position: fixed;\n    height: 100%;\n    overflow-y: auto;\n    z-index: 1000;\n    -webkit-transition: all 0.4s ease 0s;\n    transition: all 0.4s ease 0s;\n}\n\n.sidebar-nav {\n    position: absolute;\n    top: 0;\n    width: 250px;\n    list-style: none;\n    margin: 0;\n    padding: 0;\n}\n\n.sidebar-nav li {\n    line-height: 40px;\n    text-indent: 20px;\n}\n\n.sidebar-nav li a {\n    color: #999999;\n    display: block;\n    text-decoration: none;\n}\n\n.sidebar-nav li a:hover {\n    color: #fff;\n    background: rgba(255,255,255,0.2);\n    text-decoration: none;\n}\n\n.sidebar-nav li a:active,\n.sidebar-nav li a:focus {\n    text-decoration: none;\n}\n\n.sidebar-nav > .sidebar-brand a:hover {\n    color: #fff;\n    background: none;\n}\n\n@media (max-width:767px) {\n\n    #wrapper {\n        padding-left: 0;\n    }\n\n    #sidebar-wrapper {\n        left: 0;\n    }\n\n    #wrapper.active {\n        position: relative;\n        left: 250px;\n    }\n\n    #wrapper.active #sidebar-wrapper {\n        left: 250px;\n        width: 250px;\n        -webkit-transition: all 0.4s ease 0s;\n        transition: all 0.4s ease 0s;\n    }\n\n}\n")
 "use strict";
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li><a href=\"/home\"><span class=\"glyphicon glyphicon-home\"></span> My Home</a></li>\n        <li><a href=\"#\"><span class=\"glyphicon glyphicon-film\"></span> Movie</a></li>\n        <li><a href=\"#\"><span class=\"glyphicon glyphicon-headphones\"></span> Music</a></li>\n        <li><a href=\"#\"><i class=\"fa fa-futbol-o\" aria-hidden=\"true\"></i> Sport</a></li>\n        <li><a href=\"#\"><i class=\"fa fa-gamepad\" aria-hidden=\"true\"></i> Games</a></li>\n        <li><a href=\"#\"><i class=\"fa fa-video-camera\" aria-hidden=\"true\"></i> Other</a></li>\n        <hr>\n        <li><a href=\"http://acacha.org/mediawiki/Usuari:AlvaradoAdam15\"><i class=\"fa fa-creative-commons\" aria-hidden=\"true\"></i> Created by Adam Alvarado</a></li>\n        <li><a href=\"https://github.com/AlvaradoAdam15/LaravelTube\"><i class=\"fa fa-code\" aria-hidden=\"true\"></i> See code on GitHub</a></li>\n    </ul>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"sidebar-wrapper\">\n    <ul class=\"sidebar-nav\">\n        <li><a href=\"/home\"><span class=\"glyphicon glyphicon-home\"></span> My Home</a></li>\n        <li><a v-link=\"{ path: '/category/movie' }\"><span class=\"glyphicon glyphicon-film\"></span> Movie</a></li>\n        <li><a v-link=\"{ path: '/category/music' }\"><span class=\"glyphicon glyphicon-headphones\"></span> Music</a></li>\n        <li><a v-link=\"{ path: '/category/sport' }\"><i class=\"fa fa-futbol-o\" aria-hidden=\"true\"></i> Sport</a></li>\n        <li><a v-link=\"{ path: '/category/games' }\"><i class=\"fa fa-gamepad\" aria-hidden=\"true\"></i> Games</a></li>\n        <li><a v-link=\"{ path: '/category/other' }\"><i class=\"fa fa-video-camera\" aria-hidden=\"true\"></i> Other</a></li>\n        <li><a v-link=\"{ path: '/best' }\"><i class=\"fa fa-line-chart\" aria-hidden=\"true\"></i> Best Videos</a></li>\n        <hr>\n        <li><a href=\"http://acacha.org/mediawiki/Usuari:AlvaradoAdam15\"><i class=\"fa fa-creative-commons\" aria-hidden=\"true\"></i> Created by Adam Alvarado</a></li>\n        <li><a href=\"https://github.com/AlvaradoAdam15/LaravelTube\"><i class=\"fa fa-code\" aria-hidden=\"true\"></i> See code on GitHub</a></li>\n    </ul>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14677,8 +14739,8 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],33:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n#navigation {\n    background: #282828;\n}\nul>li:hover{\n    background-color: #00BE2D;\n}\n")
+},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],34:[function(require,module,exports){
+var __vueify_style__ = require("vueify-insert-css").insert("\n#navigation {\n    background: #282828;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14717,7 +14779,7 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!hotAPI.compatible) return
   var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/site-header/index.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n#navigation {\n    background: #282828;\n}\nul>li:hover{\n    background-color: #00BE2D;\n}\n"] = false
+    require("vueify-insert-css").cache["\n#navigation {\n    background: #282828;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -14726,7 +14788,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"./search-form.vue":34,"./user-login.vue":35,"./user-register.vue":36,"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],34:[function(require,module,exports){
+},{"./search-form.vue":35,"./user-login.vue":36,"./user-register.vue":37,"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],35:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n#searchForm {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-flex: 0;\n    -webkit-flex: 0 0 256px;\n        -ms-flex: 0 0 256px;\n            flex: 0 0 256px;\n    background: transparent;\n    margin-top: 10px;\n}\n\n#searchForm>input{\n    width: 250px;\n    height: 30px;\n    margin-top: 0;\n    border-radius: 12px;\n    border: 2px solid #181818;\n    font-family: 'Raleway', sans-serif;\n    color: #303030;\n    font-size: 13px;\n}\n\n#searchForm>input:focus {\n    outline: none;\n}\n")
 "use strict";
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -14746,7 +14808,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],35:[function(require,module,exports){
+},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],36:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.user-login{\n    font-family: 'Raleway', sans-serif;\n    font-size: 13px;\n}\n")
 "use strict";
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -14766,7 +14828,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],36:[function(require,module,exports){
+},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],37:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.user-register{\n    font-family: 'Raleway', sans-serif;\n    font-size: 13px;;\n}\n")
 "use strict";
 if (module.exports.__esModule) module.exports = module.exports.default
@@ -14786,7 +14848,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],37:[function(require,module,exports){
+},{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],38:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -14805,9 +14867,13 @@ var _vueResource = require('vue-resource');
 
 var _vueResource2 = _interopRequireDefault(_vueResource);
 
-var _bestVideosView = require('./components/main-wrapper/best-videos-view.vue');
+var _index = require('./components/main-wrapper/index.vue');
 
-var _bestVideosView2 = _interopRequireDefault(_bestVideosView);
+var _index2 = _interopRequireDefault(_index);
+
+var _videoView = require('./components/main-wrapper/video-view.vue');
+
+var _videoView2 = _interopRequireDefault(_videoView);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14822,19 +14888,29 @@ router.map({
             template: '<router-view></router-view>'
         },
         subRoutes: {
-            '/': {
-                component: _bestVideosView2.default
+            '/best': {
+                component: _index2.default
+            },
+            '/videos/:id': {
+                component: _videoView2.default
+            },
+            '/category/:name': {
+                component: _index2.default
+            },
+            '/search/:name': {
+                component: _index2.default
             }
         }
     }
 });
 
 router.redirect({
-    '*': '/'
+    '*': '/best',
+    '/': '/best'
 });
 
 router.start(_app2.default, 'app');
 
-},{"./app.vue":30,"./components/main-wrapper/best-videos-view.vue":31,"vue":28,"vue-resource":16,"vue-router":27}]},{},[37]);
+},{"./app.vue":30,"./components/main-wrapper/index.vue":31,"./components/main-wrapper/video-view.vue":32,"vue":28,"vue-resource":16,"vue-router":27}]},{},[38]);
 
 //# sourceMappingURL=main.js.map
