@@ -23,14 +23,9 @@
         }
     },
 
-    route: {
-        canReuse: function () {
-            return this.getVideo();
-        }
-    },
-
     ready: function(){
         this.getVideo();
+
     },
 
     methods:{
@@ -44,10 +39,7 @@
 </script>
 
 <style>
-    #my-video{
-        width:650px;
-        height:400px;
-    }
+
  .video-js, .vjs-control-bar{ color: #46FF62; }
 
     .video-js-responsive-container.vjs-hd {

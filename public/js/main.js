@@ -14670,7 +14670,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],32:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n   #my-video{\n       width:650px;\n       height:400px;\n   }\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\n\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14683,12 +14683,6 @@ exports.default = {
         };
     },
 
-
-    route: {
-        canReuse: function canReuse() {
-            return this.getVideo();
-        }
-    },
 
     ready: function ready() {
         this.getVideo();
@@ -14710,7 +14704,7 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!hotAPI.compatible) return
   var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/main-wrapper/video-view.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n   #my-video{\n       width:650px;\n       height:400px;\n   }\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n"] = false
+    require("vueify-insert-css").cache["\n\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -14790,9 +14784,27 @@ if (module.hot) {(function () {  module.hot.accept()
 })()}
 },{"./search-form.vue":35,"./user-login.vue":36,"./user-register.vue":37,"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],35:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n#searchForm {\n    display: -webkit-box;\n    display: -webkit-flex;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n    -webkit-align-items: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n    -webkit-justify-content: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-flex: 0;\n    -webkit-flex: 0 0 256px;\n        -ms-flex: 0 0 256px;\n            flex: 0 0 256px;\n    background: transparent;\n    margin-top: 10px;\n}\n\n#searchForm>input{\n    width: 250px;\n    height: 30px;\n    margin-top: 0;\n    border-radius: 12px;\n    border: 2px solid #181818;\n    font-family: 'Raleway', sans-serif;\n    color: #303030;\n    font-size: 13px;\n}\n\n#searchForm>input:focus {\n    outline: none;\n}\n")
-"use strict";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    data: function data() {
+        return {
+            name: ''
+        };
+    },
+
+
+    methods: {
+        search: function search() {
+            this.$route.router.go('/search/' + this.name);
+        }
+    }
+};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"side search showing\" id=\"searchForm\">\n    <input type=\"search\" placeholder=\" Search\">\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"side search showing\" id=\"searchForm\">\n    <input type=\"search\" @keyup.enter.prevent=\"search\" v-model=\"name\" placeholder=\" Search\">\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

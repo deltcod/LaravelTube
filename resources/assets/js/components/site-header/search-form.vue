@@ -1,11 +1,23 @@
 <template>
     <div class="side search showing" id="searchForm">
-        <input type="search" placeholder=" Search">
+        <input type="search" @keyup.enter.prevent="search" v-model="name" placeholder=" Search">
     </div>
 </template>
 
 <script>
+    export default{
+        data(){
+            return{
+                name: ''
+            }
+        },
 
+        methods:{
+            search: function(){
+                this.$route.router.go('/search/'+this.name);
+            }
+        }
+    }
 </script>
 
 <style>
