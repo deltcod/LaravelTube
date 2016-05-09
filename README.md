@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/AlvaradoAdam15/LaravelTube.svg?branch=master)](https://travis-ci.org/AlvaradoAdam15/LaravelTube)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AlvaradoAdam15/LaravelTube/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AlvaradoAdam15/LaravelTube/?branch=master)
 [![StyleCI](https://styleci.io/repos/56526883/shield)](https://styleci.io/repos/56526883)
+[![Coverage Status](https://coveralls.io/repos/github/AlvaradoAdam15/LaravelTube/badge.svg?branch=master)](https://coveralls.io/github/AlvaradoAdam15/LaravelTube?branch=master)
 
 Open source project about sharing videos platform built on Laravel
 
@@ -33,6 +34,9 @@ This packages use (no need to install):
 * [LaravelCollective/html](https://github.com/LaravelCollective/html)
 * [Vue.js](https://vuejs.org/)
 * [Video.js](http://videojs.com/)
+
+##Docs
+http://alvaradoadam15.github.io/LaravelTube/api/master/
 
 ## Packagist
 
