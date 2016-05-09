@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/AlvaradoAdam15/LaravelTube.svg?branch=master)](https://travis-ci.org/AlvaradoAdam15/LaravelTube)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AlvaradoAdam15/LaravelTube/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AlvaradoAdam15/LaravelTube/?branch=master)
 [![StyleCI](https://styleci.io/repos/56526883/shield)](https://styleci.io/repos/56526883)
+[![Coverage Status](https://coveralls.io/repos/github/AlvaradoAdam15/LaravelTube/badge.svg?branch=master)](https://coveralls.io/github/AlvaradoAdam15/LaravelTube?branch=master)
 
 Open source project about sharing videos platform built on Laravel
 
@@ -43,6 +44,9 @@ Execute:
 ```
 phpunit
 ```
+
+## Api doc
+http://alvaradoadam15.github.io/LaravelTube/api/
 
 ## Social Login
 If you want use Social login, you need configure in your file .env:
