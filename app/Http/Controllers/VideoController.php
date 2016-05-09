@@ -136,12 +136,12 @@ class VideoController extends ApiGuardController
 
         if ($validator->fails() || $file == null) {return $this->response->errorWrongArgsValidator($validator);}
 
-        Storage::put('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
+        Storage::disk('public')->put('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
 
         $video = new Video();
         $video->name = $request->input('name');
         $video->category = $request->input('category');
-        $video->path = storage_path('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension());
+        $video->path = Storage::url('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension());
         $video->likes = 0;
         $video->dislikes = 0;
 
@@ -192,6 +192,7 @@ class VideoController extends ApiGuardController
     public function destroy($id)
     {
         $video = Video::findOrFail($id);
+        Storage::disk('public')->delete($video->path);
         Video::destroy($video->id);
     }
 }
