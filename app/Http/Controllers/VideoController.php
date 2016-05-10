@@ -130,7 +130,7 @@ class VideoController extends ApiGuardController
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'category' => 'required',
-            'video' => 'mimes:mp4,x-flv,x-mpegURL,MP2T,3gpp,quicktime,x-msvideo,x-ms-wmv',
+            'video' => 'mimes:mp4',
         ]);
 
 

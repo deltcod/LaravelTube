@@ -26,7 +26,7 @@
     <app></app>
 
     <script src="{{ asset('/js/bootstrap.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('/plugins/videojs/video.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ asset('/plugins/videojs/video.min.js') }}"></script>
 </body>
 </html>

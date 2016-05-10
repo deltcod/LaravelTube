@@ -1,8 +1,6 @@
 <template>
     <div class="list-inline video-js-responsive-container vjs-hd">
-        <video id="my-video" class="video-js" controls preload="auto" data-setup='{"playbackRates": [1, 1.5, 2] }'>
-            <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4">
-
+        <video id="my-video" class="video-js" controls preload="auto" v-bind:src="video.path" data-setup='{"playbackRates": [1, 1.5, 2] }'>
             <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser that
                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
