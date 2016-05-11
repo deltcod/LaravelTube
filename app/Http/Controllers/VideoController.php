@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Linkthrow\Ffmpeg\Classes\FFMPEG;
 
 /**
  * Class VideoController.
@@ -127,21 +128,27 @@ class VideoController extends ApiGuardController
         $user = Auth::user();
         $file = $request->file('video');
 
+        if($file->getError() != 0){return $file->getErrorMessage();}
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'category' => 'required',
             'video' => 'mimes:mp4',
         ]);
 
-
         if ($validator->fails() || $file == null) {return $this->response->errorWrongArgsValidator($validator);}
 
-        Storage::disk('public')->put('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension(), file_get_contents($file->getRealPath()));
+        Storage::disk('public')->put('videos/'.$request->input('name').$user->id.'.mp4', file_get_contents($file->getRealPath()));
+
+        FFMPEG::convert()
+            ->input($file->getRealPath())
+            ->output(storage_path('app/public/videos/').$request->input('name').$user->id.'.webm')
+            ->go();
 
         $video = new Video();
         $video->name = $request->input('name');
         $video->category = $request->input('category');
-        $video->path = Storage::url('videos/'.$request->input('name').$user->id.'.'.$file->getClientOriginalExtension());
+        $video->path = Storage::url('videos/'.$request->input('name').$user->id);
         $video->likes = 0;
         $video->dislikes = 0;
 

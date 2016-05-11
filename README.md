@@ -23,6 +23,11 @@ php artisan key:generate
 gulp
 php artisan serve
 ```
+## Notes
+If you want convert videos to other formats, you need install 'FFMpeg' in your server and configure file config/ffmpeg.php
+
+If you want to upload files with more weight you have to change the settings of your php.ini
+
 
 #Requirements
 This packages use (no need to install):
@@ -34,6 +39,7 @@ This packages use (no need to install):
 * [LaravelCollective/html](https://github.com/LaravelCollective/html)
 * [Vue.js](https://vuejs.org/)
 * [Video.js](http://videojs.com/)
+* [FFMpeg](https://github.com/linkthrow/ffmpeg)
 
 ##Docs
 http://alvaradoadam15.github.io/LaravelTube/api/master/

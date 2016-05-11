@@ -180,7 +180,7 @@ class VideoAPITest extends TestCase
     {
         $user = factory(App\User::class)->create(['password' => Hash::make('passw0RD')]);
         $this->createUserApiKey($user);
-        $file = Storage::disk('public')->url('videos/demo.mp4');
+        $file = storage_path('app/public/videos/demo.mp4');
 
         $this->visit('/login')
             ->type($user->email, 'email')
@@ -192,7 +192,7 @@ class VideoAPITest extends TestCase
             ->type('Movie', 'category')
             ->attach($file, 'video')
             ->press('Upload')
-            ->seeInDatabase('videos', ['name' => 'demo', 'category'  => 'Movie', 'path' =>   Storage::disk('public')->url('videos/demo'.$user->id.'.mp4'), 'likes' => 0, 'dislikes' => 0]);
+            ->seeInDatabase('videos', ['name' => 'demo', 'category'  => 'Movie', 'path' =>   Storage::disk('public')->url('videos/demo'.$user->id), 'likes' => 0, 'dislikes' => 0]);
 
     }
 

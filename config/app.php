@@ -168,6 +168,10 @@ return [
         //ApiGuard
         Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider::class,
 
+        //FFMpeg
+        LinkThrow\Ffmpeg\Provider\FfmpegServiceProvider::class,
+
+
     ],
 
     /*
@@ -224,6 +228,9 @@ return [
 
         //ApiGuard
         'ApiGuardAuth' => \Chrisbjr\ApiGuard\Facades\ApiGuardAuth::class,
+
+        //FFMpeg
+        'FFMPEG'           => LinkThrow\Ffmpeg\Facade\FfmpegFacade::class,
 
     ],
 
