@@ -1,8 +1,8 @@
 <template>
     <div class="list-inline video-js-responsive-container vjs-hd">
         <video id="my-video" class="video-js" controls preload="auto" data-setup='{"playbackRates": [1, 1.5, 2] }'>
-            <source :src=video.path+'.mp4' type="video/mp4">
-            <source :src=video.path+'.webm' type="video/webm">
+            <source id="videoMp4" type="video/mp4">
+            <source id="videoWebm" type="video/webm">
             <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser that
                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
@@ -32,6 +32,11 @@
         getVideo: function(){
             this.$http.get('/api'+this.$route.path).then(function (response) {
                 this.$set('video', response.data.data);
+                $('#videoMp4').attr('src', response.data.data.path+'.mp4');
+                $('#videoWebm').attr('src', response.data.data.path+'.webm');
+                videojs("my-video", {}, function(){
+                    this.load();
+                });
             });
         }
     }

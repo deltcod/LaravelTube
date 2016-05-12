@@ -4,7 +4,7 @@
         <li v-for="video in videos">
             <a v-link="'/videos/' + video.id" id="videoLink"><div class="card videoList">
                 <video id="video" class="video-js">
-                    <source src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" type='video/mp4'>
+                    <source :src=video.path+'.mp4' type='video/mp4' />
                 </video>
                 <div class="card-block">
                     <button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
