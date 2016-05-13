@@ -2,9 +2,10 @@
     <h1 id="nameRoute">{{nameRoute}}</h1>
     <ul class="list-inline videoListCard">
         <li v-for="video in videos">
-            <a v-link="'/videos/' + video.id" id="videoLink"><div class="card videoList">
-                <video id="video" class="video-js">
-                    <source :src=video.path+'.mp4' type='video/mp4' />
+            <a v-link="'/videos/' + video.id" class="videoLink"><div class="card videoList">
+                <video class="video-js videoCard">
+                    <source :src=video.path+'.webm' type='video/webm'>
+                    <source :src=video.path+'.mp4' type='video/mp4'>
                 </video>
                 <div class="card-block">
                     <button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
@@ -45,7 +46,6 @@
                 } else {
                     this.$set('nameRoute', 'Best Videos');
                 }
-
             });
         }
     }
@@ -56,11 +56,11 @@
     #nameRoute{
         text-transform: capitalize;
     }
-    #videoLink{
-        text-decoration:  none;
+    .videoLink{
+        text-decoration:  none !important;
     }
 
-    #video{
+    .videoCard{
         width:350px;
         height:300px;
     }
