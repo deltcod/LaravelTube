@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>LaravelTube</title>
+    
+    <link rel="icon" type="image/x-icon" href="{{ asset('/img/favicon.ico') }}" />
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">

@@ -4,20 +4,32 @@
 	Home
 @endsection
 
+<style>
+	.glyphicon-refresh-animate {
+		-animation: spin .7s infinite linear;
+		-webkit-animation: spin2 .7s infinite linear;
+	}
+
+	@-webkit-keyframes spin2 {
+		from { -webkit-transform: rotate(0deg);}
+		to { -webkit-transform: rotate(360deg);}
+	}
+
+	@keyframes spin {
+		from { transform: scale(1) rotate(0deg);}
+		to { transform: scale(1) rotate(360deg);}
+	}
+</style>
 
 @section('main-content')
 	<div class="container spark-screen">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="panel panel-default">
-					{!! Form::open(
-    					array(
-        					'url' => 'api/videos?X-Authorization='.Auth::user()->apiKey->key,
-        					'method' => 'post',
-        					'class' => 'form',
-        					'novalidate' => 'novalidate',
-        					'files' => true)) !!}
+			<div class="col-md-12">
+				<div class="col-md-12" id="response"></div>
+				<form class="form-add-video" id="form-add-video" role="form" method="post" action="/api/videos">
 					<legend>Upload Video</legend>
+					<input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
+					<input type="hidden" id="api_token" name="_api_token" content="{{ Auth::user()->apiKey->key }}" />
 					<div class="form-group">
 						<label for="name"></label>
 						<input type="text" class="form-control" name="name" id="name" placeholder="Name">
@@ -40,10 +52,9 @@
 					</div>
 
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary">Upload</button>
+						<button type="submit" id="upload-button" class="btn btn-lg btn-primary col-md-12">Upload</button>
 					</div>
-					{!! Form::close() !!}
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

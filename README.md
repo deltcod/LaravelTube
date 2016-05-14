@@ -36,8 +36,8 @@ This packages use (no need to install):
 * [Laravel](http://laravel.com/)
 * [AdminLTE](https://github.com/almasaeed2010/AdminLTE). You can see and AdminLTE theme preview at: http://almsaeedstudio.com/preview/
 * [ApiGuard](https://github.com/chrisbjr/api-guard)
-* [LaravelCollective/html](https://github.com/LaravelCollective/html)
 * [Vue.js](https://vuejs.org/)
+* [Ajax and jQuery](http://api.jquery.com/jquery.ajax/)
 * [Video.js](http://videojs.com/)
 * [FFMpeg](https://github.com/linkthrow/ffmpeg)
 

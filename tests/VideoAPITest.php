@@ -178,22 +178,22 @@ class VideoAPITest extends TestCase
      */
     public function testVideosCanBePostedAndSavedIntoDatabase()
     {
-        $user = factory(App\User::class)->create(['password' => Hash::make('passw0RD')]);
+        $user = $this->createUser();
         $this->createUserApiKey($user);
         $file = storage_path('app/public/videos/demo.mp4');
+        $video = new Symfony\Component\HttpFoundation\File\UploadedFile(
+                $file,
+                'demo.mp4',
+                'video/mp4',
+                null,
+                null,
+                true
+            );
 
-        $this->visit('/login')
-            ->type($user->email, 'email')
-            ->type('passw0RD', 'password')
-            ->press('Sign In')
-            ->seePageIs('/home')
-            ->see($user->name)
-            ->type('demo', 'name')
-            ->type('Movie', 'category')
-            ->attach($file, 'video')
-            ->press('Upload')
-            ->seeInDatabase('videos', ['name' => 'demo', 'category'  => 'Movie', 'path' =>   Storage::disk('public')->url('videos/demo'.$user->id), 'likes' => 0, 'dislikes' => 0]);
-
+        $user = $this->createUser();
+        $data = ['name' => 'demo', 'category' => 'Movie', 'video' => $video];
+        $this->post('/api/videos',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('videos',['name' => 'demo', 'category' => 'Movie', 'path' => '/storage/videos/demo'.$user->id, 'likes' => 0, "dislikes" => 0]);
+        $this->get('/api/videos')->seeJsonContains(['name' => 'demo', 'category' => 'Movie', 'path' => '/storage/videos/demo'.$user->id, 'likes' => 0, "dislikes" => 0])->seeStatusCode(200);
     }
 
     /**

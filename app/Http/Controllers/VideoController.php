@@ -125,10 +125,9 @@ class VideoController extends ApiGuardController
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $file = $request->file('video');
 
-        if($file->getError() != 0){return $file->getErrorMessage();}
+        $user = Auth::user();
+        $file = $request->video;
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
@@ -137,6 +136,7 @@ class VideoController extends ApiGuardController
         ]);
 
         if ($validator->fails() || $file == null) {return $this->response->errorWrongArgsValidator($validator);}
+        if($file->getError() != 0){return $file->getErrorMessage();}
 
         Storage::disk('public')->put('videos/'.$request->input('name').$user->id.'.mp4', file_get_contents($file->getRealPath()));
 
