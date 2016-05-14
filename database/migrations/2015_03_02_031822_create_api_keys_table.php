@@ -25,10 +25,10 @@ class CreateApiKeysTable extends Migration
             $table->unique('key');
 
             // Let's index the user ID just in case you don't set it as a foreign key
-            $table->index('user_id');
+//            $table->index('user_id');
 
             // Uncomment the line below if you want to link user ids to your users table
-            //$table->foreign('user_id')->references('id')->on('users')->onDelete('set null');;
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');;
         });
 
         Schema::create('api_logs', function (Blueprint $table) {
@@ -61,7 +61,7 @@ class CreateApiKeysTable extends Migration
     public function down()
     {
         Schema::table('api_keys', function (Blueprint $table) {
-            //$table->dropForeign('api_keys_user_id_foreign');
+            $table->dropForeign('api_keys_user_id_foreign');
         });
 
         Schema::table('api_logs', function (Blueprint $table) {
