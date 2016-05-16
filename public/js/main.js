@@ -14764,6 +14764,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     components: { searchForm: _searchForm2.default, userLogin: _userLogin2.default, userRegister: _userRegister2.default },
 
+    data: function data() {
+        return {
+            isLoggedIn: $("meta[name=login-status]").attr('content')
+        };
+    },
+
+
     methods: {
         toogleSideMenu: function toogleSideMenu(event) {
             event.preventDefault();
@@ -14772,7 +14779,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\">\n    <div class=\"container\">\n        <button type=\"button\" class=\"navbar-toggle pull-left\" v-on:click=\"toogleSideMenu\">\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n            <search-form></search-form>\n        </div>\n        <div class=\"navbar-collapse collapse\">\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li><user-login></user-login></li>\n                <li><user-register></user-register></li>\n            </ul>\n        </div><!--/.nav-collapse -->\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"navigation\" class=\"navbar navbar-inverse navbar-fixed-top\">\n    <div class=\"container\">\n        <button type=\"button\" class=\"navbar-toggle pull-left\" v-on:click=\"toogleSideMenu\">\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n        </button>\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".navbar-collapse\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n            <search-form></search-form>\n        </div>\n        <div class=\"navbar-collapse collapse\">\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li v-if=\"isLoggedIn != 1\"><user-login></user-login></li>\n                <li v-if=\"isLoggedIn != 1\"><user-register></user-register></li>\n                <li v-else=\"\"><a href=\"/home\"><span class=\"glyphicon glyphicon-home\"></span> My Home</a></li>\n            </ul>\n        </div><!--/.nav-collapse -->\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

@@ -28,7 +28,7 @@
 				<div class="col-md-12" id="response"></div>
 				<form class="form-add-video" id="form-add-video" role="form" method="post" action="/api/videos">
 					<legend>Upload Video</legend>
-					<input type="hidden" name="_token" value="{{{ Session::getToken() }}}">
+					<input type="hidden" name="_token" value="{{ Session::getToken() }}">
 					<input type="hidden" id="api_token" name="_api_token" content="{{ Auth::user()->apiKey->key }}" />
 					<div class="form-group">
 						<label for="name"></label>

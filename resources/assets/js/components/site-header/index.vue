@@ -16,8 +16,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><user-login></user-login></li>
-                    <li><user-register></user-register></li>
+                    <li v-if="isLoggedIn != 1"><user-login></user-login></li>
+                    <li v-if="isLoggedIn != 1"><user-register></user-register></li>
+                    <li v-else><a href="/home"><span class="glyphicon glyphicon-home"></span> My Home</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -30,6 +31,12 @@
     import userRegister from './user-register.vue';
     export default{
         components: { searchForm, userLogin, userRegister},
+
+        data(){
+            return{
+                isLoggedIn: $("meta[name=login-status]").attr('content'),
+            }
+        },
 
         methods: {
             toogleSideMenu: function (event) {
