@@ -13,6 +13,7 @@ $iterator = Finder::create()
     ->in($dir = __DIR__.'/LaravelTube/app');
 
 $versions = GitVersionCollection::create($dir)
+    ->add('v0.1', 'LaravelTube 0.1')
     ->add('master', 'LaravelTube Dev');
 
 return new Sami($iterator, array(
