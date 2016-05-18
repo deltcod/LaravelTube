@@ -78,7 +78,7 @@ class AcachaAdminLTELaravelTest extends TestCase
             ->type($user->email, 'email')
             ->type('passw0RD', 'password')
             ->press('Sign In')
-            ->seePageIs('/home')
+            ->seePageIs('/upload')
             ->see($user->name);
     }
 
@@ -124,7 +124,7 @@ class AcachaAdminLTELaravelTest extends TestCase
      */
     public function testHomePageForUnauthenticatedUsers()
     {
-        $this->visit('/home')
+        $this->visit('/upload')
             ->seePageIs('/login');
     }
 
@@ -139,7 +139,7 @@ class AcachaAdminLTELaravelTest extends TestCase
         $this->createUserApiKey($user);
 
         $this->actingAs($user)
-            ->visit('/home')
+            ->visit('/upload')
             ->see($user->name);
     }
 
@@ -184,7 +184,7 @@ class AcachaAdminLTELaravelTest extends TestCase
             ->type('passw0RD', 'password')
             ->type('passw0RD', 'password_confirmation')
             ->press('Register')
-            ->seePageIs('/home')
+            ->seePageIs('/upload')
             ->seeInDatabase('users', ['email' => 'sergiturbadenas@gmail.com',
                                       'name'  => 'Sergi Tur Badenas', ]);
     }
