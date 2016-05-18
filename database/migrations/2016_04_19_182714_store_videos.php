@@ -17,8 +17,8 @@ class StoreVideos extends Migration
             $table->string('name');
             $table->string('category');
             $table->string('path');
-            $table->integer('likes');
-            $table->integer('dislikes');
+            $table->integer('likes')->default(0);
+            $table->integer('dislikes')->default(0);
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade')

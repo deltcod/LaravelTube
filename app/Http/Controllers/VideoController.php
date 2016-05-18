@@ -24,6 +24,11 @@ class VideoController extends ApiGuardController
     protected $videoTransformer;
 
     /**
+     * @var Video
+     */
+    protected $video;
+
+    /**
      * @var array
      */
     protected $apiMethods = [
@@ -58,12 +63,14 @@ class VideoController extends ApiGuardController
     /**
      * VideoController constructor.
      * @param VideoTransformer $videoTransformer
+     * @param Video $video
      */
-    public function __construct(VideoTransformer $videoTransformer)
+    public function __construct(Video $video, VideoTransformer $videoTransformer)
     {
         parent::__construct();
 
         $this->videoTransformer = $videoTransformer;
+        $this->video = $video;
     }
 
     /**
@@ -120,7 +127,7 @@ class VideoController extends ApiGuardController
     /**
      * Store a newly created video in storage.
      *
-     * @param Request $request
+     * @param VideoUploadRequest $request
      *
      * @return mixed
      */
@@ -129,22 +136,14 @@ class VideoController extends ApiGuardController
 
         $user = Auth::user();
         $file = $request->video;
-
         $nameFile = str_replace(' ', '', $request->input('name').$user->id);
 
-        Storage::disk('public')->put('videos/'.$nameFile.'.mp4', file_get_contents($file->getRealPath()));
+        $this->saveAndConvert($file, $nameFile);
 
-        FFMPEG::convert()
-            ->input($file->getRealPath())
-            ->output(storage_path('app/public/videos/').$nameFile.'.webm')
-            ->go();
-
-        $video = new Video();
+        $video = $this->video;
         $video->name = $request->input('name');
         $video->category = $request->input('category');
         $video->path = Storage::url('videos/'.$nameFile);
-        $video->likes = 0;
-        $video->dislikes = 0;
 
         $user->getVideos()->save($video);
 
@@ -180,6 +179,8 @@ class VideoController extends ApiGuardController
         $video->likes = $request->input('likes');
         $video->dislikes = $request->input('dislikes');
         $video->save();
+
+        return $this->response->withItem($video, $this->videoTransformer);
     }
 
     /**
@@ -192,8 +193,21 @@ class VideoController extends ApiGuardController
     public function destroy($id)
     {
         $video = Video::findOrFail($id);
+
         $nameFile = str_replace('storage/', '', $video->path);
+
         Storage::disk('public')->delete([$nameFile.'.mp4', $nameFile.'.webm']);
+
         Video::destroy($video->id);
+    }
+
+    private function saveAndConvert($video, $name)
+    {
+        Storage::disk('public')->put('videos/'.$name.'.mp4', file_get_contents($video->getRealPath()));
+
+        FFMPEG::convert()
+            ->input($video->getRealPath())
+            ->output(storage_path('app/public/videos/').$name.'.webm')
+            ->go();
     }
 }
