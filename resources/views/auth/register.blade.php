@@ -9,7 +9,7 @@
     <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="{{ url('/home') }}"><b>Laravel</b>Tube</a>
+            <a href="{{ url('/upload') }}"><b>Laravel</b>Tube</a>
         </div>
 
         @if (count($errors) > 0)

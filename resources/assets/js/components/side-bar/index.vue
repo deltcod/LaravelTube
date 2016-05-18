@@ -1,7 +1,7 @@
 <template>
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-            <li><a href="/home"><span class="glyphicon glyphicon-home"></span> My Home</a></li>
+            <li><a href="/upload"><span class="glyphicon glyphicon-home"></span> My Home</a></li>
             <li><a v-link="{ path: '/category/movie' }"><span class="glyphicon glyphicon-film"></span> Movie</a></li>
             <li><a v-link="{ path: '/category/music' }"><span class="glyphicon glyphicon-headphones"></span> Music</a></li>
             <li><a v-link="{ path: '/category/sport' }"><i class="fa fa-futbol-o" aria-hidden="true"></i> Sport</a></li>

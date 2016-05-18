@@ -45,7 +45,7 @@ class SocialAuthController extends Controller
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
 
-        return Redirect::to('home');
+        return Redirect::to('upload');
     }
 
 

@@ -18,7 +18,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li v-if="isLoggedIn != 1"><user-login></user-login></li>
                     <li v-if="isLoggedIn != 1"><user-register></user-register></li>
-                    <li v-else><a href="/home"><span class="glyphicon glyphicon-home"></span> My Home</a></li>
+                    <li v-else><a href="/upload"><span class="glyphicon glyphicon-home"></span> My Home</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

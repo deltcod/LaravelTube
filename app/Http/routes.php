@@ -23,3 +23,6 @@ Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleAuthenti
 
 //My Videos
 Route::get('myvideos', 'MyVideosController@index');
+
+//Upload
+Route::get('upload', 'UploadController@index');
