@@ -8,10 +8,10 @@
                     <source :src=video.path+'.mp4' type='video/mp4'>
                 </video>
                 <div class="card-block">
+                    <p class='label label-info pull-right'>{{video.category}}</p>
+                    <h4 class="card-text">{{ video.name.substring(0,20) }}</h4>
                     <button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
-                    <button type="button" class="btn btn-success pull-right"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
-                    <h4 class="card-text">{{ video.name.substring(0,17) }}</h4>
-                    <p>{{ video.category }}</p>
+                    <button type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
                 </div>
             </div></a>
         </li>
@@ -21,39 +21,44 @@
 <script>
     export default{
         data(){
-        return{
-            videos:[],
-            nameRoute:''
-        }
-    },
+            return{
+                videos:[],
+                nameRoute:''
+            }
+        },
 
-    route: {
-        canReuse: function () {
-            return this.getVideos();
-        }
-    },
+        route: {
+            canReuse: function () {
+                return this.getVideos();
+            }
+        },
 
-    ready: function(){
-        this.getVideos();
-    },
+        ready: function(){
+            this.getVideos();
+        },
 
-    methods:{
-        getVideos: function(){
-            this.$http.get('/api/videos'+this.$route.path).then(function (response) {
-                this.$set('videos', response.data.data);
-                if(this.$route.params.name != null){
-                    this.$set('nameRoute', this.$route.params.name);
-                } else {
-                    this.$set('nameRoute', 'Best Videos');
-                }
-            });
+        methods:{
+            getVideos: function(){
+                this.$http.get('/api/videos'+this.$route.path).then(function (response) {
+                    this.$set('videos', response.data.data);
+                    if(this.$route.params.name != null){
+                        this.$set('nameRoute', this.$route.params.name);
+                    } else {
+                        this.$set('nameRoute', 'Best Videos');
+                    }
+                });
+            }
         }
-    }
     }
 </script>
 
 <style>
-    #nameRoute{
+
+    .videoList {
+        margin-bottom: 20px !important;
+    }
+
+    h1, h2, h3, h4{
         text-transform: capitalize;
     }
     .videoLink{

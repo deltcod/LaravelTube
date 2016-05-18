@@ -23,18 +23,16 @@
         font-family: 'Raleway', sans-serif;
     }
 
-    ul>li:hover{
+    .nav>li:hover, .sidebar-nav>li:hover{
         background-color: #00BE2D;
     }
 
     .v-link-active{
-
         border-left: 3px solid #46FF62;
         color: white !important;
     }
 
-    .videoListCard>li:hover{
-        background-color: transparent;
+    .videoList:hover{
         border: 1px solid #46FF62;
     }
     .videoList{

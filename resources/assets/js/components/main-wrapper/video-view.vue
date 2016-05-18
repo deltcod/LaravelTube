@@ -9,8 +9,8 @@
             </p>
         </video>
     </div>
-    <h1 id="nameRoute">{{video.name}}</h1>
-    <p>{{ video.category }}</p>
+    <h1>{{video.name}}</h1>
+    <hr />
     <button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
     <button type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
 </template>
@@ -18,29 +18,29 @@
 <script>
     export default{
         data(){
-        return{
-            video:[],
-        }
-    },
+            return{
+                video:[],
+            }
+        },
 
-    ready: function(){
-        this.getVideo();
+        ready: function(){
+            this.getVideo();
 
-    },
+        },
 
-    methods:{
-        getVideo: function(){
-            this.$http.get('/api'+this.$route.path).then(function (response) {
-                this.$set('video', response.data.data);
-                $('#videoMp4').attr('src', response.data.data.path+'.mp4');
-                $('#videoWebm').attr('src', response.data.data.path+'.webm');
-                videojs(document.getElementsByClassName('video-js')[0], {}, function(){
-                    this.load();
-                    this.play();
+        methods:{
+            getVideo: function(){
+                this.$http.get('/api'+this.$route.path).then(function (response) {
+                    this.$set('video', response.data.data);
+                    $('#videoMp4').attr('src', response.data.data.path+'.mp4');
+                    $('#videoWebm').attr('src', response.data.data.path+'.webm');
+                    videojs(document.getElementsByClassName('video-js')[0], {}, function(){
+                        this.load();
+                        this.play();
+                    });
                 });
-            });
+            }
         }
-    }
     }
 </script>
 

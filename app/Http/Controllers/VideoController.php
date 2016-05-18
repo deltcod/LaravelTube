@@ -138,17 +138,19 @@ class VideoController extends ApiGuardController
         if ($validator->fails() || $file == null) {return $this->response->errorWrongArgsValidator($validator);}
         if($file->getError() != 0){return $file->getErrorMessage();}
 
-        Storage::disk('public')->put('videos/'.$request->input('name').$user->id.'.mp4', file_get_contents($file->getRealPath()));
+        $nameFile = str_replace(' ', '', $request->input('name').$user->id);
+
+        Storage::disk('public')->put('videos/'.$nameFile.'.mp4', file_get_contents($file->getRealPath()));
 
         FFMPEG::convert()
             ->input($file->getRealPath())
-            ->output(storage_path('app/public/videos/').$request->input('name').$user->id.'.webm')
+            ->output(storage_path('app/public/videos/').$nameFile.'.webm')
             ->go();
 
         $video = new Video();
         $video->name = $request->input('name');
         $video->category = $request->input('category');
-        $video->path = Storage::url('videos/'.$request->input('name').$user->id);
+        $video->path = Storage::url('videos/'.$nameFile);
         $video->likes = 0;
         $video->dislikes = 0;
 
@@ -183,7 +185,6 @@ class VideoController extends ApiGuardController
 
         $video->name = $request->input('name');
         $video->category = $request->input('category');
-        $video->path =$request->input('path');
         $video->likes = $request->input('likes');
         $video->dislikes = $request->input('dislikes');
         $video->save();
@@ -199,7 +200,8 @@ class VideoController extends ApiGuardController
     public function destroy($id)
     {
         $video = Video::findOrFail($id);
-        Storage::disk('public')->delete($video->path);
+        $nameFile = str_replace('storage/', '', $video->path);
+        Storage::disk('public')->delete([$nameFile.'.mp4', $nameFile.'.webm']);
         Video::destroy($video->id);
     }
 }

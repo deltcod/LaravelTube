@@ -4,32 +4,14 @@
 	Home
 @endsection
 
-<style>
-	.glyphicon-refresh-animate {
-		-animation: spin .7s infinite linear;
-		-webkit-animation: spin2 .7s infinite linear;
-	}
-
-	@-webkit-keyframes spin2 {
-		from { -webkit-transform: rotate(0deg);}
-		to { -webkit-transform: rotate(360deg);}
-	}
-
-	@keyframes spin {
-		from { transform: scale(1) rotate(0deg);}
-		to { transform: scale(1) rotate(360deg);}
-	}
-</style>
-
 @section('main-content')
 	<div class="container spark-screen">
 		<div class="row">
-			<div class="col-md-12">
-				<div class="col-md-12" id="response"></div>
+			<div class="col-md-10">
+				<div id="response"></div>
 				<form class="form-add-video" id="form-add-video" role="form" method="post" action="/api/videos">
 					<legend>Upload Video</legend>
 					<input type="hidden" name="_token" value="{{ Session::getToken() }}">
-					<input type="hidden" id="api_token" name="_api_token" content="{{ Auth::user()->apiKey->key }}" />
 					<div class="form-group">
 						<label for="name"></label>
 						<input type="text" class="form-control" name="name" id="name" placeholder="Name">

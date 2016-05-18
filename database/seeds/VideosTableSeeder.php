@@ -19,7 +19,7 @@ class VideosTableSeeder extends Seeder
         $video = new Video();
         $video->name = 'demo';
         $video->category = 'Movie';
-        $video->path =  Storage::disk('public')->url('videos/demo');
+        $video->path =  Storage::url('videos/demo');
         $video->likes = 450;
         $video->dislikes = 250;
 

@@ -3,6 +3,11 @@
     <title> LaravelTube </title>
     <link rel="icon" type="image/x-icon" href="{{ asset('/img/favicon.ico') }}" />
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    {{--User--}}
+    <meta name="user" content="{{ Auth::user() }}">
+    @if (Auth::user() != null)
+        <meta name="api_token" content="{{ Auth::user()->apiKey->key }}">
+    @endif
     <!-- Bootstrap 3.3.4 -->
     <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
@@ -11,6 +16,7 @@
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="{{ asset('/css/AdminLTE.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/all.css') }}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
           page. However, you can choose any other skin. Make sure you
           apply the skin class to the body tag so the changes take effect.

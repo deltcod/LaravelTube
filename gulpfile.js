@@ -20,7 +20,7 @@ elixir(function(mix) {
     mix.less('admin-lte/AdminLTE.less');
     mix.less('bootstrap/bootstrap.less');
     mix.browserify('main.js');
-    mix.scripts([
-        'upload-video.js'
-    ]);
+    mix.browserify('my-videos.js');
+    mix.scripts(['  upload-video.js']);
+    mix.styles(['upload-video.css','my-videos.css']);
 });

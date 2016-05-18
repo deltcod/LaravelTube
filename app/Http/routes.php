@@ -21,3 +21,5 @@ Route::get('/', function () {
 Route::get('auth/{provider}', 'Auth\SocialAuthController@redirectToAuthenticationServiceProvider');
 Route::get('auth/{provider}/callback', 'Auth\SocialAuthController@handleAuthenticationServiceProviderCallback');
 
+//My Videos
+Route::get('myvideos', 'MyVideosController@index');
