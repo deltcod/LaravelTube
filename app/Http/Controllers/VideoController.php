@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VideoUploadRequest;
 use App\Transformers\VideoTransformer;
 use App\User;
 use App\Video;
@@ -123,20 +124,11 @@ class VideoController extends ApiGuardController
      *
      * @return mixed
      */
-    public function store(Request $request)
+    public function store(VideoUploadRequest $request)
     {
 
         $user = Auth::user();
         $file = $request->video;
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
-            'category' => 'required',
-            'video' => 'mimes:mp4',
-        ]);
-
-        if ($validator->fails() || $file == null) {return $this->response->errorWrongArgsValidator($validator);}
-        if($file->getError() != 0){return $file->getErrorMessage();}
 
         $nameFile = str_replace(' ', '', $request->input('name').$user->id);
 

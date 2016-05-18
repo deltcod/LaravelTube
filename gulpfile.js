@@ -21,6 +21,6 @@ elixir(function(mix) {
     mix.less('bootstrap/bootstrap.less');
     mix.browserify('main.js');
     mix.browserify('my-videos.js');
-    mix.scripts(['  upload-video.js']);
+    mix.scripts(['upload-video.js']);
     mix.styles(['upload-video.css','my-videos.css']);
 });

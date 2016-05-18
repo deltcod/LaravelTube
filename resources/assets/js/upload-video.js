@@ -29,7 +29,7 @@ $('.form-add-video button[type=submit]').click(function(e){
             if(data.status == 429){
                 $('#response').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Upps!</strong> Error to upload video. You have exceeded the limit for videos in one hour.</div>');
             }else{
-                $('#response').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Upps!</strong> Error to upload video. Please fill all camps and review you video type. Only accept MP4.</div>');
+                $('#response').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Upps!</strong> Error to upload video. Please fill all camps and review you video type. Only accept 2Mb size and MP4 type</div>');
             }
             console.log(data);
         }
