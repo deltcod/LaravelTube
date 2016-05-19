@@ -32,6 +32,8 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get videos
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function getVideos()
@@ -40,6 +42,8 @@ class User extends Authenticatable
     }
 
     /**
+     * Get ApiKey
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function apiKey()

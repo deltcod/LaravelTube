@@ -1,9 +1,9 @@
 <?php
 
 use App\User;
+use App\Video;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Created by PhpStorm.
@@ -22,7 +22,7 @@ class VideoAPITest extends TestCase
      */
     public function createUser()
     {
-        $user = factory(App\User::class)->create();
+        $user = factory(User::class)->create();
         $this->createUserApiKey($user);
 
         return $user;
@@ -47,7 +47,7 @@ class VideoAPITest extends TestCase
     private function createFakeVideo($user)
     {
         $faker = Faker\Factory::create();
-        $video = new \App\Video();
+        $video = new Video();
         $video->name = $faker->sentence;
         $video->category = $faker->word;
         $video->path = $faker->url;
@@ -102,11 +102,11 @@ class VideoAPITest extends TestCase
     }
 
     /**
-     * Test Video Return 404 on video not exsists.
+     * Test Video Return 404 on video not exists.
      *
      * @return void
      */
-    public function testVideoReturn404OnVideoNotExsists()
+    public function testVideoReturn404OnVideoNotExists()
     {
         $this->get('/api/videos/50000')->seeJson()->seeStatusCode(404);
     }
@@ -190,7 +190,6 @@ class VideoAPITest extends TestCase
                 true
             );
 
-        $user = $this->createUser();
         $data = ['name' => 'demo', 'category' => 'Movie', 'video' => $video];
         $this->post('/api/videos',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('videos',['name' => 'demo', 'category' => 'Movie', 'path' => '/storage/videos/demo'.$user->id, 'likes' => 0, "dislikes" => 0]);
         $this->get('/api/videos')->seeJsonContains(['name' => 'demo', 'category' => 'Movie', 'path' => '/storage/videos/demo'.$user->id, 'likes' => 0, "dislikes" => 0])->seeStatusCode(200);

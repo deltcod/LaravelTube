@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoUploadRequest;
 use App\Transformers\VideoTransformer;
-use App\User;
-use App\Video;
+use App\Repositories\VideoRepository as Video;
+use App\Repositories\UserRepository as User;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Linkthrow\Ffmpeg\Classes\FFMPEG;
 
 /**
@@ -64,13 +62,15 @@ class VideoController extends ApiGuardController
      * VideoController constructor.
      * @param VideoTransformer $videoTransformer
      * @param Video $video
+     * @param User $user
      */
-    public function __construct(Video $video, VideoTransformer $videoTransformer)
+    public function __construct(Video $video,User $user, VideoTransformer $videoTransformer)
     {
         parent::__construct();
 
         $this->videoTransformer = $videoTransformer;
         $this->video = $video;
+        $this->user = $user;
     }
 
     /**
@@ -78,7 +78,7 @@ class VideoController extends ApiGuardController
      */
     public function getAllVideos()
     {
-        $video = Video::all();
+        $video = $this->video->all();
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -88,7 +88,7 @@ class VideoController extends ApiGuardController
      */
     public function getBestVideos()
     {
-        $video = Video::all()->sortByDesc('likes');
+        $video = $this->video->best();
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -98,7 +98,7 @@ class VideoController extends ApiGuardController
      */
     public function getVideosUser($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->user->findOrFail($id);
         $video = $user->getVideos;
 
         return $this->response->withCollection($video, $this->videoTransformer);
@@ -109,7 +109,7 @@ class VideoController extends ApiGuardController
      */
     public function getVideosForCategory($name)
     {
-        $video = Video::where('category', $name)->get()->sortByDesc('likes');
+        $video = $this->video->findBy('category', $name);
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -119,7 +119,7 @@ class VideoController extends ApiGuardController
      */
     public function getVideosForSearch($search)
     {
-        $video = Video::where("name", "LIKE", "%$search%")->get()->sortBy('name');
+        $video = $this->video->search('name', $search);
 
         return $this->response->withCollection($video, $this->videoTransformer);
     }
@@ -134,18 +134,20 @@ class VideoController extends ApiGuardController
     public function store(VideoUploadRequest $request)
     {
 
-        $user = Auth::user();
+        $user = $this->user->authenticated();
         $file = $request->video;
         $nameFile = str_replace(' ', '', $request->input('name').$user->id);
 
+        $data = array(
+            'name' => $request->input('name'),
+            'category' => $request->input('category'),
+            'path' => Storage::url('videos/'.$nameFile),
+            'user_id' => $user->id,
+        );
+
+        $video = $this->video->create($data);
+
         $this->saveAndConvert($file, $nameFile);
-
-        $video = $this->video;
-        $video->name = $request->input('name');
-        $video->category = $request->input('category');
-        $video->path = Storage::url('videos/'.$nameFile);
-
-        $user->getVideos()->save($video);
 
         return $this->response->withItem($video, $this->videoTransformer);
     }
@@ -157,7 +159,7 @@ class VideoController extends ApiGuardController
      */
     public function show($id)
     {
-        $video = Video::findOrFail($id);
+        $video = $this->video->findOrFail($id);
 
         return $this->response->withItem($video, $this->videoTransformer);
     }
@@ -172,13 +174,9 @@ class VideoController extends ApiGuardController
      */
     public function update(Request $request, $id)
     {
-        $video = Video::findOrFail($id);
+        $video = $this->video->findOrFail($id);
 
-        $video->name = $request->input('name');
-        $video->category = $request->input('category');
-        $video->likes = $request->input('likes');
-        $video->dislikes = $request->input('dislikes');
-        $video->save();
+        $this->video->update($request->all(), $id);
 
         return $this->response->withItem($video, $this->videoTransformer);
     }
@@ -192,15 +190,21 @@ class VideoController extends ApiGuardController
      */
     public function destroy($id)
     {
-        $video = Video::findOrFail($id);
+        $video = $this->video->findOrFail($id);
 
         $nameFile = str_replace('storage/', '', $video->path);
 
         Storage::disk('public')->delete([$nameFile.'.mp4', $nameFile.'.webm']);
 
-        Video::destroy($video->id);
+        $this->video->delete($id);
     }
 
+    /**
+     * Save and Convert to webm video
+     *
+     * @param $video
+     * @param $name
+     */
     private function saveAndConvert($video, $name)
     {
         Storage::disk('public')->put('videos/'.$name.'.mp4', file_get_contents($video->getRealPath()));
