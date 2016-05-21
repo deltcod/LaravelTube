@@ -115,7 +115,7 @@ abstract class Repository implements RepositoryInterface {
      * @return mixed
      */
     public function findBy($attribute, $value, $columns = array('*')) {
-        return $this->model->where($attribute, '=', $value)->first($columns)->get();
+        return $this->model->where($attribute, '=', $value)->get();
     }
     /**
      * @return Model|mixed
