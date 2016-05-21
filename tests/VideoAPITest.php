@@ -116,6 +116,8 @@ class VideoAPITest extends TestCase
      */
     public function testBestVideosUseJson()
     {
+        $user = $this->createUser();
+        $this->createFakeVideo($user);
         $this->get('/api/videos/best')->seeJson()->seeStatusCode(200);
     }
 
