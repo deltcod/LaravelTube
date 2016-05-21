@@ -5,25 +5,23 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Video
- *
- * @property $name
- * @property $category
- * @property $path
- * @property $likes
- * @property $dislikes
- *
+ * Class LikeDislike
  * @package App
  */
-
-class Video extends Model
+class LikeDislike extends Model
 {
+    /**
+     * Table name
+     * @var string
+     */
+    protected $table = "likes_dislikes";
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'category', 'path', 'user_id'];
+    protected $fillable = ['user_id', 'video_id', 'type'];
 
 
     /**
@@ -33,24 +31,23 @@ class Video extends Model
      */
     protected $hidden = [];
 
-
     /**
-     * Get User
+     * User relation
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getUser()
+    public function user()
     {
         return $this->belongsTo(\App\User::class);
     }
 
     /**
-     * Get likes
+     * Video relation
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function getLikes()
+    public function video()
     {
-        return $this->hasMany(\App\LikeDislike::class);
+        return $this->belongsTo(\App\Video::class);
     }
 }

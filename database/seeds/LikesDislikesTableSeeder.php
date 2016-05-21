@@ -1,12 +1,12 @@
 <?php
 
+use App\LikeDislike;
 use App\User;
 use App\Video;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
-class VideosTableSeeder extends Seeder
+class LikesDislikesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,26 @@ class VideosTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = $this->createUser();
-        $video = new Video();
-        $video->name = 'demo';
-        $video->category = 'Movie';
-        $video->path =  Storage::url('videos/demo');
+        $video = Video::find(1);
+        $type = array(
+            'like',
+            'dislike'
+        );
 
-        $user->getVideos()->save($video);
+        for($i=0; $i<100; $i++)
+        {
+            $user = $this->createUser();
+            $key = array_rand($type);
+
+            $data = array(
+                'user_id' => $user->id,
+                'video_id' => $video->id,
+                'type' => $type[$key],
+            );
+
+
+            LikeDislike::create($data);
+        }
     }
 
     /**

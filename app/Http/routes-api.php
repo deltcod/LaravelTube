@@ -11,4 +11,11 @@ Route::group(['prefix' => 'api/'], function () {
     Route::get('videos/{id}', 'VideoController@show');
     Route::put('videos/{id}', 'VideoController@update');
     Route::delete('videos/{id}', 'VideoController@destroy');
+
+    //Likes
+    Route::get('videos/{id}/likes', 'LikeDislikeController@getLikes');
+    Route::get('videos/{id}/likes/count', 'LikeDislikeController@getLikesCount');
+    Route::get('videos/{id}/dislikes', 'LikeDislikeController@getDislikes');
+    Route::get('videos/{id}/dislikes/count', 'LikeDislikeController@getDislikesCount');
+    Route::post('videos/{id}/like-dislike', 'LikeDislikeController@store');
 });

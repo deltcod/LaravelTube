@@ -212,6 +212,7 @@ class VideoController extends ApiGuardController
         FFMPEG::convert()
             ->input($video->getRealPath())
             ->output(storage_path('app/public/videos/').$name.'.webm')
+            ->overwrite(true)
             ->go();
     }
 }

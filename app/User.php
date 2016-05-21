@@ -50,4 +50,14 @@ class User extends Authenticatable
     {
         return $this->hasOne('Chrisbjr\ApiGuard\Models\ApiKey');
     }
+
+    /**
+     * Get likes
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getLikes()
+    {
+        return $this->hasMany(\App\LikeDislike::class);
+    }
 }

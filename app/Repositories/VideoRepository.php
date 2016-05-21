@@ -20,6 +20,6 @@ class VideoRepository extends Repository
      */
     public function best()
     {
-        return Video::all()->sortByDesc('likes');
+        return Video::all()->sortByDesc('id');
     }
 }

@@ -1,14 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: adam
- * Date: 20/04/16
- * Time: 16:54.
- */
+
 namespace App\Transformers;
 
+/**
+ * Class VideoTransformer
+ * @package App\Transformers
+ */
 class VideoTransformer extends Transformer
 {
+    /**
+     * @param $video
+     * @return array
+     */
     public function transform($video)
     {
         return [
@@ -16,8 +19,6 @@ class VideoTransformer extends Transformer
             'name'     => $video['name'],
             'category' => $video['category'],
             'path'     => $video['path'],
-            'likes'    => (int) $video['likes'],
-            'dislikes' => (int) $video['dislikes'],
         ];
     }
 }
