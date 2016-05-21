@@ -40,3 +40,5 @@ router.redirect({
 })
 
 router.start(App, 'app')
+
+Vue.http.headers.common['X-Authorization'] = $('meta[name=api_token]').attr("content");

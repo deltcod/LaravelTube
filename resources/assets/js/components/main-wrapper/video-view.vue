@@ -11,15 +11,20 @@
     </div>
     <h1>{{video.name}}</h1>
     <hr />
-    <button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
-    <button type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
+    <div id="errorLogin"></div>
+    <button type="button" @click="likeDislike(isLoggedIn, 'dislike')" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ dislikes }}</button>
+    <button type="button" @click="likeDislike(isLoggedIn, 'like')" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ likes }}</button>
 </template>
 
 <script>
     export default{
         data(){
             return{
-                video:[],
+                video:'',
+                likes:'',
+                dislikes:'',
+                isLoggedIn: $("meta[name=login-status]").attr('content'),
+                api_token:$('meta[name=api_token]').attr("content"),
             }
         },
 
@@ -38,7 +43,35 @@
                         this.load();
                         this.play();
                     });
+                    this.$http.get('/api/videos/'+response.data.data.id+'/likes/count').then(function (response) {
+                        this.$set('likes', response.data);
+                    });
+                    this.$http.get('/api/videos/'+response.data.data.id+'/dislikes/count').then(function (response) {
+                        this.$set('dislikes', response.data);
+                    });
                 });
+            },
+            likeDislike: function(isLoggedIn, type){
+
+                var checkLogin= this.checkLogin(isLoggedIn);
+                if(!checkLogin){
+                    $('#response div').remove();
+                    $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+                } else{
+                    var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
+                    this.$http.post('/api/videos/'+this.video.id+'/like-dislike', {user_id: user.id,  video_id: this.video.id, type: type}).then(function (response) {
+                        this.getVideo();
+                    });
+                }
+
+            },
+
+            checkLogin: function(isLoggedIn){
+                if(isLoggedIn == 1){
+                    return true;
+                } else{
+                    return false;
+                }
             }
         }
     }

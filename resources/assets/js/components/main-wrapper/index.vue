@@ -7,11 +7,11 @@
                     <source :src=video.path+'.webm' type='video/webm'>
                     <source :src=video.path+'.mp4' type='video/mp4'>
                 </video>
-                <div class="card-block">
+                <div class="card-block" id="card-block{{video.id}}">
                     <p class='label label-info pull-right'>{{video.category}}</p>
                     <h4 class="card-text">{{ video.name.substring(0,20) }}</h4>
-                    <button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
-                    <button type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
+                    {{getDislikes(video.id)}}
+                    {{getLikes(video.id)}}
                 </div>
             </div></a>
         </li>
@@ -46,6 +46,16 @@
                     } else {
                         this.$set('nameRoute', 'Best Videos');
                     }
+                });
+            },
+            getDislikes: function(video_id){
+                this.$http.get('/api/videos/'+video_id+'/dislikes/count').then(function (response) {
+                    $('#card-block'+video_id).append('<button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true">'+response.data+'</i></button>')
+                });
+            },
+            getLikes: function(video_id){
+                this.$http.get('/api/videos/'+video_id+'/likes/count').then(function (response) {
+                    $('#card-block'+video_id).append('<button type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true">'+response.data+'</i></button>')
                 });
             }
         }
