@@ -40,6 +40,7 @@ This packages use (no need to install):
 * [Ajax and jQuery](http://api.jquery.com/jquery.ajax/)
 * [Video.js](http://videojs.com/)
 * [FFMpeg](https://github.com/linkthrow/ffmpeg)
+* [Chartjs](http://www.chartjs.org/)
 
 ##Docs
 http://alvaradoadam15.github.io/LaravelTube/api/master/

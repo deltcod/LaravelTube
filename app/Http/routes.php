@@ -26,3 +26,6 @@ Route::get('myvideos', 'MyVideosController@index');
 
 //Upload
 Route::get('upload', 'UploadController@index');
+
+//Analytics
+Route::get('/analytics/likes-dislikes', 'AnalyticsController@likesDislikes');
