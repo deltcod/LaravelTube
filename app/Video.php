@@ -45,12 +45,34 @@ class Video extends Model
     }
 
     /**
-     * Get likes
+     * Get likes/Dislikes
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function getLikes()
+    public function getLikesDislikes()
     {
         return $this->hasMany(\App\LikeDislike::class);
     }
+
+
+    /**
+     * Call scope likes
+     *
+     * @return mixed
+     */
+    public function likes()
+    {
+        return $this->hasMany(\App\LikeDislike::class)->likes();
+    }
+
+    /**
+     * Call scope dislikes
+     *
+     * @return mixed
+     */
+    public function dislikes()
+    {
+        return $this->hasMany(\App\LikeDislike::class)->dislikes();
+    }
+
 }

@@ -24,7 +24,7 @@ class VideoRepository extends Repository
         $best_vidos = array();
 
         foreach($videos as $video) {
-            $id_best_videos[] = [$video->getLikes->count(),$video->id];
+            $id_best_videos[] = [$video->likes()->count(),$video->id];
         }
 
         arsort($id_best_videos);

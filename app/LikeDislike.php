@@ -50,4 +50,26 @@ class LikeDislike extends Model
     {
         return $this->belongsTo(\App\Video::class);
     }
+
+    /**
+     * Return all instances when type is likes
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeLikes($query)
+    {
+        return $query->where('type', 'like');
+    }
+
+    /**
+     * Return all instances when type is dislikes
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeDislikes($query)
+    {
+        return $query->where('type', 'dislike');
+    }
 }
