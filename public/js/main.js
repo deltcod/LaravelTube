@@ -14649,21 +14649,11 @@ exports.default = {
                     this.$set('nameRoute', 'Best Videos');
                 }
             });
-        },
-        getDislikes: function getDislikes(video_id) {
-            this.$http.get('/api/videos/' + video_id + '/dislikes/count').then(function (response) {
-                $('#card-block' + video_id).append('<button type="button" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true">' + response.data + '</i></button>');
-            });
-        },
-        getLikes: function getLikes(video_id) {
-            this.$http.get('/api/videos/' + video_id + '/likes/count').then(function (response) {
-                $('#card-block' + video_id).append('<button type="button" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true">' + response.data + '</i></button>');
-            });
         }
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h1 id=\"nameRoute\">{{nameRoute}}</h1>\n<ul class=\"list-inline videoListCard\">\n    <li v-for=\"video in videos\">\n        <a v-link=\"'/videos/' + video.id\" class=\"videoLink\"><div class=\"card videoList\">\n            <video class=\"video-js videoCard\">\n                <source :src=\"video.path+'.webm'\" type=\"video/webm\">\n                <source :src=\"video.path+'.mp4'\" type=\"video/mp4\">\n            </video>\n            <div class=\"card-block\" id=\"card-block{{video.id}}\">\n                <p class=\"label label-info pull-right\">{{video.category}}</p>\n                <h4 class=\"card-text\">{{ video.name.substring(0,20) }}</h4>\n                {{getDislikes(video.id)}}\n                {{getLikes(video.id)}}\n            </div>\n        </div></a>\n    </li>\n</ul>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<h1 id=\"nameRoute\">{{nameRoute}}</h1>\n<ul class=\"list-inline videoListCard\">\n    <li v-for=\"video in videos\">\n        <a v-link=\"'/videos/' + video.id\" class=\"videoLink\"><div class=\"card videoList\">\n            <video class=\"video-js videoCard\">\n                <source :src=\"video.path+'.webm'\" type=\"video/webm\">\n                <source :src=\"video.path+'.mp4'\" type=\"video/mp4\">\n            </video>\n            <div class=\"card-block\" id=\"card-block{{video.id}}\">\n                <p class=\"label label-info pull-right\">{{video.category}}</p>\n                <h4 class=\"card-text\">{{ video.name.substring(0,20) }}</h4>\n                <button type=\"button\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\">{{video.dislikes}}</i></button>\n                <button type=\"button\" class=\"btn btn-success\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\">{{video.likes}}</i></button>\n            </div>\n        </div></a>\n    </li>\n</ul>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -14690,8 +14680,6 @@ exports.default = {
     data: function data() {
         return {
             video: '',
-            likes: '',
-            dislikes: '',
             isLoggedIn: $("meta[name=login-status]").attr('content'),
             api_token: $('meta[name=api_token]').attr("content")
         };
@@ -14711,12 +14699,6 @@ exports.default = {
                 videojs(document.getElementsByClassName('video-js')[0], {}, function () {
                     this.load();
                     this.play();
-                });
-                this.$http.get('/api/videos/' + response.data.data.id + '/likes/count').then(function (response) {
-                    this.$set('likes', response.data);
-                });
-                this.$http.get('/api/videos/' + response.data.data.id + '/dislikes/count').then(function (response) {
-                    this.$set('dislikes', response.data);
                 });
             });
         },
@@ -14744,7 +14726,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-inline video-js-responsive-container vjs-hd\">\n    <video id=\"my-video{{video.id}}\" class=\"video-js\" controls=\"\">\n        <source id=\"videoWebm\" type=\"video/webm\">\n        <source id=\"videoMp4\" type=\"video/mp4\">\n        <p class=\"vjs-no-js\">\n            To view this video please enable JavaScript, and consider upgrading to a web browser that\n            <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>\n        </p>\n    </video>\n</div>\n<h1>{{video.name}}</h1>\n<hr>\n<div id=\"errorLogin\"></div>\n<button type=\"button\" @click=\"likeDislike(isLoggedIn, 'dislike')\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ dislikes }}</button>\n<button type=\"button\" @click=\"likeDislike(isLoggedIn, 'like')\" class=\"btn btn-success\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ likes }}</button>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-inline video-js-responsive-container vjs-hd\">\n    <video id=\"my-video{{video.id}}\" class=\"video-js\" controls=\"\">\n        <source id=\"videoWebm\" type=\"video/webm\">\n        <source id=\"videoMp4\" type=\"video/mp4\">\n        <p class=\"vjs-no-js\">\n            To view this video please enable JavaScript, and consider upgrading to a web browser that\n            <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>\n        </p>\n    </video>\n</div>\n<h1>{{video.name}}</h1>\n<hr>\n<div id=\"errorLogin\"></div>\n<button type=\"button\" @click=\"likeDislike(isLoggedIn, 'dislike')\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ video.dislikes }}</button>\n<button type=\"button\" @click=\"likeDislike(isLoggedIn, 'like')\" class=\"btn btn-success\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ video.likes }}</button>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

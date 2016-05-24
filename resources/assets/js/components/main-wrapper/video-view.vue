@@ -12,8 +12,8 @@
     <h1>{{video.name}}</h1>
     <hr />
     <div id="errorLogin"></div>
-    <button type="button" @click="likeDislike(isLoggedIn, 'dislike')" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ dislikes }}</button>
-    <button type="button" @click="likeDislike(isLoggedIn, 'like')" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ likes }}</button>
+    <button type="button" @click="likeDislike(isLoggedIn, 'dislike')" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
+    <button type="button" @click="likeDislike(isLoggedIn, 'like')" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
 </template>
 
 <script>
@@ -21,8 +21,6 @@
         data(){
             return{
                 video:'',
-                likes:'',
-                dislikes:'',
                 isLoggedIn: $("meta[name=login-status]").attr('content'),
                 api_token:$('meta[name=api_token]').attr("content"),
             }
@@ -42,12 +40,6 @@
                     videojs(document.getElementsByClassName('video-js')[0], {}, function(){
                         this.load();
                         this.play();
-                    });
-                    this.$http.get('/api/videos/'+response.data.data.id+'/likes/count').then(function (response) {
-                        this.$set('likes', response.data);
-                    });
-                    this.$http.get('/api/videos/'+response.data.data.id+'/dislikes/count').then(function (response) {
-                        this.$set('dislikes', response.data);
                     });
                 });
             },
