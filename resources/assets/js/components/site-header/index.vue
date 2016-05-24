@@ -18,7 +18,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li v-if="isLoggedIn != 1"><user-login></user-login></li>
                     <li v-if="isLoggedIn != 1"><user-register></user-register></li>
-                    <li v-else><a href="/upload"><span class="glyphicon glyphicon-home"></span> My Home</a></li>
+                    <li v-else><a href="/upload"><span class="glyphicon glyphicon-home"></span> {{user.name}}</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -35,13 +35,24 @@
         data(){
             return{
                 isLoggedIn: $("meta[name=login-status]").attr('content'),
+                user:'',
             }
+        },
+
+        ready: function(){
+            this.getUser();
         },
 
         methods: {
             toogleSideMenu: function (event) {
                 event.preventDefault();
                 $("#wrapper").toggleClass("active");
+            },
+            getUser: function (){
+                if(this.isLoggedIn == 1){
+                    this.$set('user', jQuery.parseJSON($('meta[name=user]').attr("content")));
+                }
+
             }
         }
     }
