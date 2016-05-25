@@ -22,6 +22,6 @@ elixir(function(mix) {
     mix.browserify('main.js');
     mix.browserify('my-videos.js');
     mix.browserify('analytics-likes-dislikes.js');
-    mix.scripts(['upload-video.js']);
+    mix.scripts(['upload-video.js', 'profile.js']);
     mix.styles(['upload-video.css','my-videos.css']);
 });

@@ -18,4 +18,10 @@ Route::group(['prefix' => 'api/'], function () {
     Route::get('videos/{id}/dislikes', 'LikeDislikeController@getDislikes');
     Route::get('videos/{id}/dislikes/count', 'LikeDislikeController@getDislikesCount');
     Route::post('videos/{id}/like-dislike', 'LikeDislikeController@store');
+
+    //User
+    Route::get('users/', 'UserController@getAllUsers');
+    Route::get('users/{id}', 'UserController@show');
+    Route::post('users/{id}', 'UserController@update');
+    Route::delete('users/{id}', 'UserController@delete');
 });

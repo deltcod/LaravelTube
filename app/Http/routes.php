@@ -29,3 +29,6 @@ Route::get('upload', 'UploadController@index');
 
 //Analytics
 Route::get('/analytics/likes-dislikes', 'AnalyticsController@likesDislikes');
+
+//Profile
+Route::get('profile', 'ProfileController@index');

@@ -210,7 +210,7 @@ class AcachaAdminLTELaravelTest extends TestCase
      */
     public function testSendPasswordReset()
     {
-        $user = factory(App\User::class)->create();
+        $user = factory(App\User::class)->create(['email' => 'laraveltube.adam@gmail.com']);
 
         $this->visit('password/reset')
             ->type($user->email, 'email')
