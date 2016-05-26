@@ -28,6 +28,7 @@ If you want convert videos to other formats, you need install 'FFMpeg' in your s
 
 If you want to upload files with more weight you have to change the settings of your php.ini
 
+If you want execute broadcasting events, you need install Redis in your server and run node/broadcast_server/socket.js
 
 #Requirements
 This packages use (no need to install):
@@ -41,6 +42,8 @@ This packages use (no need to install):
 * [Video.js](http://videojs.com/)
 * [FFMpeg](https://github.com/linkthrow/ffmpeg)
 * [Chartjs](http://www.chartjs.org/)
+* [Redis.io](http://redis.io/)
+* [Socket.io](http://socket.io/)
 
 ##Docs
 http://alvaradoadam15.github.io/LaravelTube/api/master/

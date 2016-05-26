@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LikeDislikePush;
 use App\Http\Requests\LikeDislikeStoreRequest;
 use App\Transformers\LikeDislikeTransformer;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use App\Repositories\LikeDislikeRepository as LikeDislike;
-
 use App\Http\Requests;
 
 /**
@@ -118,18 +118,32 @@ class LikeDislikeController extends ApiGuardController
 
         if($check == 0){
             $like = $this->likeDislike->create($request->all());
-
+            $this->callEventPushLikeDislike($like);
             return $this->response->withItem($like, $this->likeDislikeTransformer);
         } else{
             $like = $this->likeDislike->findOrFail($check);
-
+            $this->callEventPushLikeDislike($like);
             if($request->type != $like->type){
                 $like = $this->likeDislike->update($request->all(), $like->id);
+
                 return $this->response->withItem($like, $this->likeDislikeTransformer);
             }else{
                 $this->likeDislike->delete($like->id);
             }
         }
 
+
+
+    }
+
+
+    /**
+     * Call event push like/dislike
+     *
+     * @param $likeDislike
+     */
+    private function callEventPushLikeDislike($likeDislike)
+    {
+        event(new LikeDislikePush($likeDislike));
     }
 }
