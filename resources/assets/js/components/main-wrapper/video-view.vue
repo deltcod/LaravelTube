@@ -12,8 +12,8 @@
     <h1>{{video.name}}</h1>
     <hr />
     <div id="errorLogin"></div>
-    <button type="button" @click="likeDislike(isLoggedIn, 'dislike')" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
-    <button type="button" @click="likeDislike(isLoggedIn, 'like')" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
+    <button type="button" id="dislike-video{{video.id}}"  @click="likeDislike(isLoggedIn, 'dislike')" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
+    <button type="button" id="like-video{{video.id}}" @click="likeDislike(isLoggedIn, 'like')" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
 </template>
 
 <script>
@@ -52,7 +52,6 @@
                 } else{
                     var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
                     this.$http.post('/api/videos/'+this.video.id+'/like-dislike', {user_id: user.id,  video_id: this.video.id, type: type}).then(function (response) {
-                        this.getVideo();
                     });
                 }
 
