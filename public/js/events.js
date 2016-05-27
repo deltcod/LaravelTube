@@ -18805,7 +18805,7 @@ socket.on('likedislike-push', function (data) {
         $("#dislike-video" + response.data.data.id).html('<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> ' + response.data.data.dislikes);
         $("#like-video" + response.data.data.id).html('<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ' + response.data.data.likes);
         $("#likes-card-block" + response.data.data.id).html('<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ' + response.data.data.likes);
-        $("#dislikes-card-block" + response.data.data.id).html('<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> ' + response.data.data.dislikes);
+        $("#dislikes-card-block" + response.data.data.id).html('<i class="fa fa-thumbs-o-down" aria-hidden="true"> ' + response.data.data.dislikes);
     });
 });
 

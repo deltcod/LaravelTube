@@ -29,7 +29,11 @@
 
                     <div class="form-group">
                         <label class="control-label" for="avatar">Select Avatar</label>
-                        <input type="file" class="form-control" name="avatar" id="avatar" >
+                        <div id="drop-zone">
+                            Drop video here...
+                            or click here..
+                            <input type="file" class="form-control drop-zoneButton" name="avatar" id="avatar" >
+                        </div><br />
                         <img src="{{Auth::user()->avatar}}" alt="" width="160" height="160">
                     </div>
 

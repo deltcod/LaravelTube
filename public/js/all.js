@@ -35,7 +35,31 @@ $('.form-add-video button[type=submit]').click(function(e){
         }
     });
 });
+$(function () {
+    var dropZoneId = "drop-zone";
 
+    var dropZone = $("#" + dropZoneId);
+    var ooleft = dropZone.offset().left;
+    var ooright = dropZone.outerWidth() + ooleft;
+    var ootop = dropZone.offset().top;
+    var oobottom = dropZone.outerHeight() + ootop;
+    var inputFile = dropZone.find("input");
+    document.getElementById(dropZoneId).addEventListener("dragover", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        var x = e.pageX;
+        var y = e.pageY;
+
+        if (!(x < ooleft || x > ooright || y < ootop || y > oobottom)) {
+            inputFile.offset({ top: y - 15, left: x - 100 });
+        } else {
+            inputFile.offset({ top: -400, left: -400 });
+        }
+
+    }, true);
+
+})
 $('.form-update-user').submit(function(e){
     e.preventDefault();
 

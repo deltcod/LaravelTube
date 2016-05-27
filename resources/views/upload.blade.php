@@ -30,7 +30,11 @@
 
                     <div class="form-group">
                         <label class="control-label" for="video">Select Video</label>
-                        <input type="file" class="form-control" name="video" id="video" >
+                        <div id="drop-zone">
+                            Drop video here...
+                            or click here..
+                            <input type="file" class="form-control drop-zoneButton" name="video" id="video" >
+                        </div>
                     </div>
 
                     <div class="form-group">
