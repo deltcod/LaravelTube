@@ -26,7 +26,8 @@
                     <form action="#" method="GET">
                 <select id="version-switcher" name="version">
                                             <option value="../../0.1/index.html">0.1</option>
-                                            <option value="../../0.2/index.html" selected>0.2</option>
+                                            <option value="../../0.2/index.html">0.2</option>
+                                            <option value="../../1.0/index.html" selected>1.0</option>
                                             <option value="../../master/index.html">master</option>
                                     </select>
             </form>
@@ -82,7 +83,7 @@
     </div>
 
     <p>    class
-    <strong>Video</strong>        extends <abbr title="Illuminate\Database\Eloquent\Model">Model</abbr>        (<a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/0.2/app/Video.php">View source</a>)
+    <strong>Video</strong>        extends <abbr title="Illuminate\Database\Eloquent\Model">Model</abbr>        (<a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/1.0/app/Video.php">View source</a>)
 </p>
 
             <div class="description">
@@ -154,6 +155,36 @@
                                             <p>Get User</p>                </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getLikesDislikes">getLikesDislikes</a>()
+                                            <p>Get likes/Dislikes</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_likes">likes</a>()
+                                            <p>Call scope likes</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+    mixed
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_dislikes">dislikes</a>()
+                                            <p>Call scope dislikes</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -162,7 +193,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_getUser">
-        <div class="location">at line         <a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/0.2/app/Video.php#L42">line 42</a></div>
+        <div class="location">at line         <a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/1.0/app/Video.php#L42">line 42</a></div>
         <code>                    
     <abbr title="Illuminate\Database\Eloquent\Relations\BelongsTo">BelongsTo</abbr>
     <strong>getUser</strong>()</code>
@@ -178,6 +209,90 @@
         <tr>
             <td>
     <abbr title="Illuminate\Database\Eloquent\Relations\BelongsTo">BelongsTo</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getLikesDislikes">
+        <div class="location">at line         <a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/1.0/app/Video.php#L52">line 52</a></div>
+        <code>                    
+    <abbr title="Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr>
+    <strong>getLikesDislikes</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Get likes/Dislikes</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    <abbr title="Illuminate\Database\Eloquent\Relations\HasMany">HasMany</abbr></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_likes">
+        <div class="location">at line         <a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/1.0/app/Video.php#L63">line 63</a></div>
+        <code>                    
+    mixed
+    <strong>likes</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Call scope likes</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    mixed</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_dislikes">
+        <div class="location">at line         <a href="https://github.com/AlvaradoAdam15/LaravelTube/blob/1.0/app/Video.php#L73">line 73</a></div>
+        <code>                    
+    mixed
+    <strong>dislikes</strong>()</code>
+    </h3>
+    <div class="details">
+                    <div class="method-description">
+                                    <p>Call scope dislikes</p>                                </div>
+                <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>
+    mixed</td>
             <td></td>
         </tr>
     </table>
