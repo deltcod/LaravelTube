@@ -28,6 +28,6 @@ Route::group(['prefix' => 'api/'], function () {
     //Comments
     Route::get('videos/{id}/comments', 'CommentController@getComments');
     Route::post('videos/{id}/comments', 'CommentController@store');
-    Route::put('videos/{id}/comments', 'CommentController@update');
-    Route::delete('videos/{id}/comments', 'CommentController@delete');
+    Route::put('videos/{video_id}/comments', 'CommentController@update');
+    Route::delete('videos/{video_id}/comments', 'CommentController@delete');
 });

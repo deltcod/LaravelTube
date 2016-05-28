@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class CommentUpdateRequest extends Request
+class CommentDeleteRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class CommentUpdateRequest extends Request
     public function rules()
     {
         return [
-            'comment' => 'required',
             'id' => 'required',
         ];
     }

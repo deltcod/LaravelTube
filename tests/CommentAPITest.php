@@ -117,12 +117,18 @@ class CommentAPITest extends TestCase
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
         $comment = $this->createFakeComment($user->id, $video->id);
+        $request = array(
+            'id' => $comment->id,
+            'comment' => 'This is example update comment'
+        );
         $data = array(
             'id' => $comment->id,
-            'comment' => 'This is example update comment',
+            'user_id' => $comment->user_id,
+            'video_id' => $comment->video_id,
+            'comment' => 'This is example update comment'
         );
-        $this->put('/api/videos/'.$video->id.'/comments/', $data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('comments', $data);
-        $this->get('/api/videos')->seeJsonContains($data)->seeStatusCode(200);
+        $this->put('/api/videos/'.$video->id.'/comments/', $request, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('comments',$data);
+        $this->get('/api/videos/'.$video->id.'/comments/')->seeJsonContains($data)->seeStatusCode(200);
     }
 
     /**
@@ -138,10 +144,17 @@ class CommentAPITest extends TestCase
 
         $data = array(
             'id' => $comment->id,
+            'user_id' => $comment->user_id,
+            'video_id' => $comment->video_id,
+            'comment' => $comment->comment
         );
 
-        $this->delete('/api/videos/'.$video->id.'/comments/', $data, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('comments', $data);
-        $this->get('/api/videos/'.$video->id.'/comments')->dontSeeJson($data)->seeStatusCode(200);
+        $request = array(
+            'id' => $comment->id
+        );
+
+        $this->delete('/api/videos/'.$video->id.'/comments', $request,['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('comments', $data);
+        $this->get('/api/videos/'.$video->id.'/comments/')->dontSeeJson($data)->seeStatusCode(200);
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentDeleteRequest;
 use App\Http\Requests\CommentStoreRequest;
 use App\Http\Requests\CommentUpdateRequest;
 use App\Transformers\CommentTransformer;
@@ -84,11 +85,11 @@ class CommentController extends ApiGuardController
      * @param $id
      * @return mixed
      */
-    public function update(CommentUpdateRequest $request, $id)
+    public function update(CommentUpdateRequest $request)
     {
-        $comment = $this->comment->findOrFail($id);
+        $comment = $this->comment->findOrFail($request->input('id'));
 
-        $this->comment->update($request->all(), $id);
+        $this->comment->update($request->all(), $request->input('id'));
 
         return $this->response->withItem($comment, $this->commentTransformer);
     }
@@ -98,8 +99,8 @@ class CommentController extends ApiGuardController
      *
      * @param $id
      */
-    public function delete($id)
+    public function delete(CommentDeleteRequest $request)
     {
-        $this->comment->delete($id);
+        $this->comment->delete($request->input('id'));
     }
 }

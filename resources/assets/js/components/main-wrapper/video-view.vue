@@ -24,7 +24,14 @@
                     <img id="avatarComment{{comment.user_id}}{{comment.id}}" src="" />
                 </div>
                 <div class="commentText">
-                    <p class="">{{comment.comment}}</p> <span class="date sub-text" id="nameUserComment{{comment.user_id}}{{comment.id}}"></span>
+                    <p class="">{{comment.comment}}</p><span class="date sub-text" id="nameUserComment{{comment.user_id}}{{comment.id}}"></span>
+                    <div class="form-inline form-add-comment" v-if="isLoggedIn == 1">
+                        <div v-if="comment.user_id ==  getUserLogin().id">
+                            <input class="form-control" id="your-update-comment{{comment.id}}" type="text" placeholder="{{comment.comment}}" />
+                            <button @click="updateComment(comment.id)" class="btn btn-success btn-comment">Update</button>
+                            <button @click="deleteComment(comment.id)" class="btn btn-danger btn-comment">Delete</button>
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -101,11 +108,25 @@
                     var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
                     var comment=$("#your-comments").val();
                     this.$http.post('/api/videos/'+this.video.id+'/comments', {user_id: user.id,  video_id: this.video.id, comment: comment}).then(function (response) {
+                        this.getVideo();
                     }).catch(function (error){
                         $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
                     });
 
                 }
+            },
+
+            updateComment: function(id){
+                var comment=$("#your-update-comment"+id).val();
+                this.$http.put('/api/videos/'+this.video.id+'/comments', {id: id, comment: comment}).then(function (response) {
+                    this.getVideo();
+                });
+            },
+
+            deleteComment: function(id){
+                this.$http.delete('/api/videos/'+this.video.id+'/comments', {id: id}).then(function (response) {
+                    this.getVideo();
+                });
             },
 
             checkLogin: function(isLoggedIn){
@@ -114,6 +135,11 @@
                 } else{
                     return false;
                 }
+            },
+
+            getUserLogin: function(){
+                var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
+                return user;
             }
         }
     }
