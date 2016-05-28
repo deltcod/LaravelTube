@@ -74,7 +74,7 @@ class CommentController extends ApiGuardController
     public function store(CommentStoreRequest $request)
     {
         $comment = $this->comment->create($request->all());
-        return $this->response->withItem($comment, $this->likeDislikeTransformer);
+        return $this->response->withItem($comment, $this->commentTransformer);
     }
 
     /**
@@ -90,7 +90,7 @@ class CommentController extends ApiGuardController
 
         $this->comment->update($request->all(), $id);
 
-        return $this->response->withItem($comment, $this->videoTransformer);
+        return $this->response->withItem($comment, $this->commentTransformer);
     }
 
     /**
