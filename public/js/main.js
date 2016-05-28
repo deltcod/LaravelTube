@@ -14705,8 +14705,10 @@ exports.default = {
         likeDislike: function likeDislike(isLoggedIn, type) {
 
             var checkLogin = this.checkLogin(isLoggedIn);
+
+            $('#response div').remove();
+
             if (!checkLogin) {
-                $('#response div').remove();
                 $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
             } else {
                 var user = jQuery.parseJSON($('meta[name=user]').attr("content"));
@@ -14714,11 +14716,28 @@ exports.default = {
             }
         },
 
-        getUser: function getUser(id) {
+        getUser: function getUser(id, comment_id) {
             this.$http.get('/api/users/' + id).then(function (response) {
-                $('#avatarComment' + id).attr('src', response.data.data.avatar);
-                $('#nameUserComment' + id).append(response.data.data.name);
+                $('#avatarComment' + id + comment_id).attr('src', response.data.data.avatar);
+                $('#nameUserComment' + id + comment_id).append(response.data.data.name);
             });
+        },
+
+        commentVideo: function commentVideo(isLoggedIn) {
+
+            var checkLogin = this.checkLogin(isLoggedIn);
+
+            $('#response div').remove();
+
+            if (!checkLogin) {
+                $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+            } else {
+                var user = jQuery.parseJSON($('meta[name=user]').attr("content"));
+                var comment = $("#your-comments").val();
+                this.$http.post('/api/videos/' + this.video.id + '/comments', { user_id: user.id, video_id: this.video.id, comment: comment }).then(function (response) {}).catch(function (error) {
+                    $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
+                });
+            }
         },
 
         checkLogin: function checkLogin(isLoggedIn) {
@@ -14731,7 +14750,7 @@ exports.default = {
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-inline video-js-responsive-container vjs-hd\">\n    <video id=\"my-video{{video.id}}\" class=\"video-js\" controls=\"\">\n        <source id=\"videoWebm\" type=\"video/webm\">\n        <source id=\"videoMp4\" type=\"video/mp4\">\n        <p class=\"vjs-no-js\">\n            To view this video please enable JavaScript, and consider upgrading to a web browser that\n            <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>\n        </p>\n    </video>\n</div>\n<h1>{{video.name}}</h1>\n<hr>\n<div id=\"errorLogin\"></div>\n<button type=\"button\" id=\"dislike-video{{video.id}}\" @click=\"likeDislike(isLoggedIn, 'dislike')\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ video.dislikes }}</button>\n<button type=\"button\" id=\"like-video{{video.id}}\" @click=\"likeDislike(isLoggedIn, 'like')\" class=\"btn btn-success\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ video.likes }}</button>\n<br>\n<h3>Comments</h3>\n<hr>\n<div class=\"commentBox\">\n    <ul class=\"commentList\">\n        <li v-for=\"comment in video.comments\">\n            <input type=\"hidden\" v-model=\"getUser(comment.user_id)\">\n            <div class=\"commenterImage\">\n                <img id=\"avatarComment{{comment.user_id}}\" src=\"\">\n            </div>\n            <div class=\"commentText\">\n                <p class=\"\">{{comment.comment}}</p> <span class=\"date sub-text\" id=\"nameUserComment{{comment.user_id}}\"></span>\n            </div>\n        </li>\n    </ul>\n    <form class=\"form-inline form-add-comment\" role=\"form\">\n        <div class=\"form-group\">\n            <input class=\"form-control comment\" type=\"text\" placeholder=\"Your comments\">\n        </div>\n        <div class=\"form-group\">\n            <button class=\"btn btn-success btn-comment\">Add</button>\n        </div>\n    </form>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"list-inline video-js-responsive-container vjs-hd\">\n    <video id=\"my-video{{video.id}}\" class=\"video-js\" controls=\"\">\n        <source id=\"videoWebm\" type=\"video/webm\">\n        <source id=\"videoMp4\" type=\"video/mp4\">\n        <p class=\"vjs-no-js\">\n            To view this video please enable JavaScript, and consider upgrading to a web browser that\n            <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>\n        </p>\n    </video>\n</div>\n<h1>{{video.name}}</h1>\n<hr>\n<div id=\"errorLogin\"></div>\n<button type=\"button\" id=\"dislike-video{{video.id}}\" @click=\"likeDislike(isLoggedIn, 'dislike')\" class=\"btn btn-danger pull-right\"><i class=\"fa fa-thumbs-o-down\" aria-hidden=\"true\"></i> {{ video.dislikes }}</button>\n<button type=\"button\" id=\"like-video{{video.id}}\" @click=\"likeDislike(isLoggedIn, 'like')\" class=\"btn btn-success\"><i class=\"fa fa-thumbs-o-up\" aria-hidden=\"true\"></i> {{ video.likes }}</button>\n<br>\n<h3>Comments</h3>\n<hr>\n<div class=\"commentBox\">\n    <ul class=\"commentList\">\n        <li v-for=\"comment in video.comments\" v-bind=\"getUser(comment.user_id, comment.id)\">\n            <div class=\"commenterImage\">\n                <img id=\"avatarComment{{comment.user_id}}{{comment.id}}\" src=\"\">\n            </div>\n            <div class=\"commentText\">\n                <p class=\"\">{{comment.comment}}</p> <span class=\"date sub-text\" id=\"nameUserComment{{comment.user_id}}{{comment.id}}\"></span>\n            </div>\n        </li>\n    </ul>\n    <div class=\"form-inline form-add-comment\">\n        <div class=\"form-group\">\n            <input class=\"form-control\" type=\"text\" id=\"your-comments\" name=\"your-comments\" placeholder=\"Your comments\">\n        </div>\n        <div class=\"form-group\">\n            <button @click=\"commentVideo(isLoggedIn)\" class=\"btn btn-success btn-comment\">Add</button>\n        </div>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

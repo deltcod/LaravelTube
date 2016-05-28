@@ -15,6 +15,7 @@ class CommentTransformer extends Transformer
     public function transform($comment)
     {
         return [
+            'id'    => (int) $comment['id'],
             'user_id'    => (int) $comment['user_id'],
             'video_id' => (int) $comment['video_id'],
             'comment'     => $comment['comment'],

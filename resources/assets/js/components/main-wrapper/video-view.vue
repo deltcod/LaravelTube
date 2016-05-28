@@ -19,24 +19,23 @@
     <hr />
     <div class="commentBox">
         <ul class="commentList">
-            <li v-for="comment in video.comments">
-                <input  type="hidden" v-model="getUser(comment.user_id)">
+            <li v-for="comment in video.comments" v-bind="getUser(comment.user_id, comment.id)">
                 <div class="commenterImage">
-                    <img id="avatarComment{{comment.user_id}}" src="" />
+                    <img id="avatarComment{{comment.user_id}}{{comment.id}}" src="" />
                 </div>
                 <div class="commentText">
-                    <p class="">{{comment.comment}}</p> <span class="date sub-text" id="nameUserComment{{comment.user_id}}"></span>
+                    <p class="">{{comment.comment}}</p> <span class="date sub-text" id="nameUserComment{{comment.user_id}}{{comment.id}}"></span>
                 </div>
             </li>
         </ul>
-        <form class="form-inline form-add-comment" role="form">
+        <div class="form-inline form-add-comment">
             <div class="form-group">
-                <input class="form-control comment" type="text" placeholder="Your comments" />
+                <input class="form-control" type="text" id="your-comments" name="your-comments" placeholder="Your comments" />
             </div>
             <div class="form-group">
-                <button class="btn btn-success btn-comment">Add</button>
+                <button @click="commentVideo(isLoggedIn)" class="btn btn-success btn-comment">Add</button>
             </div>
-        </form>
+        </div>
     </div>
 </template>
 
@@ -70,8 +69,10 @@
             likeDislike: function(isLoggedIn, type){
 
                 var checkLogin= this.checkLogin(isLoggedIn);
+
+                $('#response div').remove();
+
                 if(!checkLogin){
-                    $('#response div').remove();
                     $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
                 } else{
                     var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
@@ -81,11 +82,30 @@
 
             },
 
-            getUser: function(id){
+            getUser: function(id, comment_id){
                 this.$http.get('/api/users/'+id).then(function (response) {
-                    $('#avatarComment'+id).attr('src', response.data.data.avatar);
-                    $('#nameUserComment'+id).append(response.data.data.name);
+                    $('#avatarComment'+id+comment_id).attr('src', response.data.data.avatar);
+                    $('#nameUserComment'+id+comment_id).append(response.data.data.name);
                 });
+            },
+
+            commentVideo: function(isLoggedIn){
+
+                var checkLogin= this.checkLogin(isLoggedIn);
+
+                $('#response div').remove();
+
+                if(!checkLogin){
+                    $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+                } else{
+                    var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
+                    var comment=$("#your-comments").val();
+                    this.$http.post('/api/videos/'+this.video.id+'/comments', {user_id: user.id,  video_id: this.video.id, comment: comment}).then(function (response) {
+                    }).catch(function (error){
+                        $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
+                    });
+
+                }
             },
 
             checkLogin: function(isLoggedIn){
