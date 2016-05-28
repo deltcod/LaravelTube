@@ -14,6 +14,30 @@
     <div id="errorLogin"></div>
     <button type="button" id="dislike-video{{video.id}}"  @click="likeDislike(isLoggedIn, 'dislike')" class="btn btn-danger pull-right"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ video.dislikes }}</button>
     <button type="button" id="like-video{{video.id}}" @click="likeDislike(isLoggedIn, 'like')" class="btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ video.likes }}</button>
+    <br />
+    <h3>Comments</h3>
+    <hr />
+    <div class="commentBox">
+        <ul class="commentList">
+            <li v-for="comment in video.comments">
+                <input  type="hidden" v-model="getUser(comment.user_id)">
+                <div class="commenterImage">
+                    <img id="avatarComment{{comment.user_id}}" src="" />
+                </div>
+                <div class="commentText">
+                    <p class="">{{comment.comment}}</p> <span class="date sub-text" id="nameUserComment{{comment.user_id}}"></span>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline form-add-comment" role="form">
+            <div class="form-group">
+                <input class="form-control comment" type="text" placeholder="Your comments" />
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success btn-comment">Add</button>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -57,6 +81,13 @@
 
             },
 
+            getUser: function(id){
+                this.$http.get('/api/users/'+id).then(function (response) {
+                    $('#avatarComment'+id).attr('src', response.data.data.avatar);
+                    $('#nameUserComment'+id).append(response.data.data.name);
+                });
+            },
+
             checkLogin: function(isLoggedIn){
                 if(isLoggedIn == 1){
                     return true;
@@ -89,4 +120,49 @@
         top: 0;
         left: 0;
     }
+
+     .commentBox {
+         padding:10px;
+     }
+     .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+         width:80%;
+     }
+     .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+         width:18%;
+     }
+     .commentBox .form-group * {
+         width:100%;
+     }
+
+     .commentList {
+         padding:0;
+         list-style:none;
+         max-height:200px;
+         overflow:auto;
+     }
+     .commentList li {
+         margin:0;
+         margin-top:10px;
+     }
+     .commentList li > div {
+         display:table-cell;
+     }
+     .commenterImage {
+         width:30px;
+         margin-right:5px;
+         height:100%;
+         float:left;
+     }
+     .commenterImage img {
+         width:100%;
+         border-radius:50%;
+     }
+     .commentText p {
+         margin:0;
+     }
+     .sub-text {
+         color:#aaa;
+         font-family:verdana;
+         font-size:11px;
+     }
 </style>
