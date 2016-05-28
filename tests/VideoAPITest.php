@@ -206,7 +206,7 @@ class VideoAPITest extends TestCase
         $video = $this->createFakeVideo($user);
         $data = ['name' => 'V for Vendetta', 'category' => 'Movie'];
         $this->put('/api/videos/'.$video->id, $data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('videos', $data);
-        $this->get('/api/videos')->seeJsonContains([$data = ['id' => $video->id, 'name' => 'V for Vendetta', 'category' => 'Movie', 'path' => $video->path, 'likes' => $video->likes()->count(), 'dislikes' => $video->dislikes()->count()]])->seeStatusCode(200);
+        $this->get('/api/videos')->seeJsonContains([$data = ['id' => $video->id, 'name' => 'V for Vendetta', 'category' => 'Movie', 'path' => $video->path, 'likes' => $video->likes()->count(), 'dislikes' => $video->dislikes()->count(), 'comments' =>$video->getComments]])->seeStatusCode(200);
     }
 
     /**

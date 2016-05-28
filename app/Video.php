@@ -75,4 +75,14 @@ class Video extends Model
         return $this->hasMany(\App\LikeDislike::class)->dislikes();
     }
 
+    /**
+     * Get comments
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getComments()
+    {
+        return $this->hasMany(\App\Comment::class);
+    }
+
 }

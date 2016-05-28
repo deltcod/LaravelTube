@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "acacha/admin-lte-template-laravel",
-            "version": "2.0.10",
+            "version": "2.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acacha/adminlte-laravel.git",
-                "reference": "bea0f66fc6067a3d4459fcefbf7cd51d9eb7c2df"
+                "reference": "0674e87d972659c15c67c2e92d289921892bbda5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acacha/adminlte-laravel/zipball/bea0f66fc6067a3d4459fcefbf7cd51d9eb7c2df",
-                "reference": "bea0f66fc6067a3d4459fcefbf7cd51d9eb7c2df",
+                "url": "https://api.github.com/repos/acacha/adminlte-laravel/zipball/0674e87d972659c15c67c2e92d289921892bbda5",
+                "reference": "0674e87d972659c15c67c2e92d289921892bbda5",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "template",
                 "theme"
             ],
-            "time": "2016-05-25 09:53:11"
+            "time": "2016-05-26 18:35:55"
         },
         {
             "name": "chrisbjr/api-guard",
@@ -1148,16 +1148,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.2.33",
+            "version": "v5.2.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "4120808d2e841ba5a94c5e0443e9696ae4fa9bfe"
+                "reference": "6a26f3bb6a6e00c53654a661221643ad1b98e146"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/4120808d2e841ba5a94c5e0443e9696ae4fa9bfe",
-                "reference": "4120808d2e841ba5a94c5e0443e9696ae4fa9bfe",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/6a26f3bb6a6e00c53654a661221643ad1b98e146",
+                "reference": "6a26f3bb6a6e00c53654a661221643ad1b98e146",
                 "shasum": ""
             },
             "require": {
@@ -1273,20 +1273,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-05-25 18:35:42"
+            "time": "2016-05-26 21:59:46"
         },
         {
             "name": "laravel/socialite",
-            "version": "v2.0.16",
+            "version": "v2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "f3e3bdf9368b96b82635cb88ab02944b7d036669"
+                "reference": "81d39cde2226f7548d8d1aa99405278c87e50737"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/f3e3bdf9368b96b82635cb88ab02944b7d036669",
-                "reference": "f3e3bdf9368b96b82635cb88ab02944b7d036669",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/81d39cde2226f7548d8d1aa99405278c87e50737",
+                "reference": "81d39cde2226f7548d8d1aa99405278c87e50737",
                 "shasum": ""
             },
             "require": {
@@ -1327,7 +1327,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2016-05-25 12:58:08"
+            "time": "2016-05-27 12:42:05"
         },
         {
             "name": "league/flysystem",

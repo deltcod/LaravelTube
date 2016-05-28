@@ -24,4 +24,10 @@ Route::group(['prefix' => 'api/'], function () {
     Route::get('users/{id}', 'UserController@show');
     Route::post('users/{id}', 'UserController@update');
     Route::delete('users/{id}', 'UserController@delete');
+
+    //Comments
+    Route::get('videos/{id}/comments', 'CommentController@getComments');
+    Route::post('videos/{id}/comments', 'CommentController@store');
+    Route::put('videos/{id}/comments', 'CommentController@update');
+    Route::delete('videos/{id}/comments', 'CommentController@delete');
 });
