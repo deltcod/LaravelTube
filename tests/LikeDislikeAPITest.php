@@ -165,4 +165,54 @@ class LikeDislikeAPITest extends TestCase
         $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
     }
 
+    /**
+     * Test delete likeDislike and not see in DB
+     *
+     * @return void
+     */
+    public function testCanBeDeleteLikeAndSeeInDB()
+    {
+        $user = $this->createUser();
+        $video = $this->createFakeVideo($user);
+
+        $data = array(
+            'user_id' => $user->id,
+            'video_id' => $video->id,
+            'type' => 'like',
+        );
+
+        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
+        $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
+        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('likes_dislikes',$data);
+    }
+
+    /**
+     * Test update type likeDislike and not see in DB
+     *
+     * @return void
+     */
+    public function testCanBeUpdateTypeLikeAndSeeInDB()
+    {
+        $user = $this->createUser();
+        $video = $this->createFakeVideo($user);
+
+        $data = array(
+            'user_id' => $user->id,
+            'video_id' => $video->id,
+            'type' => 'like',
+        );
+
+        $dataUpdate = array(
+            'user_id' => $user->id,
+            'video_id' => $video->id,
+            'type' => 'dislike',
+        );
+
+        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
+        $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
+        $this->post('/api/videos/'.$video->id.'/like-dislike',$dataUpdate, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$dataUpdate);
+        $this->get('/api/videos/'.$video->id.'/dislikes')->seeJsonContains($dataUpdate)->seeStatusCode(200);
+    }
+
+
 }

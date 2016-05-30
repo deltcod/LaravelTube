@@ -90,6 +90,25 @@ class UserAPITest extends TestCase
     }
 
     /**
+     * Test upate user without avatar and see in DB
+     *
+     * @return void
+     */
+    public function testCanBeUpdateWithoutAvatarAndSeeInDB()
+    {
+        $user = $this->createUser();
+
+        $data = ['id'=>$user->id,'name' => 'Test User', 'email' => 'user@email.com', 'password'=>'123456'];
+        $this->post('/api/users/'.$user->id, $data, ['X-Authorization' => $user->apiKey->key]);
+        $user = User::find($user->id);
+        $this->assertEquals('Test User',$user->name);
+        $this->assertEquals('user@email.com', $user->email);
+        $this->assertEquals('/img/user2-160x160.png', $user->avatar);
+        $this->get('/api/users')->seeJsonContains(['id'=>$user->id,'name' => 'Test User', 'email' => 'user@email.com', 'avatar' =>'/img/user2-160x160.png'])->seeStatusCode(200);
+
+    }
+
+    /**
      * Test delete user and  not see in DB
      *
      * @return void
