@@ -184,6 +184,7 @@ class LikeDislikeAPITest extends TestCase
         $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
         $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
         $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('likes_dislikes',$data);
+        $this->get('/api/videos/'.$video->id.'/likes')->dontSeeJson([$data])->seeStatusCode(200);
     }
 
     /**
@@ -210,8 +211,11 @@ class LikeDislikeAPITest extends TestCase
 
         $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
         $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$dataUpdate, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$dataUpdate);
+        $this->post('/api/videos/'.$video->id.'/like-dislike',$dataUpdate, ['X-Authorization' => $user->apiKey->key])
+            ->seeInDatabase('likes_dislikes',$dataUpdate)
+            ->notSeeInDatabase('likes_dislikes',$data);
         $this->get('/api/videos/'.$video->id.'/dislikes')->seeJsonContains($dataUpdate)->seeStatusCode(200);
+        $this->get('/api/videos/'.$video->id.'/likes')->dontSeeJson([$dataUpdate])->seeStatusCode(200);
     }
 
 
