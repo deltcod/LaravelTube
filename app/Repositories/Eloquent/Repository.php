@@ -31,7 +31,7 @@ abstract class Repository implements RepositoryInterface {
     /**
      * @return mixed
      */
-    public abstract function model();
+    abstract public function model();
     /**
      * @param array $columns
      * @return mixed
