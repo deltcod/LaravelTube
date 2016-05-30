@@ -77,10 +77,10 @@
 
                 var checkLogin= this.checkLogin(isLoggedIn);
 
-                $('#response div').remove();
+                $('#errorLogin div').remove();
 
                 if(!checkLogin){
-                    $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+                    $('#errorLogin').append('<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
                 } else{
                     var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
                     this.$http.post('/api/videos/'+this.video.id+'/like-dislike', {user_id: user.id,  video_id: this.video.id, type: type}).then(function (response) {
@@ -100,17 +100,17 @@
 
                 var checkLogin= this.checkLogin(isLoggedIn);
 
-                $('#response div').remove();
+                $('#errorLogin div').remove();
 
                 if(!checkLogin){
-                    $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+                    $('#errorLogin').append('<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
                 } else{
                     var user=jQuery.parseJSON($('meta[name=user]').attr("content"));
                     var comment=$("#your-comments").val();
                     this.$http.post('/api/videos/'+this.video.id+'/comments', {user_id: user.id,  video_id: this.video.id, comment: comment}).then(function (response) {
                         this.getVideo();
                     }).catch(function (error){
-                        $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
+                        $('#errorLogin').append('<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
                     });
 
                 }
@@ -146,6 +146,12 @@
 </script>
 
 <style>
+
+    .alert-danger {
+        background-color: #dd4b39;
+        border-color: #dd4b39;
+        color: white;
+    }
 
  .video-js, .vjs-control-bar{ color: #46FF62; }
 

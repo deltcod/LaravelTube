@@ -14670,7 +14670,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":28,"vue-hot-reload-api":2,"vueify-insert-css":29}],32:[function(require,module,exports){
-var __vueify_style__ = require("vueify-insert-css").insert("\n\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n\n    .commentBox {\n        padding:10px;\n    }\n    .commentBox .form-group:first-child, .actionBox .form-group:first-child {\n        width:80%;\n    }\n    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {\n        width:18%;\n    }\n    .commentBox .form-group * {\n        width:100%;\n    }\n\n    .commentList {\n        padding:0;\n        list-style:none;\n        max-height:200px;\n        overflow:auto;\n    }\n    .commentList li {\n        margin:0;\n        margin-top:10px;\n    }\n    .commentList li > div {\n        display:table-cell;\n    }\n    .commenterImage {\n        width:30px;\n        margin-right:5px;\n        height:100%;\n        float:left;\n    }\n    .commenterImage img {\n        width:100%;\n        border-radius:50%;\n    }\n    .commentText p {\n        margin:0;\n    }\n    .sub-text {\n        color:#aaa;\n        font-family:verdana;\n        font-size:11px;\n    }\n")
+var __vueify_style__ = require("vueify-insert-css").insert("\n\n   .alert-danger {\n       background-color: #dd4b39;\n       border-color: #dd4b39;\n       color: white;\n   }\n\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n\n    .commentBox {\n        padding:10px;\n    }\n    .commentBox .form-group:first-child, .actionBox .form-group:first-child {\n        width:80%;\n    }\n    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {\n        width:18%;\n    }\n    .commentBox .form-group * {\n        width:100%;\n    }\n\n    .commentList {\n        padding:0;\n        list-style:none;\n        max-height:200px;\n        overflow:auto;\n    }\n    .commentList li {\n        margin:0;\n        margin-top:10px;\n    }\n    .commentList li > div {\n        display:table-cell;\n    }\n    .commenterImage {\n        width:30px;\n        margin-right:5px;\n        height:100%;\n        float:left;\n    }\n    .commenterImage img {\n        width:100%;\n        border-radius:50%;\n    }\n    .commentText p {\n        margin:0;\n    }\n    .sub-text {\n        color:#aaa;\n        font-family:verdana;\n        font-size:11px;\n    }\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14706,10 +14706,10 @@ exports.default = {
 
             var checkLogin = this.checkLogin(isLoggedIn);
 
-            $('#response div').remove();
+            $('#errorLogin div').remove();
 
             if (!checkLogin) {
-                $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+                $('#errorLogin').append('<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
             } else {
                 var user = jQuery.parseJSON($('meta[name=user]').attr("content"));
                 this.$http.post('/api/videos/' + this.video.id + '/like-dislike', { user_id: user.id, video_id: this.video.id, type: type }).then(function (response) {});
@@ -14727,17 +14727,17 @@ exports.default = {
 
             var checkLogin = this.checkLogin(isLoggedIn);
 
-            $('#response div').remove();
+            $('#errorLogin div').remove();
 
             if (!checkLogin) {
-                $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
+                $('#errorLogin').append('<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Please!</strong> login first</div>');
             } else {
                 var user = jQuery.parseJSON($('meta[name=user]').attr("content"));
                 var comment = $("#your-comments").val();
                 this.$http.post('/api/videos/' + this.video.id + '/comments', { user_id: user.id, video_id: this.video.id, comment: comment }).then(function (response) {
                     this.getVideo();
                 }).catch(function (error) {
-                    $('#errorLogin').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
+                    $('#errorLogin').append('<div class="alert alert-danger" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>Error</strong> You have exceeded the limit for comments in one hour.</div>');
                 });
             }
         },
@@ -14777,7 +14777,7 @@ if (module.hot) {(function () {  module.hot.accept()
   if (!hotAPI.compatible) return
   var id = "/home/adam/Code/LaravelTube/resources/assets/js/components/main-wrapper/video-view.vue"
   module.hot.dispose(function () {
-    require("vueify-insert-css").cache["\n\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n\n    .commentBox {\n        padding:10px;\n    }\n    .commentBox .form-group:first-child, .actionBox .form-group:first-child {\n        width:80%;\n    }\n    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {\n        width:18%;\n    }\n    .commentBox .form-group * {\n        width:100%;\n    }\n\n    .commentList {\n        padding:0;\n        list-style:none;\n        max-height:200px;\n        overflow:auto;\n    }\n    .commentList li {\n        margin:0;\n        margin-top:10px;\n    }\n    .commentList li > div {\n        display:table-cell;\n    }\n    .commenterImage {\n        width:30px;\n        margin-right:5px;\n        height:100%;\n        float:left;\n    }\n    .commenterImage img {\n        width:100%;\n        border-radius:50%;\n    }\n    .commentText p {\n        margin:0;\n    }\n    .sub-text {\n        color:#aaa;\n        font-family:verdana;\n        font-size:11px;\n    }\n"] = false
+    require("vueify-insert-css").cache["\n\n   .alert-danger {\n       background-color: #dd4b39;\n       border-color: #dd4b39;\n       color: white;\n   }\n\n.video-js, .vjs-control-bar{ color: #46FF62; }\n\n   .video-js-responsive-container.vjs-hd {\n       padding-top: 56.25%;\n   }\n   .video-js-responsive-container.vjs-sd {\n       padding-top: 75%;\n   }\n   .video-js-responsive-container {\n       width: 100%;\n       position: relative;\n   }\n   .video-js-responsive-container .video-js {\n       height: 100% !important;\n       width: 100% !important;\n       position: absolute;\n       top: 0;\n       left: 0;\n   }\n\n    .commentBox {\n        padding:10px;\n    }\n    .commentBox .form-group:first-child, .actionBox .form-group:first-child {\n        width:80%;\n    }\n    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {\n        width:18%;\n    }\n    .commentBox .form-group * {\n        width:100%;\n    }\n\n    .commentList {\n        padding:0;\n        list-style:none;\n        max-height:200px;\n        overflow:auto;\n    }\n    .commentList li {\n        margin:0;\n        margin-top:10px;\n    }\n    .commentList li > div {\n        display:table-cell;\n    }\n    .commenterImage {\n        width:30px;\n        margin-right:5px;\n        height:100%;\n        float:left;\n    }\n    .commenterImage img {\n        width:100%;\n        border-radius:50%;\n    }\n    .commentText p {\n        margin:0;\n    }\n    .sub-text {\n        color:#aaa;\n        font-family:verdana;\n        font-size:11px;\n    }\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
