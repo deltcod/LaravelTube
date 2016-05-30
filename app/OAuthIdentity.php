@@ -18,6 +18,22 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class OAuthIdentity extends Eloquent
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'id', 'provider_user_id', 'provider', 'access_token', 'user_id', 'avatar', 'name', 'nickname'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [];
+
+    /**
      * The table associated with the model.
      *
      * @var string

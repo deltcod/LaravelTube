@@ -14,7 +14,7 @@ class LikeDislikeRepository extends Repository
     /**
      * @return mixed
      */
-    function model()
+    public function model()
     {
         return LikeDislike::class;
     }

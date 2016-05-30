@@ -70,7 +70,10 @@ class SocialAuthController extends Controller
      */
     private function createUser($providerUser, $provider)
     {
-        if (!$user = $this->userExistsByEmail($providerUser)) {
+        $user = $providerUser;
+        $userExsists = $this->userExistsByEmail($providerUser);
+
+        if (!$userExsists) {
             $user = $this->newUser();
             foreach (['name', 'email', 'avatar'] as $item) {
                 $user->$item = $providerUser->$item;

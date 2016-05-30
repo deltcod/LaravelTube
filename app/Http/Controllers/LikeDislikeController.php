@@ -21,6 +21,12 @@ class LikeDislikeController extends ApiGuardController
     protected $likeDislikeTransformer;
 
     /**
+     * LikeDislike repository
+     * @var LikeDislike
+     */
+    private $likeDislike;
+
+    /**
      * @var array
      */
     protected $apiMethods = [
@@ -123,7 +129,7 @@ class LikeDislikeController extends ApiGuardController
         } else{
             $like = $this->likeDislike->findOrFail($check);
             $this->callEventPushLikeDislike($like);
-            if($request->type != $like->type){
+            if($request->input('type') != $like->type){
                 $like = $this->likeDislike->update($request->all(), $like->id);
 
                 return $this->response->withItem($like, $this->likeDislikeTransformer);

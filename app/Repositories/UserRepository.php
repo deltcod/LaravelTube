@@ -11,7 +11,7 @@ class UserRepository extends Repository
     /**
      * @return mixed
      */
-    function model()
+    public function model()
     {
         return User::class;
     }

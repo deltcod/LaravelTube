@@ -23,6 +23,12 @@ class CommentController extends ApiGuardController
     protected $commentTransformer;
 
     /**
+     * Comment repository
+     * @var Comment
+     */
+    private $comment;
+
+    /**
      * @var array
      */
     protected $apiMethods = [

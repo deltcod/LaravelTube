@@ -4,6 +4,10 @@
     Upload Video
 @endsection
 
+@section('customs_scripts')
+    <script src="{{ asset('js/upload-video.js') }}"></script>
+@endsection
+
 @section('main-content')
     <div class="container spark-screen">
         <div class="row">

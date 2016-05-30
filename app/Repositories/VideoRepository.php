@@ -10,7 +10,7 @@ class VideoRepository extends Repository
     /**
      * @return mixed
      */
-    function model()
+    public function model()
     {
         return Video::class;
     }
@@ -22,6 +22,7 @@ class VideoRepository extends Repository
     {
         $videos = Video::all();
         $best_vidos = array();
+        $id_best_videos = array();
 
         foreach($videos as $video) {
             $id_best_videos[] = [$video->likes()->count(),$video->id];
