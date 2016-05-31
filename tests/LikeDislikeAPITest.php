@@ -175,14 +175,14 @@ class LikeDislikeAPITest extends TestCase
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
 
-        $data = array(
+        $data = [
             'user_id' => $user->id,
             'video_id' => $video->id,
             'type' => 'like',
-        );
+        ];
 
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
-        $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
+        LikeDislike::create($data);
+
         $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('likes_dislikes',$data);
         $this->get('/api/videos/'.$video->id.'/likes')->dontSeeJson([$data])->seeStatusCode(200);
     }
@@ -197,25 +197,23 @@ class LikeDislikeAPITest extends TestCase
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
 
-        $data = array(
+        $data = [
             'user_id' => $user->id,
             'video_id' => $video->id,
             'type' => 'like',
-        );
+        ];
 
-        $dataUpdate = array(
+        LikeDislike::create($data);
+
+        $dataUpdate = [
             'user_id' => $user->id,
             'video_id' => $video->id,
             'type' => 'dislike',
-        );
+        ];
 
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
-        $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$dataUpdate, ['X-Authorization' => $user->apiKey->key])
-            ->seeInDatabase('likes_dislikes',$dataUpdate)
-            ->notSeeInDatabase('likes_dislikes',$data);
+
+        $this->post('/api/videos/'.$video->id.'/like-dislike',$dataUpdate, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$dataUpdate);
         $this->get('/api/videos/'.$video->id.'/dislikes')->seeJsonContains($dataUpdate)->seeStatusCode(200);
-        $this->get('/api/videos/'.$video->id.'/likes')->dontSeeJson([$dataUpdate])->seeStatusCode(200);
     }
 
 
