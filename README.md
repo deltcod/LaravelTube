@@ -49,7 +49,7 @@ This packages use (no need to install):
 http://alvaradoadam15.github.io/LaravelTube/api/master/
 
 ## Packagist
-
+https://packagist.org/packages/alvaradoadam15/laraveltube
 
 ## More info
 http://acacha.org/mediawiki/Usuari:AlvaradoAdam15/Síntesi
