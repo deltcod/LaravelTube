@@ -7,7 +7,6 @@ use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -57,7 +56,7 @@ class Handler extends ExceptionHandler
                 return $response->errorNotFound();
             }
         }
-        return parent::render($request, $e);
 
+        return parent::render($request, $e);
     }
 }

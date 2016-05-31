@@ -2,14 +2,12 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\LikeDislike;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Queue\SerializesModels;
 
 /**
- * Class LikeDislikePush
- * @package App\Events
+ * Class LikeDislikePush.
  */
 class LikeDislikePush extends Event implements ShouldBroadcast
 {
@@ -20,9 +18,9 @@ class LikeDislikePush extends Event implements ShouldBroadcast
      */
     public $likeDislike;
 
-
     /**
      * LikeDislikePush constructor.
+     *
      * @param LikeDislike $likeDislike
      */
     public function __construct(LikeDislike $likeDislike)

@@ -16,21 +16,20 @@ class LikesDislikesTableSeeder extends Seeder
     public function run()
     {
         $video = Video::find(1);
-        $type = array(
+        $type = [
             'like',
-            'dislike'
-        );
+            'dislike',
+        ];
 
-        for($i=0; $i<100; $i++)
-        {
+        for ($i = 0; $i < 100; $i++) {
             $user = $this->createUser();
             $key = array_rand($type);
 
-            $data = array(
-                'user_id' => $user->id,
+            $data = [
+                'user_id'  => $user->id,
                 'video_id' => $video->id,
-                'type' => $type[$key],
-            );
+                'type'     => $type[$key],
+            ];
 
 
             LikeDislike::create($data);

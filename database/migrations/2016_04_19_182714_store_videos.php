@@ -32,7 +32,7 @@ class StoreVideos extends Migration
      */
     public function down()
     {
-        Schema::table('videos', function(Blueprint $table) {
+        Schema::table('videos', function (Blueprint $table) {
             $table->dropForeign('videos_user_id_foreign');
         });
         Schema::drop('videos');

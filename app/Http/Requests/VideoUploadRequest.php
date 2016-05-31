@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class VideoUploadRequest extends Request
 {
     /**
@@ -24,9 +22,9 @@ class VideoUploadRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'name'     => 'required|max:255',
             'category' => 'required',
-            'video' => 'required|max:2048|mimes:mp4',
+            'video'    => 'required|max:2048|mimes:mp4',
         ];
     }
 }

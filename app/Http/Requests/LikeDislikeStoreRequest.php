@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class LikeDislikeStoreRequest extends Request
 {
     /**
@@ -24,9 +22,9 @@ class LikeDislikeStoreRequest extends Request
     public function rules()
     {
         return [
-            'user_id' => 'required|max:255',
+            'user_id'  => 'required|max:255',
             'video_id' => 'required',
-            'type' => 'required',
+            'type'     => 'required',
         ];
     }
 }

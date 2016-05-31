@@ -5,17 +5,14 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Video
+ * Class Video.
  *
  * @property $name
  * @property $category
  * @property $path
  * @property $likes
  * @property $dislikes
- *
- * @package App
  */
-
 class Video extends Model
 {
     /**
@@ -33,9 +30,8 @@ class Video extends Model
      */
     protected $hidden = [];
 
-
     /**
-     * Get User
+     * Get User.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -45,7 +41,7 @@ class Video extends Model
     }
 
     /**
-     * Get likes/Dislikes
+     * Get likes/Dislikes.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -54,9 +50,8 @@ class Video extends Model
         return $this->hasMany(\App\LikeDislike::class);
     }
 
-
     /**
-     * Call scope likes
+     * Call scope likes.
      *
      * @return mixed
      */
@@ -66,7 +61,7 @@ class Video extends Model
     }
 
     /**
-     * Call scope dislikes
+     * Call scope dislikes.
      *
      * @return mixed
      */
@@ -76,7 +71,7 @@ class Video extends Model
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -84,5 +79,4 @@ class Video extends Model
     {
         return $this->hasMany(\App\Comment::class);
     }
-
 }

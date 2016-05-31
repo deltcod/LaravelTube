@@ -28,7 +28,7 @@ class CreateApiKeysTable extends Migration
 //            $table->index('user_id');
 
             // Uncomment the line below if you want to link user ids to your users table
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');;
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
 
         Schema::create('api_logs', function (Blueprint $table) {

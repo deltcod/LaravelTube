@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdateRequest;
+use App\Repositories\UserRepository as User;
 use App\Transformers\UserTransformer;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
-use App\Repositories\UserRepository as User;
-use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
 
 /**
- * Class UserController
- * @package App\Http\Controllers
+ * Class UserController.
  */
 class UserController extends ApiGuardController
 {
@@ -34,7 +32,8 @@ class UserController extends ApiGuardController
 
     /**
      * UserController constructor.
-     * @param User $user
+     *
+     * @param User            $user
      * @param UserTransformer $userTransformer
      */
     public function __construct(User $user, UserTransformer $userTransformer)
@@ -46,7 +45,7 @@ class UserController extends ApiGuardController
     }
 
     /**
-     * Get all users
+     * Get all users.
      *
      * @return mixed
      */
@@ -58,9 +57,10 @@ class UserController extends ApiGuardController
     }
 
     /**
-     * Get user find id
+     * Get user find id.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function show($id)
@@ -71,28 +71,29 @@ class UserController extends ApiGuardController
     }
 
     /**
-     * Update user
+     * Update user.
      *
      * @param UserUpdateRequest $request
      * @param $id
+     *
      * @return mixed
      */
     public function update(UserUpdateRequest $request, $id)
     {
         $user = $this->user->findOrFail($id);
 
-        if ($request->avatar != ''){
+        if ($request->avatar != '') {
             $path = $this->storeImage($request->avatar, $user);
-        } else{
+        } else {
             $path = $user->avatar;
         }
 
-        $data = array(
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' =>bcrypt($request->input('password')),
-            'avatar' => $path,
-        );
+        $data = [
+            'name'     => $request->input('name'),
+            'email'    => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'avatar'   => $path,
+        ];
 
         $this->user->update($data, $id);
 
@@ -100,7 +101,7 @@ class UserController extends ApiGuardController
     }
 
     /**
-     * Delete user
+     * Delete user.
      *
      * @param $id
      */
@@ -109,12 +110,12 @@ class UserController extends ApiGuardController
         $this->user->delete($id);
     }
 
-
     /**
-     * Store image avatar
+     * Store image avatar.
      *
      * @param $image
      * @param $user
+     *
      * @return mixed
      */
     private function storeImage($image, $user)
@@ -125,6 +126,7 @@ class UserController extends ApiGuardController
             'images/avatars/'.$user->id.'.'.$image->getClientOriginalExtension(),
             file_get_contents($image->getRealPath())
         );
+
         return $path;
     }
 }

@@ -44,7 +44,7 @@ class UserAPITest extends TestCase
             ->seeJsonStructure([
                 '*' => [
                     '*' => [
-                        'id', 'name', 'email', 'avatar'
+                        'id', 'name', 'email', 'avatar',
                     ],
                 ],
             ])->seeStatusCode(200);
@@ -62,7 +62,7 @@ class UserAPITest extends TestCase
     }
 
     /**
-     * Test upate user and see in DB
+     * Test upate user and see in DB.
      *
      * @return void
      */
@@ -79,18 +79,17 @@ class UserAPITest extends TestCase
             true
         );
 
-        $data = ['id'=>$user->id,'name' => 'Test User', 'email' => 'user@email.com', 'password'=>'123456', 'avatar' =>$image];
+        $data = ['id' => $user->id, 'name' => 'Test User', 'email' => 'user@email.com', 'password' => '123456', 'avatar' => $image];
         $this->post('/api/users/'.$user->id, $data, ['X-Authorization' => $user->apiKey->key]);
         $user = User::find($user->id);
-        $this->assertEquals('Test User',$user->name);
+        $this->assertEquals('Test User', $user->name);
         $this->assertEquals('user@email.com', $user->email);
         $this->assertEquals('/storage/images/avatars/'.$user->id.'.jpg', $user->avatar);
-        $this->get('/api/users')->seeJsonContains(['id'=>$user->id,'name' => 'Test User', 'email' => 'user@email.com', 'avatar' =>'/storage/images/avatars/'.$user->id.'.jpg'])->seeStatusCode(200);
-
+        $this->get('/api/users')->seeJsonContains(['id' => $user->id, 'name' => 'Test User', 'email' => 'user@email.com', 'avatar' => '/storage/images/avatars/'.$user->id.'.jpg'])->seeStatusCode(200);
     }
 
     /**
-     * Test upate user without avatar and see in DB
+     * Test upate user without avatar and see in DB.
      *
      * @return void
      */
@@ -98,18 +97,17 @@ class UserAPITest extends TestCase
     {
         $user = $this->createUser();
 
-        $data = ['id'=>$user->id,'name' => 'Test User', 'email' => 'user@email.com', 'password'=>'123456'];
+        $data = ['id' => $user->id, 'name' => 'Test User', 'email' => 'user@email.com', 'password' => '123456'];
         $this->post('/api/users/'.$user->id, $data, ['X-Authorization' => $user->apiKey->key]);
         $user = User::find($user->id);
-        $this->assertEquals('Test User',$user->name);
+        $this->assertEquals('Test User', $user->name);
         $this->assertEquals('user@email.com', $user->email);
         $this->assertEquals('/img/user2-160x160.png', $user->avatar);
-        $this->get('/api/users')->seeJsonContains(['id'=>$user->id,'name' => 'Test User', 'email' => 'user@email.com', 'avatar' =>'/img/user2-160x160.png'])->seeStatusCode(200);
-
+        $this->get('/api/users')->seeJsonContains(['id' => $user->id, 'name' => 'Test User', 'email' => 'user@email.com', 'avatar' => '/img/user2-160x160.png'])->seeStatusCode(200);
     }
 
     /**
-     * Test delete user and  not see in DB
+     * Test delete user and  not see in DB.
      *
      * @return void
      */
@@ -121,5 +119,4 @@ class UserAPITest extends TestCase
         $this->delete('/api/users/'.$user->id, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('users', $data);
         $this->get('/api/users')->dontSeeJson($data)->seeStatusCode(200);
     }
-
 }

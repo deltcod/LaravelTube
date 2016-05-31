@@ -5,16 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class LikeDislike
- * @package App
+ * Class LikeDislike.
  */
 class LikeDislike extends Model
 {
     /**
-     * Table name
+     * Table name.
+     *
      * @var string
      */
-    protected $table = "likes_dislikes";
+    protected $table = 'likes_dislikes';
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +32,7 @@ class LikeDislike extends Model
     protected $hidden = [];
 
     /**
-     * User relation
+     * User relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -42,7 +42,7 @@ class LikeDislike extends Model
     }
 
     /**
-     * Video relation
+     * Video relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -52,9 +52,10 @@ class LikeDislike extends Model
     }
 
     /**
-     * Return all instances when type is likes
+     * Return all instances when type is likes.
      *
      * @param $query
+     *
      * @return mixed
      */
     public function scopeLikes($query)
@@ -63,9 +64,10 @@ class LikeDislike extends Model
     }
 
     /**
-     * Return all instances when type is dislikes
+     * Return all instances when type is dislikes.
      *
      * @param $query
+     *
      * @return mixed
      */
     public function scopeDislikes($query)

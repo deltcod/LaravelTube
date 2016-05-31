@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VideoUploadRequest;
-use App\Transformers\VideoTransformer;
-use App\Repositories\VideoRepository as Video;
 use App\Repositories\UserRepository as User;
+use App\Repositories\VideoRepository as Video;
+use App\Transformers\VideoTransformer;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -60,11 +60,12 @@ class VideoController extends ApiGuardController
 
     /**
      * VideoController constructor.
+     *
      * @param VideoTransformer $videoTransformer
-     * @param Video $video
-     * @param User $user
+     * @param Video            $video
+     * @param User             $user
      */
-    public function __construct(Video $video,User $user, VideoTransformer $videoTransformer)
+    public function __construct(Video $video, User $user, VideoTransformer $videoTransformer)
     {
         parent::__construct();
 
@@ -133,17 +134,16 @@ class VideoController extends ApiGuardController
      */
     public function store(VideoUploadRequest $request)
     {
-
         $user = $this->user->authenticated();
         $file = $request->video;
         $nameFile = str_replace(' ', '', $request->input('name').$user->id);
 
-        $data = array(
-            'name' => $request->input('name'),
+        $data = [
+            'name'     => $request->input('name'),
             'category' => $request->input('category'),
-            'path' => Storage::url('videos/'.$nameFile),
-            'user_id' => $user->id,
-        );
+            'path'     => Storage::url('videos/'.$nameFile),
+            'user_id'  => $user->id,
+        ];
 
         $video = $this->video->create($data);
 
@@ -200,7 +200,7 @@ class VideoController extends ApiGuardController
     }
 
     /**
-     * Save and Convert to webm video
+     * Save and Convert to webm video.
      *
      * @param $video
      * @param $name

@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Events\LikeDislikePush;
 use App\Http\Requests\LikeDislikeStoreRequest;
+use App\Repositories\LikeDislikeRepository as LikeDislike;
 use App\Transformers\LikeDislikeTransformer;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
-use App\Repositories\LikeDislikeRepository as LikeDislike;
-use App\Http\Requests;
 
 /**
- * Class LikeDislikeController
- * @package App\Http\Controllers
+ * Class LikeDislikeController.
  */
 class LikeDislikeController extends ApiGuardController
 {
@@ -21,7 +19,8 @@ class LikeDislikeController extends ApiGuardController
     protected $likeDislikeTransformer;
 
     /**
-     * LikeDislike repository
+     * LikeDislike repository.
+     *
      * @var LikeDislike
      */
     private $likeDislike;
@@ -44,10 +43,10 @@ class LikeDislikeController extends ApiGuardController
         ],
     ];
 
-
     /**
      * LikeDislikeController constructor.
-     * @param LikeDislike $likeDislike
+     *
+     * @param LikeDislike            $likeDislike
      * @param LikeDislikeTransformer $likeDislikeTransformer
      */
     public function __construct(LikeDislike $likeDislike, LikeDislikeTransformer $likeDislikeTransformer)
@@ -56,13 +55,13 @@ class LikeDislikeController extends ApiGuardController
 
         $this->likeDislikeTransformer = $likeDislikeTransformer;
         $this->likeDislike = $likeDislike;
-
     }
 
     /**
-     * Return likes
+     * Return likes.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function getLikes($id)
@@ -73,9 +72,10 @@ class LikeDislikeController extends ApiGuardController
     }
 
     /**
-     * Return likes count
+     * Return likes count.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function getLikesCount($id)
@@ -86,9 +86,10 @@ class LikeDislikeController extends ApiGuardController
     }
 
     /**
-     * Return dislikes
+     * Return dislikes.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function getDislikes($id)
@@ -99,9 +100,10 @@ class LikeDislikeController extends ApiGuardController
     }
 
     /**
-     * Return dislikes count
+     * Return dislikes count.
      *
      * @param $id
+     *
      * @return mixed
      */
     public function getDislikesCount($id)
@@ -112,39 +114,36 @@ class LikeDislikeController extends ApiGuardController
     }
 
     /**
-     * Create and store like or dislike
+     * Create and store like or dislike.
      *
      * @param LikeDislikeStoreRequest $request
+     *
      * @return mixed
      */
     public function store(LikeDislikeStoreRequest $request)
     {
-
         $check = $this->likeDislike->checkIfDataExists($request);
 
-        if($check == 0){
+        if ($check == 0) {
             $like = $this->likeDislike->create($request->all());
             $this->callEventPushLikeDislike($like);
+
             return $this->response->withItem($like, $this->likeDislikeTransformer);
-        } else{
+        } else {
             $like = $this->likeDislike->findOrFail($check);
             $this->callEventPushLikeDislike($like);
-            if($request->input('type') != $like->type){
+            if ($request->input('type') != $like->type) {
                 $like = $this->likeDislike->update($request->all(), $like->id);
 
                 return $this->response->withItem($like, $this->likeDislikeTransformer);
-            }else{
+            } else {
                 $this->likeDislike->delete($like->id);
             }
         }
-
-
-
     }
 
-
     /**
-     * Call event push like/dislike
+     * Call event push like/dislike.
      *
      * @param $likeDislike
      */

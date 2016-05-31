@@ -56,7 +56,7 @@ class OauthIdentitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table($this->authenticationProvidersTable, function(Blueprint $table) {
+        Schema::table($this->authenticationProvidersTable, function (Blueprint $table) {
             $table->dropForeign('oauth_identities_user_id_foreign');
         });
         Schema::drop($this->authenticationProvidersTable);

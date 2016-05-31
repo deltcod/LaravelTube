@@ -5,16 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Comment
- * @package App
+ * Class Comment.
  */
 class Comment extends Model
 {
     /**
-     * Table name
+     * Table name.
+     *
      * @var string
      */
-    protected $table = "comments";
+    protected $table = 'comments';
 
     /**
      * The attributes that are mass assignable.
@@ -31,7 +31,7 @@ class Comment extends Model
     protected $hidden = [];
 
     /**
-     * User relation
+     * User relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,7 +41,7 @@ class Comment extends Model
     }
 
     /**
-     * Video relation
+     * Video relation.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

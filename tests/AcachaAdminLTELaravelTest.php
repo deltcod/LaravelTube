@@ -30,7 +30,7 @@ class AcachaAdminLTELaravelTest extends TestCase
      */
     public function testLandingPage()
     {
-//        $this->visit('/')
+        //        $this->visit('/')
 //             ->see('Acacha')
 //             ->see('adminlte-laravel')
 //             ->see('Pratt');
@@ -43,7 +43,7 @@ class AcachaAdminLTELaravelTest extends TestCase
      */
     public function testLandingPageWithUserLogged()
     {
-//        $user = factory(App\User::class)->create();
+        //        $user = factory(App\User::class)->create();
 //
 //        $this->actingAs($user)
 //            ->visit('/')
@@ -176,7 +176,6 @@ class AcachaAdminLTELaravelTest extends TestCase
      */
     public function testNewUserRegistration()
     {
-
         $this->visit('/register')
             ->type('Sergi Tur Badenas', 'name')
             ->type('sergiturbadenas@gmail.com', 'email')

@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class CommentUpdateRequest extends Request
 {
     /**
@@ -25,7 +23,7 @@ class CommentUpdateRequest extends Request
     {
         return [
             'comment' => 'required',
-            'id' => 'required',
+            'id'      => 'required',
         ];
     }
 }

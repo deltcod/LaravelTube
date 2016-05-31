@@ -5,11 +5,9 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
- * Class User
+ * Class User.
  *
- * @property integer $id
- *
- * @package App
+ * @property int $id
  */
 class User extends Authenticatable
 {
@@ -32,7 +30,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get videos
+     * Get videos.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -42,7 +40,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get ApiKey
+     * Get ApiKey.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -52,7 +50,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get likes
+     * Get likes.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -62,7 +60,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

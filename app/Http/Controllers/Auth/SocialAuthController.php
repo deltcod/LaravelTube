@@ -14,8 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;
 
 /**
- * Class SocialAuthController
- * @package App\Http\Controllers\Auth
+ * Class SocialAuthController.
  */
 class SocialAuthController extends Controller
 {
@@ -48,10 +47,10 @@ class SocialAuthController extends Controller
         return Redirect::to('upload');
     }
 
-
     /**
      * @param $providerUser
      * @param $provider
+     *
      * @return bool|mixed
      */
     private function findOrCreateUser($providerUser, $provider)
@@ -66,6 +65,7 @@ class SocialAuthController extends Controller
     /**
      * @param $providerUser
      * @param $provider
+     *
      * @return User
      */
     private function createUser($providerUser, $provider)
@@ -108,6 +108,7 @@ class SocialAuthController extends Controller
 
     /**
      * @param $providerUser
+     *
      * @return bool|mixed
      */
     private function userExistsByProviderUserId($providerUser)
@@ -122,6 +123,7 @@ class SocialAuthController extends Controller
 
     /**
      * @param $providerUser
+     *
      * @return bool
      */
     private function userExistsByEmail($providerUser)

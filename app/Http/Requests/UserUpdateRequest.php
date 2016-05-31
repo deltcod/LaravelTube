@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class UserUpdateRequest extends Request
 {
     /**
@@ -24,10 +22,10 @@ class UserUpdateRequest extends Request
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
-            'email' => 'required',
+            'name'     => 'required|max:255',
+            'email'    => 'required',
             'password' => 'required|min:6',
-            'avatar' => 'mimes:jpeg,png,jpg|max:2048',
+            'avatar'   => 'mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }

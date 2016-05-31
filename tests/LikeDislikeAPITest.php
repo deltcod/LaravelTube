@@ -56,25 +56,24 @@ class LikeDislikeAPITest extends TestCase
     private function createFakeLikes($video_id)
     {
         $video = Video::find($video_id);
-        $type = array(
+        $type = [
             'like',
-            'dislike'
-        );
+            'dislike',
+        ];
 
-        for($i=0; $i<10; $i++)
-        {
+        for ($i = 0; $i < 10; $i++) {
             $user = $this->createUser();
             $key = array_rand($type);
 
-            $data = array(
-                'user_id' => $user->id,
+            $data = [
+                'user_id'  => $user->id,
                 'video_id' => $video->id,
-                'type' => $type[$key],
-            );
+                'type'     => $type[$key],
+            ];
 
 
 
-           LikeDislike::create($data);
+            LikeDislike::create($data);
         }
     }
 
@@ -92,7 +91,7 @@ class LikeDislikeAPITest extends TestCase
             ->seeJsonStructure([
                 '*' => [
                     '*' => [
-                        'user_id', 'video_id', 'type'
+                        'user_id', 'video_id', 'type',
                     ],
                 ],
             ])->seeStatusCode(200);
@@ -111,14 +110,14 @@ class LikeDislikeAPITest extends TestCase
             ->seeJsonStructure([
                 '*' => [
                     '*' => [
-                        'user_id', 'video_id', 'type'
+                        'user_id', 'video_id', 'type',
                     ],
                 ],
             ])->seeStatusCode(200);
     }
 
     /**
-     * Test likes count return integer
+     * Test likes count return integer.
      *
      * @return void
      */
@@ -132,7 +131,7 @@ class LikeDislikeAPITest extends TestCase
     }
 
     /**
-     * Test dislikes count return integer
+     * Test dislikes count return integer.
      *
      * @return void
      */
@@ -146,7 +145,7 @@ class LikeDislikeAPITest extends TestCase
     }
 
     /**
-     * Test store like and see in DB
+     * Test store like and see in DB.
      *
      * @return void
      */
@@ -155,18 +154,18 @@ class LikeDislikeAPITest extends TestCase
         $user = $this->createUser();
         $video = $this->createFakeVideo($user);
 
-        $data = array(
-            'user_id' => $user->id,
+        $data = [
+            'user_id'  => $user->id,
             'video_id' => $video->id,
-            'type' => 'like',
-        );
+            'type'     => 'like',
+        ];
 
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$data);
+        $this->post('/api/videos/'.$video->id.'/like-dislike', $data, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes', $data);
         $this->get('/api/videos/'.$video->id.'/likes')->seeJsonContains($data)->seeStatusCode(200);
     }
 
     /**
-     * Test delete likeDislike and not see in DB
+     * Test delete likeDislike and not see in DB.
      *
      * @return void
      */
@@ -176,19 +175,19 @@ class LikeDislikeAPITest extends TestCase
         $video = $this->createFakeVideo($user);
 
         $data = [
-            'user_id' => $user->id,
+            'user_id'  => $user->id,
             'video_id' => $video->id,
-            'type' => 'like',
+            'type'     => 'like',
         ];
 
         LikeDislike::create($data);
 
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$data, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('likes_dislikes',$data);
+        $this->post('/api/videos/'.$video->id.'/like-dislike', $data, ['X-Authorization' => $user->apiKey->key])->notSeeInDatabase('likes_dislikes', $data);
         $this->get('/api/videos/'.$video->id.'/likes')->dontSeeJson([$data])->seeStatusCode(200);
     }
 
     /**
-     * Test update type likeDislike and not see in DB
+     * Test update type likeDislike and not see in DB.
      *
      * @return void
      */
@@ -198,23 +197,21 @@ class LikeDislikeAPITest extends TestCase
         $video = $this->createFakeVideo($user);
 
         $data = [
-            'user_id' => $user->id,
+            'user_id'  => $user->id,
             'video_id' => $video->id,
-            'type' => 'like',
+            'type'     => 'like',
         ];
 
         LikeDislike::create($data);
 
         $dataUpdate = [
-            'user_id' => $user->id,
+            'user_id'  => $user->id,
             'video_id' => $video->id,
-            'type' => 'dislike',
+            'type'     => 'dislike',
         ];
 
 
-        $this->post('/api/videos/'.$video->id.'/like-dislike',$dataUpdate, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes',$dataUpdate);
+        $this->post('/api/videos/'.$video->id.'/like-dislike', $dataUpdate, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes', $dataUpdate);
         $this->get('/api/videos/'.$video->id.'/dislikes')->seeJsonContains($dataUpdate)->seeStatusCode(200);
     }
-
-
 }

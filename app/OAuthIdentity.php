@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  * @property $avatar
  * @property $name
  * @property $nickname
- *
  */
 class OAuthIdentity extends Eloquent
 {
@@ -23,7 +22,7 @@ class OAuthIdentity extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'id', 'provider_user_id', 'provider', 'access_token', 'user_id', 'avatar', 'name', 'nickname'
+        'id', 'provider_user_id', 'provider', 'access_token', 'user_id', 'avatar', 'name', 'nickname',
     ];
 
     /**

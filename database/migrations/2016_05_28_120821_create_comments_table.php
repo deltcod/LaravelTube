@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateCommentsTable extends Migration
 {
@@ -30,7 +30,7 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('comments', function(Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             $table->dropForeign('comments_video_id_foreign');
             $table->dropForeign('comments_user_id_foreign');
         });

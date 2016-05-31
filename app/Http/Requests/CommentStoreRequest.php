@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\Request;
-
 class CommentStoreRequest extends Request
 {
     /**
@@ -24,9 +22,9 @@ class CommentStoreRequest extends Request
     public function rules()
     {
         return [
-            'user_id' => 'required',
+            'user_id'  => 'required',
             'video_id' => 'required',
-            'comment' => 'required',
+            'comment'  => 'required',
         ];
     }
 }

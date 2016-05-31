@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentDeleteRequest;
 use App\Http\Requests\CommentStoreRequest;
 use App\Http\Requests\CommentUpdateRequest;
+use App\Repositories\CommentRepository as Comment;
 use App\Transformers\CommentTransformer;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
-use App\Repositories\CommentRepository as Comment;
-
-use App\Http\Requests;
 
 /**
- * Class CommentController
- * @package App\Http\Controllers
+ * Class CommentController.
  */
 class CommentController extends ApiGuardController
 {
@@ -23,7 +20,8 @@ class CommentController extends ApiGuardController
     protected $commentTransformer;
 
     /**
-     * Comment repository
+     * Comment repository.
+     *
      * @var Comment
      */
     private $comment;
@@ -47,7 +45,8 @@ class CommentController extends ApiGuardController
 
     /**
      * CommentController constructor.
-     * @param Comment $comment
+     *
+     * @param Comment            $comment
      * @param CommentTransformer $commentTransformer
      */
     public function __construct(Comment $comment, CommentTransformer $commentTransformer)
@@ -56,13 +55,13 @@ class CommentController extends ApiGuardController
 
         $this->commentTransformer = $commentTransformer;
         $this->comment = $comment;
-
     }
 
     /**
-     * Get comments of video
+     * Get comments of video.
      *
      * @param $video_id
+     *
      * @return mixed
      */
     public function getComments($video_id)
@@ -73,22 +72,25 @@ class CommentController extends ApiGuardController
     }
 
     /**
-     * Store comment
+     * Store comment.
      *
      * @param CommentStoreRequest $request
+     *
      * @return mixed
      */
     public function store(CommentStoreRequest $request)
     {
         $comment = $this->comment->create($request->all());
+
         return $this->response->withItem($comment, $this->commentTransformer);
     }
 
     /**
-     * Update comment
+     * Update comment.
      *
      * @param CommentUpdateRequest $request
      * @param $id
+     *
      * @return mixed
      */
     public function update(CommentUpdateRequest $request)
@@ -101,7 +103,7 @@ class CommentController extends ApiGuardController
     }
 
     /**
-     * Delete comment
+     * Delete comment.
      *
      * @param $id
      */

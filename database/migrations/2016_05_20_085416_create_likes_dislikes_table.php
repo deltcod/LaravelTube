@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateLikesDislikesTable extends Migration
 {
@@ -18,7 +18,7 @@ class CreateLikesDislikesTable extends Migration
             $table->foreign('video_id')->references('id')->on('videos')->onDelete('cascade');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unique(array('video_id', 'user_id'));
+            $table->unique(['video_id', 'user_id']);
             $table->string('type');
             $table->timestamps();
         });
@@ -31,7 +31,7 @@ class CreateLikesDislikesTable extends Migration
      */
     public function down()
     {
-        Schema::table('likes_dislikes', function(Blueprint $table) {
+        Schema::table('likes_dislikes', function (Blueprint $table) {
             $table->dropForeign('likes_dislikes_video_id_foreign');
             $table->dropForeign('likes_dislikes_user_id_foreign');
         });

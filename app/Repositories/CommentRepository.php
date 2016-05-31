@@ -6,8 +6,7 @@ use App\Comment;
 use App\Repositories\Eloquent\Repository;
 
 /**
- * Class LikeDislikeRepository
- * @package App\Repositories
+ * Class LikeDislikeRepository.
  */
 class CommentRepository extends Repository
 {
@@ -22,7 +21,7 @@ class CommentRepository extends Repository
     public function getCommentsVideo($video_id)
     {
         $comments = Comment::where('video_id', $video_id)->get();
+
         return $comments;
     }
-
 }

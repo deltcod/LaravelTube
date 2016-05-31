@@ -3,7 +3,6 @@
 use App\Comment;
 use App\User;
 use App\Video;
-use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Database\Seeder;
 
 class CommentsTableSeeder extends Seeder
@@ -17,14 +16,12 @@ class CommentsTableSeeder extends Seeder
     {
         $video = Video::find(1);
 
-        for($i=1; $i<=3; $i++)
-        {
-
-            $data = array(
-                'user_id' => User::find($i)->id,
+        for ($i = 1; $i <= 3; $i++) {
+            $data = [
+                'user_id'  => User::find($i)->id,
                 'video_id' => $video->id,
-                'comment' => 'Lorem ipsum comment',
-            );
+                'comment'  => 'Lorem ipsum comment',
+            ];
 
 
             Comment::create($data);
