@@ -1,9 +1,16 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "alvaradoadam15/laraveltube",
+    "description": "Open source project about sharing videos platform built on Laravel",
+    "keywords": ["video", "mp4", "vue", "laravel", "bootstrap"],
     "license": "MIT",
     "type": "project",
+    "authors": [
+        {
+            "name": "AlvaradoAdam15",
+            "email": "adamalvarado@iesebre.com"
+        }
+    ],
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
