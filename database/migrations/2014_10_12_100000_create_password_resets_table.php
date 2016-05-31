@@ -27,7 +27,7 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::table('password_resets', function(Blueprint $table) {
+        Schema::table('password_resets', function (Blueprint $table) {
             $table->dropForeign('password_resets_email_foreign');
         });
         Schema::drop('password_resets');
