@@ -14,6 +14,7 @@ class CreatePasswordResetsTable extends Migration
     {
         Schema::create('password_resets', function (Blueprint $table) {
             $table->string('email')->index();
+            $table->foreign('email')->references('email')->on('users')->onDelete('cascade');
             $table->string('token')->index();
             $table->timestamp('created_at');
         });
@@ -26,6 +27,9 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
+        Schema::table('password_resets', function(Blueprint $table) {
+            $table->dropForeign('password_resets_email_foreign');
+        });
         Schema::drop('password_resets');
     }
 }
