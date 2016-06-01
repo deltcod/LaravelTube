@@ -7,7 +7,7 @@
 Open source project about sharing videos platform built on Laravel
 
 See demo here:
- -------------
+ http://laraveltube.tk/
 
 # Installation & use
 
@@ -30,7 +30,7 @@ If you want to upload files with more weight you have to change the settings of 
 
 If you want execute broadcasting events, you need install Redis in your server and run node/broadcast_server/socket.js
 
-#Requirements
+# Requirements
 This packages use (no need to install):
 
 * [Composer](https://getcomposer.org/)
@@ -45,16 +45,17 @@ This packages use (no need to install):
 * [Redis.io](http://redis.io/)
 * [Socket.io](http://socket.io/)
 
-##Docs
+# Docs
 http://alvaradoadam15.github.io/LaravelTube/api/master/
+http://alvaradoadam15.github.io/LaravelTube/docs/EERDiagram.mwb
 
-## Packagist
+# Packagist
 https://packagist.org/packages/alvaradoadam15/laraveltube
 
-## More info
+# More info
 http://acacha.org/mediawiki/Usuari:AlvaradoAdam15/Síntesi
 
-## Tests
+# Tests
 
 Execute:
 
@@ -62,7 +63,7 @@ Execute:
 phpunit
 ```
 
-## Social Login
+# Social Login
 If you want use Social login, you need configure in your file .env:
 
 FACEBOOK_ID=*----*
@@ -88,5 +89,20 @@ GOOGLE_URL=http:*----*
 * https://apps.twitter.com/
 * https://console.developers.google.com
 
-## See also
-http://alvaradoadam15.github.io/LaravelTube
+# Versioning
+
+I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags in this repository](https://github.com/AlvaradoAdam15/LaravelTube/tags).
+
+# Author
+
+**Adam Alvarado Bertomeu** [AlvaradoAdam15](https://github.com/AlvaradoAdam15)
+
+See also the list of [contributors](https://github.com/AlvaradoAdam15/LaravelTube/graphs/contributors) who participated in this project.
+
+# License
+This LaravelTube is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+# See also
+http://alvaradoadam15.github.io/LaravelTube/landingpage/index
+
+http://alvaradoadam15.github.io/LaravelTubeelTube
