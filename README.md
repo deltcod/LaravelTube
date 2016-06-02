@@ -35,6 +35,7 @@ This packages use (no need to install):
 
 * [Composer](https://getcomposer.org/)
 * [Laravel](http://laravel.com/)
+* [Laravel Socialite](https://github.com/laravel/socialite)
 * [AdminLTE](https://github.com/almasaeed2010/AdminLTE). You can see and AdminLTE theme preview at: http://almsaeedstudio.com/preview/
 * [ApiGuard](https://github.com/chrisbjr/api-guard)
 * [Vue.js](https://vuejs.org/)
