@@ -106,4 +106,4 @@ This LaravelTube is open-sourced software licensed under the [MIT license](http:
 # See also
 http://alvaradoadam15.github.io/LaravelTube/landingpage/index
 
-http://alvaradoadam15.github.io/LaravelTubeelTube
+http://alvaradoadam15.github.io/LaravelTube
