@@ -48,6 +48,7 @@ This packages use (no need to install):
 
 # Docs
 http://alvaradoadam15.github.io/LaravelTube/api/master/
+
 http://alvaradoadam15.github.io/LaravelTube/docs/EERDiagram.mwb
 
 # Packagist
@@ -55,6 +56,7 @@ https://packagist.org/packages/alvaradoadam15/laraveltube
 
 # More info
 http://acacha.org/mediawiki/Usuari:AlvaradoAdam15/Síntesi
+
 https://docs.google.com/a/iesebre.com/document/d/1jfCtnuN1TxPYo5BxDjPDJljNkc_OzHWtbQIjTThqnNA/edit?usp=sharing
 
 # Tests
