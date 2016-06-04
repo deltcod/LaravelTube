@@ -172,46 +172,384 @@
 					<h2>Arquitectura del Projecte</h2>
 				</section>
 				<section data-transition="zoom">
-					<h3>Frontend</h3>
-					<p>
-						Explicació
-					</p>
+					<section>
+						<h3>Frontend</h3>
+						<p>
+							És la part on els usuaris poden cercar, visualitzar vídeos, registrar-se per a pujar i administrar vídeos... Aquí és on fem les crides als mètodes de l’API que veurem més avall per a fer cerques, filtratges per categoria, millors vídeos, etc.
+						</p>
+					</section>
+					<section>
+						<p>
+							Aquestes crides les fem amb Vue Resources i AJAX.<br />
+
+							<b>Vue Resorces exemple:</b><br />
+							<section data-markdown>
+								<script type="text/template">
+									```javascript
+										this.$http.get('/api'+this.$route.path).then(function (response) {
+											this.$set('video', response.data.data);
+										});
+									```
+								</script>
+							</section>
+
+							<b>Ajax exemple:</b><br />
+							<section data-markdown>
+								<script type="text/template">
+									```javascript
+										$.ajax({
+											headers: {
+											"X-Authorization": $('meta[name=api_token]').attr("content")
+											},
+											type: "POST",
+											url: $('#form-add-video').attr('action'),
+											cache: false,
+											contentType: false,
+											processData: false,
+											data: formData,
+											success: function(data) {
+											TODO
+											},
+											error: function(data){
+											TODO
+											}
+										});
+									```
+								</script>
+							</section>
+						</p>
+
+					</section>
+					<section>
+						<p>
+							Tota aquesta part està creada a partir del patró Single Page Application que ens permet distingir de les aplicacions web tradicionals, ja que dibuixem qualsevol part de la interfície d'usuari sense necessitat de tornar a fer una petició sencera nova al servidor, sinó que el que anem canviant és el 'container' mentre que els menús continuen sent els mateixos i no els tornem a carregar.
+						</p>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							### Declaració principal de Vue:
+							```javascript
+							import Vue from 'vue'
+							import App from './app.vue'
+							import VueRouter from 'vue-router'
+							import VueResource from 'vue-resource'
+							import videos from './components/main-wrapper/index.vue'
+							import videoView from './components/main-wrapper/video-view.vue'
+
+
+							Vue.use(VueResource)
+							Vue.use(VueRouter)
+
+							const router = new VueRouter()
+
+							router.map({
+							'/': {
+							component: {
+							template: '<router-view></router-view>'
+							},
+							subRoutes: {
+							'/best': {
+							component: videos
+							},
+							'/videos/:id': {
+							component: videoView
+							},
+							'/category/:name': {
+							component: videos
+							},
+							'/search/:name': {
+							component: videos
+							}
+							}
+							}
+							})
+
+
+							router.redirect({
+							'*': '/best',
+							'/': '/best'
+							})
+
+							router.start(App, 'app')
+
+							Vue.http.headers.common['X-Authorization'] = $('meta[name=api_token]').attr("content");
+
+							```
+						</script>
+					</section>
+					<section>
+						<p>
+							En la part 'única' de cada usuari  fem les crides als vídeos filtrant per usuari per a mostrar els resultats a les gràfiques o en l'apartat de gestió només de l'usuari corresponen.
+							Aquest apartat no està creat amb Vue sinó que fem servir el MVC de Laravel. El patró SPA continua funcionant però aquí és amb les blades de Laravel.
+						</p>
+					</section>
+					<section>
+						<p>
+							Per al reproductor de vídeo fem servir Video.js.
+							Un cop instal·lat l’únic que hem de fer és posar la tag vídeo del HTML5 amb la classe del vídeo js.
+						</p>
+						<img src="img/videojs.png" alt="">
+					</section>
+					<section>
+						<p>
+							Likes i Dislikes en temps real.
+						</p>
+						<img src="img/realtime.png" alt="">
+					</section>
 				</section>
 				<section data-transition="fade">
-					<h3>Backend</h3>
-					<p>
-						Explicació
-					</p>
-				</section>
-				<section data-transition="none">
-					<h3>API</h3>
-					<p>
-						Explicació
-					</p>
+					<section>
+						<h3>Backend</h3>
+						<p>
+							En el Backend és on tenim dissenyada la API en les que es faran les crides així com les rutes i controladors necessàries per al AdminLTE.
+							Creem les APIs per a comunicar el Frontend amb el Backend, controlant les peticions amb ApiGuard a més a més de les validacions corresponents dels Request.
+						</p>
+					</section>
+					<section>
+						<p>Quan fem una petició, des de l’API a la BD es comunica mitjançant el Repository Pattern. Tenim creats els repositoris per a cada controlador de l’api per a què aquest es comuniquen amb la BD.</p>
+					</section>
+					<section>
+						<p>Les respostes de l’API passen per un transformador per a mostrar el resultat a la manera que volem llevant dades innecessàries o canviant els noms.</p>
+						<section data-markdown>
+							<script type="text/template">
+								```php
+									<?php
+									namespace App\Transformers;
+									/**
+									 * Class VideoTransformer.
+									 */
+									class VideoTransformer extends Transformer
+									{
+										/**
+										 * @param $video
+										 *
+										 * @return array
+										 */
+										public function transform($video)
+										{
+											return [
+											'id'        => $video['id'],
+											'name'      => $video['name'],
+											'category'  => $video['category'],
+											'path'      => $video['path'],
+											'likes'     => $video->likes()->count(),
+											'dislikes'  => $video->dislikes()->count(),
+											'comments'  => $video->getComments,
+											];
+										}
+									}
+								```
+							</script>
+						</section>
+					</section>
+					<section>
+						<p>També tenim les excepcions. Aquestes les tenim en un Handler per a dir que si la request és JSON i falla, mostri un missatge d’error:</p>
+						<section data-markdown>
+							<script type="text/template">
+								```php
+								$response = ApiResponseBuilder::build();
+								if ($request->json()) {
+									if ($e instanceof ModelNotFoundException || $e instanceof NotFoundHttpException) {
+										return $response->errorNotFound();
+									}
+								}
+
+								```
+							</script>
+						</section>
+					</section>
+					<section>
+						<p>Les peticions en les quals hem de passar un request, tenen un request creat amb els camps que són necessaris i el validador d’aquest. Per exemple el request de VideoUpload té les regles següents:</p>
+						<img src="img/request.png" alt="">
+						<p>Com veiem només acceptem vídeos amb mp4 però en la petició del store, aquest es converteix a altres formats.</p>
+					</section>
+					<section>
+						<p>Tots els transformadors o repositoris necessaris passen per injecció de dependències al constructor:</p>
+						<img src="img/dependencyinjection.png" alt="">
+					</section>
+					<section>
+						<p>Les declaracions del ApiGuard per saber quins mètodes utilitzen key, limitacions, etc. ho fem amb un array anomenat apiMethods i com els controladors extenen del ApiGuard ell ja s’encarrega de fer la feina:</p>
+						<img src="img/apiguard.png" alt="">
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							#### Vídeos API mètodes:
+							```php
+								public function getAllVideos(){}
+								public function getBestVideos(){}
+								public function getVideosUser($id){}
+								public function getVideosForCategory($name){}
+								public function getVideosForSearch($search){}
+								public function store(VideoUploadRequest $request){}
+								public function show($id){}
+								public function update(VideoUpdateRequest $request, $id){}
+								public function destroy($id){}
+								private function saveAndConvert($video, $name){}
+							```
+							#### Usuaris API mètodes:
+							```php
+								public function getAllUsers(){}
+								public function show($id){}
+								public function update(UserUpdateRequest $request, $id){}
+								public function delete($id){}
+								private function storeImage($image, $user)()
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							#### Likes/Dislikes API mètodes:
+							```php
+							public function getLikes($id){}
+							public function getLikesCount($id){}
+							public function getDislikes($id){}
+							public function getDislikesCount($id){}
+							public function store(LikeDislikeStoreRequest $request){}
+							private function callEventPushLikeDislike($likeDislike){}
+							```
+							#### Comentaris API mètodes:
+							```php
+							public function getComments($video_id){}
+							public function store(CommentStoreRequest $request){}
+							public function update(CommentUpdateRequest $request){}
+							public function delete(CommentDeleteRequest $request){}
+							```
+						</script>
+					</section>
+					<section>
+						<p>
+							Com ja sabem una bona bateria de testos és important per a quan féssim algun canvi, puguem provar l'aplicació d'una forma més automàtica i sense necessitat de provar manualment si el que teníem fet fins al moment ens fallava pels canvis introduïts.
+						</p>
+						<p>Exemple d’un mètode de test que trobem en els tests de vídeos:</p>
+						<img src="img/test.png" alt="">
+					</section>
 				</section>
 				<section data-transition="fade">
-					<h3>Base de Dades</h3>
-					<p>
-						Explicació
-					</p>
+					<section>
+						<h3>Base de Dades</h3>
+						<p>
+							La Base de dades és MySQL, amb l’ajuda del eloquent per a dissenyar les migracions que necessitem com:
+						</p>
+						<ul>
+							<li>Usuaris</li>
+							<li>Vídeos</li>
+							<li>Api Keys</li>
+							<li>Api Logs</li>
+							<li>Oauth Identities</li>
+							<li>Password_reset</li>
+							<li>Likes/Dislikes</li>
+							<li>Comentaris</li>
+						</ul>
+					</section>
+					<section>
+						<p>Com hem dit amb el eloquent crearem les migracions necessàries amb les claus foranes per a fer les relacions entre les taules. Això també ens ajudarà a la creació dels models.</p>
+						<section data-markdown>
+							<script type="text/template">
+								####Exemple de la migració Usuari:
+								```php
+								<?php
+								use Illuminate\Database\Migrations\Migration;
+								use Illuminate\Database\Schema\Blueprint;
+								class CreateUsersTable extends Migration
+								{
+									/**
+									 * Run the migrations.
+									 *
+									 * @return void
+									 */
+									public function up()
+									{
+										Schema::create('users', function (Blueprint $table) {
+											$table->increments('id');
+											$table->string('name')->nullable();
+											$table->string('email')->unique();
+											$table->string('password')->nullable();
+											$table->string('avatar')->default('/img/user2-160x160.png');
+											$table->string('nickname')->nullable();
+											$table->rememberToken();
+											$table->timestamps();
+										});
+										}
+										/**
+										* Reverse the migrations.
+										*
+										* @return void
+										*/
+									public function down()
+									{
+											Schema::drop('users');
+									}
+								}
+								```
+							</script>
+						</section>
+					</section>
+					<section>
+						<p>
+							Per a fer proves també hem fet ús del seeders que hem creat per omplir la base de dades amb dades aleatòries.
+							Les funcions de CRUD sobre aquesta BD és fan mitjançant com hem dit anteriorment el Repository Pattern fent les crides des de les funcions de l’API que hem vist en l’apartat anterior.
+						</p>
+					</section>
+					<section>
+						<p>
+							Com veurem a continuació, les relacions que hi ha entre els diferents Models i Taules de la BD són:
+						</p>
+						<ul>
+							<li>Un usuari pot tenir 1 o més vídeos.</li>
+							<li>Un vídeo pot pertanyé a 1 usuari.</li>
+							<li>Un vídeo té 0 o molts likes/dislikes.</li>
+							<li>Un usuari pot posar 0 o molts likes/dislikes.</li>
+							<li>Un usuari pot posar 0 o 1 like/dislike a un vídeo.</li>
+							<li>Un vídeo té 0 o molts comentaris.</li>
+							<li>Un usuari pot posar 0 o molts likes/dislikes.</li>
+							<li>Un usuari pot posar 0 o molts like/dislike a un vídeo.</li>
+							<li>Un usuari te una ApiKey.</li>
+						</ul>
+					</section>
 				</section>
 				<section data-transition="concave">
 					<h3>Seguretat</h3>
-					<p>
-						Explicació
-					</p>
-				</section>
-				<section data-transition="slide">
-					<h3>Patrons de disseny</h3>
-					<p>
-						Explicació
-					</p>
+					<section>
+						<br /><p>
+							La seguretat d’aquesta aplicació tracta amb no deixar accedir als usuaris no registrats a la part única, controlant l’accés amb un Middleware que ens comprova si l’usuari està connectat i sinó redirigint-lo a la vista corresponent per a què ho faci.
+						</p>
+						<section data-markdown>
+							<script type="text/template">
+								```php
+								public function __construct()
+								{
+								$this->middleware('auth');
+								}
+								```
+							</script>
+						</section>
+					</section>
+					<section>
+						<p>
+							Com ja hem explicat els usuaris que no disposen d’un compte no poden fer les funcionalitats de comentar/avaluar els vídeos així com tampoc de pujar i administrar els vídeos.
+
+							Tot això ho aconseguim gràcies a la implementació del ApiGuard que ens genera una api_key per a cada usuari i indiquem quins mètodes de l’API necessiten aquesta api_key. També limitem les peticions per evitar atacs com DDOS.
+
+						</p>
+					</section>
 				</section>
 				<section data-transition="convex">
-					<h3>Diagrames</h3>
-					<p>
-						Diagrames
-					</p>
+					<section>
+						<h3>EER Base de Dades</h3>
+						<img src="img/diagramaDB.png" alt="" height="600px">
+					</section>
+					<section>
+						<h3>Api Controllers</h3>
+						<img src="img/diagramaAPIControllers.png" alt="">
+					</section>
+					<section>
+						<h3>Models</h3>
+						<img src="img/diagramaModels.png" alt="" height="600px">
+					</section>
+					<section>
+						<h3>Repositoris</h3>
+						<img src="img/diagramaRepos.png" alt="" height="600px">
+					</section>
 				</section>
 				<section data-transition="slide">
 					<h2>Versions</h2>
