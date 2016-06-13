@@ -12,7 +12,7 @@ See demo here:
 # Installation & use
 
 ```bash
-git clone https://github.com/AlvaradoAdam15/LaravelTube.git
+git clone https://github.com/deltcod/LaravelTube.git
 cd LaravelTube/
 composer install
 npm install
@@ -47,9 +47,9 @@ This packages use (no need to install):
 * [Socket.io](http://socket.io/)
 
 # Docs
-http://alvaradoadam15.github.io/LaravelTube/api/master/
+http://deltcod.github.io/LaravelTube/api/master/
 
-http://alvaradoadam15.github.io/LaravelTube/docs/EERDiagram.mwb
+http://deltcod.github.io/LaravelTube/docs/EERDiagram.mwb
 
 # Packagist
 https://packagist.org/packages/alvaradoadam15/laraveltube
@@ -95,18 +95,18 @@ GOOGLE_URL=http:*----*
 
 # Versioning
 
-I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags in this repository](https://github.com/AlvaradoAdam15/LaravelTube/tags).
+I use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags in this repository](https://github.com/deltcod/LaravelTube/tags).
 
 # Author
 
-**Adam Alvarado Bertomeu** [AlvaradoAdam15](https://github.com/AlvaradoAdam15)
+**Adam Alvarado Bertomeu** [deltcod](https://github.com/deltcod)
 
-See also the list of [contributors](https://github.com/AlvaradoAdam15/LaravelTube/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/deltcod/LaravelTube/graphs/contributors) who participated in this project.
 
 # License
 This LaravelTube is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 
 # See also
-http://alvaradoadam15.github.io/LaravelTube/landingpage/index
+http://deltcod.github.io/LaravelTube/landingpage/index
 
-http://alvaradoadam15.github.io/LaravelTube
+http://deltcod.github.io/LaravelTube
