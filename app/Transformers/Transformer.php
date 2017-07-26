@@ -5,6 +5,7 @@
  * Date: 20/04/16
  * Time: 16:49.
  */
+
 namespace App\Transformers;
 
 abstract class Transformer

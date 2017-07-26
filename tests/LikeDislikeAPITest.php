@@ -71,8 +71,6 @@ class LikeDislikeAPITest extends TestCase
                 'type'     => $type[$key],
             ];
 
-
-
             LikeDislike::create($data);
         }
     }
@@ -209,7 +207,6 @@ class LikeDislikeAPITest extends TestCase
             'video_id' => $video->id,
             'type'     => 'dislike',
         ];
-
 
         $this->post('/api/videos/'.$video->id.'/like-dislike', $dataUpdate, ['X-Authorization' => $user->apiKey->key])->seeInDatabase('likes_dislikes', $dataUpdate);
         $this->get('/api/videos/'.$video->id.'/dislikes')->seeJsonContains($dataUpdate)->seeStatusCode(200);

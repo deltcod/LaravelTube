@@ -31,7 +31,6 @@ class LikesDislikesTableSeeder extends Seeder
                 'type'     => $type[$key],
             ];
 
-
             LikeDislike::create($data);
         }
     }
