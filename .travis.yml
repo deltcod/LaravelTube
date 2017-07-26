@@ -6,6 +6,9 @@ php:
   - 7.0
   - hhvm
 
+dist:
+  - trusty
+
 services:
   - redis-server
 
@@ -20,6 +23,3 @@ script:
 
 after_script:
   - php vendor/bin/coveralls -v
-  
- notifications:
-  email: false
