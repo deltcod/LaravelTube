@@ -1,4 +1,6 @@
 # LaravelTube
+[![Latest Stable Version](https://poser.pugx.org/deltcod/laraveltube/v/stable)](https://packagist.org/packages/deltcod/laraveltube)
+[![License](https://poser.pugx.org/deltcod/laraveltube/license)](https://packagist.org/packages/deltcod/laraveltube)
 [![Build Status](https://travis-ci.org/deltcod/LaravelTube.svg?branch=master)](https://travis-ci.org/deltcod/LaravelTube)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/deltcod/LaravelTube/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/deltcod/LaravelTube/?branch=master)
 [![StyleCI](https://styleci.io/repos/56526883/shield)](https://styleci.io/repos/56526883)
