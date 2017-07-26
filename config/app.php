@@ -170,7 +170,6 @@ return [
         //FFMpeg
         LinkThrow\Ffmpeg\Provider\FfmpegServiceProvider::class,
 
-
     ],
 
     /*

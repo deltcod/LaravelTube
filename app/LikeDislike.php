@@ -23,7 +23,6 @@ class LikeDislike extends Model
      */
     protected $fillable = ['user_id', 'video_id', 'type'];
 
-
     /**
      * The attributes that should be hidden for arrays.
      *

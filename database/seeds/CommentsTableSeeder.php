@@ -23,7 +23,6 @@ class CommentsTableSeeder extends Seeder
                 'comment'  => 'Lorem ipsum comment',
             ];
 
-
             Comment::create($data);
         }
     }

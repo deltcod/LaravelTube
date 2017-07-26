@@ -22,7 +22,6 @@ class Video extends Model
      */
     protected $fillable = ['name', 'category', 'path', 'user_id'];
 
-
     /**
      * The attributes that should be hidden for arrays.
      *
