@@ -6,9 +6,6 @@
 
 Open source project about sharing videos platform built on Laravel
 
-See demo here:
- http://laraveltube.tk/
-
 # Installation & use
 
 ```bash
@@ -25,7 +22,9 @@ php artisan serve
 ```
 ## Notes
 If you want convert videos to other formats, you need install 'FFMpeg' in your server and configure file config/ffmpeg.php
-
+```bash
+sudo apt-get install ffmpeg
+```
 If you want to upload files with more weight you have to change the settings of your php.ini
 
 If you want execute broadcasting events, you need install Redis in your server and run node/broadcast_server/socket.js
@@ -53,11 +52,6 @@ http://deltcod.github.io/LaravelTube/docs/EERDiagram.mwb
 
 # Packagist
 https://packagist.org/packages/alvaradoadam15/laraveltube
-
-# More info
-http://acacha.org/mediawiki/Usuari:AlvaradoAdam15/Síntesi
-
-https://docs.google.com/a/iesebre.com/document/d/1jfCtnuN1TxPYo5BxDjPDJljNkc_OzHWtbQIjTThqnNA/edit?usp=sharing
 
 # Tests
 
@@ -105,8 +99,3 @@ See also the list of [contributors](https://github.com/deltcod/LaravelTube/graph
 
 # License
 This LaravelTube is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
-
-# See also
-http://deltcod.github.io/LaravelTube/landingpage/index
-
-http://deltcod.github.io/LaravelTube
