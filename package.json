@@ -10,7 +10,7 @@
     "ioredis": "^1.15.1",
     "laravel-elixir": "^5.0.0",
     "laravel-elixir-vueify": "^1.0.3",
-    "socket.io": "^1.4.6",
+    "socket.io": "^1.7.4",
     "video.js": "^5.9.2",
     "vue": "^1.0.21",
     "vue-resource": "^0.7.0",
