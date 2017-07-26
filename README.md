@@ -1,8 +1,8 @@
 # LaravelTube
-[![Build Status](https://travis-ci.org/deltcod/LaravelTube.svg?branch=master)](https://travis-ci.org/AlvaradoAdam15/LaravelTube)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/AlvaradoAdam15/LaravelTube/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/AlvaradoAdam15/LaravelTube/?branch=master)
+[![Build Status](https://travis-ci.org/deltcod/LaravelTube.svg?branch=master)](https://travis-ci.org/deltcod/LaravelTube)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/deltcod/LaravelTube/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/deltcod/LaravelTube/?branch=master)
 [![StyleCI](https://styleci.io/repos/56526883/shield)](https://styleci.io/repos/56526883)
-[![Coverage Status](https://coveralls.io/repos/github/AlvaradoAdam15/LaravelTube/badge.svg?branch=master)](https://coveralls.io/github/AlvaradoAdam15/LaravelTube?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/deltcod/LaravelTube/badge.svg?branch=master)](https://coveralls.io/github/deltcod/LaravelTube?branch=master)
 
 Open source project about sharing videos platform built on Laravel
 
