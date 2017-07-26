@@ -9,7 +9,7 @@
             <li><a v-link="{ path: '/category/other' }"><i class="fa fa-video-camera" aria-hidden="true"></i> Other</a></li>
             <li><a v-link="{ path: '/best' }"><i class="fa fa-line-chart" aria-hidden="true"></i> Best Videos</a></li>
             <hr />
-            <li><a href="http://acacha.org/mediawiki/Usuari:AlvaradoAdam15"><i class="fa fa-creative-commons" aria-hidden="true"></i> Created by Adam Alvarado</a></li>
+            <li><a href="https://twitter.com/deltcod"><i class="fa fa-creative-commons" aria-hidden="true"></i> Created by Adam Alvarado</a></li>
             <li><a href="https://github.com/AlvaradoAdam15/LaravelTube"><i class="fa fa-code" aria-hidden="true"></i> See code on GitHub</a></li>
         </ul>
     </div>
