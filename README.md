@@ -31,12 +31,16 @@ sudo apt-get install ffmpeg
 ```
 If you want to upload files with more weight you have to change the settings of your php.ini
 
-If you want execute broadcasting events, you need install Redis in your server and run node/broadcast_server/socket.js
+If you want execute broadcasting events, you need install Redis in your server
 ```bash
 curl -O http://download.redis.io/redis-stable.tar.gz
 tar xzvf redis-stable.tar.gz
 cd redis-stable
 make
+```
+and run 
+```bash
+node broadcast_server/socket.js
 ```
 
 # Requirements
