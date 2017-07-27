@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Validator;
 
-class AuthController extends Controller
+class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
