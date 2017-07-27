@@ -3,6 +3,8 @@
 [![License](https://poser.pugx.org/deltcod/laraveltube/license)](https://packagist.org/packages/deltcod/laraveltube)
 [![Build Status](https://travis-ci.org/deltcod/LaravelTube.svg?branch=master)](https://travis-ci.org/deltcod/LaravelTube)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/deltcod/LaravelTube/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/deltcod/LaravelTube/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/deltcod/LaravelTube/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/deltcod/LaravelTube/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/deltcod/LaravelTube/badges/build.png?b=master)](https://scrutinizer-ci.com/g/deltcod/LaravelTube/build-status/master)
 [![StyleCI](https://styleci.io/repos/56526883/shield)](https://styleci.io/repos/56526883)
 [![Coverage Status](https://coveralls.io/repos/github/deltcod/LaravelTube/badge.svg?branch=master)](https://coveralls.io/github/deltcod/LaravelTube?branch=master)
 
@@ -59,14 +61,14 @@ http://deltcod.github.io/LaravelTube/api/master/
 http://deltcod.github.io/LaravelTube/docs/EERDiagram.mwb
 
 # Packagist
-https://packagist.org/packages/alvaradoadam15/laraveltube
+https://packagist.org/packages/deltcod/laraveltube
 
 # Tests
 
 Execute:
 
 ```
-phpunit
+vendor/bin/phpunit
 ```
 
 # Social Login
